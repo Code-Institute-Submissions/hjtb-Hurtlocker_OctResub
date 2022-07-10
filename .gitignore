@@ -2,8 +2,11 @@ core.Microsoft*
 core.mongo*
 core.python*
 env.py
+.env
 __pycache__/
 *.py[cod]
+*.sqlite3
+*.pyc
 node_modules/
 .github/
 cloudinary_python.txt
