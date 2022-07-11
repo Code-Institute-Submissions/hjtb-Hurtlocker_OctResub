@@ -7,6 +7,12 @@ def index(request):
 
 
 def club(request):
-    """ A view to return the index page """
+    """ A view to return the club page """
 
     return render(request, 'club.html')
+
+
+def profile(request):
+    """ A view to return the club page """
+
+    return render(request, 'profile.html')
