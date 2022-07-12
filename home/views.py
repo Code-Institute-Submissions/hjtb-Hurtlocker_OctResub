@@ -13,6 +13,18 @@ def club(request):
 
 
 def profile(request):
-    """ A view to return the club page """
+    """ A view to return the profile page """
 
     return render(request, 'profile.html')
+
+
+def login(request):
+    """ A view to return the login page """
+
+    return render(request, 'login.html')
+
+
+def register(request):
+    """ A view to return the register page """
+
+    return render(request, 'register.html')

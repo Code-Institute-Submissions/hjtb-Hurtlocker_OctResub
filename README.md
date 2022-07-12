@@ -1,4 +1,4 @@
-# **HurtLocker**
+# **Hurtlocker**
 
 ## Full Stack Frameworks With Django Milestone Project
 
@@ -9,11 +9,11 @@
 
 ## **Goal for this project** 
 
-Welcome to HurtLocker Sports Club .
+Welcome to Hurtlocker Sports Club .
 
 The goal of this project is to create a web application for a sports club so that they can recruit new members and safely and easily accept subscriptions from members. The app will provide memebers with information regarding the club and its activities and a discusion forum for members to post their own ideas.
 
-The app was deployed using Heroku and can be found here: [HurtLocker](https://HurtLocker.herokuapp.com)
+The app was deployed using Heroku and can be found here: [Hurtlocker](https://Hurtlocker.herokuapp.com)
 
 <hr>
 
@@ -22,13 +22,13 @@ The app was deployed using Heroku and can be found here: [HurtLocker](https://Hu
 
 ### **Site Objectives**
 
-HurtLocker assists club owners by:
+Hurtlocker assists club owners by:
 
 1. Providing a platform to publicise the club and in turn assists with recruiting new members and collecting subscriptions from them.
 2. Serving as a place where the club can notify members of changes within the club and also to display basic info about the club and its activities.
 
 
-HurtLocker assists users and members by:
+Hurtlocker assists users and members by:
 
 1. Providing a platform for them to see what activities are on offer and the various tiers of membership offered by them.
 2. Enabling users to sign up and easily pay for their subscriptions.
