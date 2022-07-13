@@ -12,6 +12,12 @@ def club(request):
     return render(request, 'club.html')
 
 
+def activity(request):
+    """ A view to return the activity page """
+
+    return render(request, 'activity.html')
+
+
 def profile(request):
     """ A view to return the profile page """
 
