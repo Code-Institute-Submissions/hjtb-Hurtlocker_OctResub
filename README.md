@@ -11,8 +11,7 @@
 
 Welcome to Hurtlocker Sports Club .
 
-The goal of this project is to create a web application for a sports club so that they can recruit new members and safely and easily accept subscriptions from members. The app will provide members with information regarding the club and its activities and a discussion forum for members to post their own ideas.
-Members wil be able to book activities once they have paid for their membership.
+The goal of this project is to create a web application for a sports club so that they can recruit new members and safely and easily accept subscriptions from members. The app will provide members with information regarding the club and its activities and a discussion forum for members to post their own ideas. Users will be able to browse the different membership types and add activities to their membership when they are purchasing a membership subscription. When they purchase a subscription they will receive a list of the upcoming events associated with their membership and in turn will be able to make bookings.
 
 The app was deployed using Heroku and can be found here: [Hurtlocker](https://Hurtlocker.herokuapp.com)
 
