@@ -7,7 +7,6 @@ members = [
     {'member_id': 3, 'member_name': 'jane'},
 ]
 
-
 activities = [
     {'activity_id': 1, 'activity_name': 'rugby'},
     {'activity_id': 2, 'activity_name': 'football'},
@@ -24,6 +23,7 @@ def index(request):
 
 def club(request):
     """ A view to return the club page """
+
     context = {'members': members}
     return render(request, 'club.html', context)
 
