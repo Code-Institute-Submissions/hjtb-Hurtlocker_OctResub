@@ -24,4 +24,4 @@ def membership_page(request, key):
         if membership_type.id == int(key):
             current_membership = membership_type
     context = {'current_membership': current_membership}
-    return render(request, 'membership_page.html', context)
+    return render(request, 'memberships/membership_page.html', context)

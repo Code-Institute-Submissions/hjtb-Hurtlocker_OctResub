@@ -1,13 +1,13 @@
 from django.contrib import admin
-from .models import Membership
+from .models import Profile
 
 
 # Register your models here.
 
-class MembershipAdmin(admin.ModelAdmin):
+class ProfileAdmin(admin.ModelAdmin):
     list_display = (
         'name',
         'description',
     )
 
-admin.site.register(Membership, MembershipAdmin)
+admin.site.register(Profile, ProfileAdmin)

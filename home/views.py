@@ -1,5 +1,6 @@
 from django.shortcuts import render
 
+# Remove unecessary views from here to their relevant apps
 
 members = [
     {'member_id': 1, 'member_name': 'john'},
@@ -44,14 +45,14 @@ def activity_page(request, key):
     return render(request, 'activity_page.html', context)
 
 
-def profile(request, key):
-    """ A view to return the profile page """
-    current_profile = None
-    for member in members:
-        if member['member_id'] == int(key):
-            current_profile = member
-    context = {'current_profile': current_profile}
-    return render(request, 'profile.html', context)
+# def profile(request, key):
+#     """ A view to return the profile page """
+#     current_profile = None
+#     for member in members:
+#         if member['member_id'] == int(key):
+#             current_profile = member
+#     context = {'current_profile': current_profile}
+#     return render(request, 'profile.html', context)
 
 
 def login(request):

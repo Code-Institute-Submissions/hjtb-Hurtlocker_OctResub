@@ -9,12 +9,12 @@
                 <div class="d-flex justify-content-between align-items-center">
                     <div class="d-flex align-items-center">
                         <div class="ms-3">
-                            <h1>Memberships</h1>
+                            <h1>Profiles</h1>
                             <div>
-                                {% for membership in memberships_list %}
+                                {% for profile in profile_list %}
                                     <div>
                                         <h2>
-                                            {{ membership.id }} <a href="{% url 'membership_page' membership.id %}">{{ membership.name }}</a>
+                                            {{ profile.id }} <a href="{% url 'profile' profile.id %}">{{ profile.name }}</a>
 
                                         </h2>
                                     </div>
