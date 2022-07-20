@@ -13,15 +13,12 @@ def all_profiles(request):
     return render(request, 'profiles/all_profiles.html', context)
 
 
-def profile(request, key):
+def profile_page(request, key):
     """ A view to return the profile page """
     current_profile = None
     profile_list = Profile.objects.all()
     for profile_item in profile_list:
-        if profile_item['id'] == int(key):
+        if profile_item.id == int(key):
             current_profile = profile_item
     context = {'current_profile': current_profile}
-    return render(request, 'profiles/profile.html', context)
-
-
-    # Re-register superadmin and set up the db again
+    return render(request, 'profiles/profile_page.html', context)
