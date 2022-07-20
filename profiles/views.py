@@ -4,7 +4,7 @@ from .models import Profile
 
 
 def all_profiles(request):
-    """A view to show all memberships"""
+    """A view to show all profiles"""
 
     profile_list = Profile.objects.all()
 

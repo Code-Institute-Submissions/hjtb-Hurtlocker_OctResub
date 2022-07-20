@@ -1,0 +1,33 @@
+{% extends "base.html"%}
+{% load static %}
+{% block content %}
+
+<div class="row mt-5">
+    <div class="col-xl-6 mb-4">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="d-flex align-items-center">
+                        <div class="ms-3">
+                            <h1>Activities</h1>
+                            <div>
+                                {% for activity in activity_list %}
+                                    <div>
+                                        <h2>
+                                            {{ activity.id }} <a href="{% url 'activity_page' activity.id %}">{{ activity.name }}</a>
+                                        </h2>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer border-0 bg-light p-2 d-flex justify-content-around">
+                <a class="btn btn-link m-0 text-reset" href="#" role="button" data-ripple-color="primary">Sign Up</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
