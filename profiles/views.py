@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from .models import Profile
+
 # Create your views here.
 
 
@@ -15,6 +16,7 @@ def all_profiles(request):
 
 def profile_page(request, key):
     """ A view to return the profile page """
+    
     current_profile = None
     profile_list = Profile.objects.all()
     for profile_item in profile_list:
