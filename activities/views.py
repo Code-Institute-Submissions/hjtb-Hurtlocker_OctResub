@@ -9,10 +9,10 @@ def all_activities(request):
 
     # activity_list = Activity.objects.all()
     activity_list = [
-        {'activity_id': 1, 'activity_name': 'rugby'},
-        {'activity_id': 2, 'activity_name': 'football'},
-        {'activity_id': 3, 'activity_name': 'soccer'},
-        {'activity_id': 4, 'activity_name': 'hurling'},
+        {'id': 1, 'name': 'rugby'},
+        {'id': 2, 'name': 'football'},
+        {'id': 3, 'name': 'soccer'},
+        {'id': 4, 'name': 'hurling'},
     ]
 
     context = {'activity_list': activity_list}
@@ -22,10 +22,21 @@ def all_activities(request):
 
 def activity_page(request, key):
     """ A view to return the activity page """
+
     current_activity = None
-    activity_list = Activity.objects.all()
+
+    # activity_list = Activity.objects.all()
+
+    activity_list = [
+        {'id': 1, 'name': 'rugby'},
+        {'id': 2, 'name': 'football'},
+        {'id': 3, 'name': 'soccer'},
+        {'id': 4, 'name': 'hurling'},
+    ]
+
     for activity_item in activity_list:
-        if activity_item.id == int(key):
+        # When using db change this to dot notation
+        if activity_item['id'] == int(key):
             current_activity = activity_item
     context = {'current_activity': current_activity}
     return render(request, 'activities/activity_page.html', context)

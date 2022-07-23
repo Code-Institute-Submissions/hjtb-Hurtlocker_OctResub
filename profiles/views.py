@@ -10,10 +10,10 @@ def all_profiles(request):
     # profile_list = Profile.objects.all()
 
     profile_list = [
-        {'profile_id': 1, 'profile_name': 'Tom'},
-        {'profile_id': 2, 'profile_name': 'Jane'},
-        {'profile_id': 3, 'profile_name': 'Sarah'},
-        {'profile_id': 4, 'profile_name': 'Jim'},
+        {'id': 1, 'name': 'Tom'},
+        {'id': 2, 'name': 'Jane'},
+        {'id': 3, 'name': 'Sarah'},
+        {'id': 4, 'name': 'Jim'},
     ]
     context = {'profile_list': profile_list}
 
@@ -28,14 +28,15 @@ def profile_page(request, key):
     # profile_list = Profile.objects.all()
 
     profile_list = [
-        {'profile_id': 1, 'profile_name': 'Tom'},
-        {'profile_id': 2, 'profile_name': 'Jane'},
-        {'profile_id': 3, 'profile_name': 'Sarah'},
-        {'profile_id': 4, 'profile_name': 'Jim'},
+        {'id': 1, 'name': 'Tom'},
+        {'id': 2, 'name': 'Jane'},
+        {'id': 3, 'name': 'Sarah'},
+        {'id': 4, 'name': 'Jim'},
     ]
-    
+
     for profile_item in profile_list:
-        if profile_item.id == int(key):
+        # When using db change this to dot notation
+        if profile_item['id'] == int(key):
             current_profile = profile_item
     context = {'current_profile': current_profile}
     return render(request, 'profiles/profile_page.html', context)

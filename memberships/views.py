@@ -10,10 +10,10 @@ def all_memberships(request):
     # memberships_list = Membership.objects.all()
 
     memberships_list = [
-        {'membership_id': 1, 'membership_name': 'gold'},
-        {'membership_id': 2, 'membership_name': 'silver'},
-        {'membership_id': 3, 'membership_name': 'bronze'},
-        {'membership_id': 4, 'membership_name': 'platinum'},
+        {'id': 1, 'name': 'gold'},
+        {'id': 2, 'name': 'silver'},
+        {'id': 3, 'name': 'bronze'},
+        {'id': 4, 'name': 'platinum'},
     ]
 
     context = {'memberships_list': memberships_list}
@@ -29,15 +29,16 @@ def membership_page(request, key):
     # memberships_list = Membership.objects.all()
 
     memberships_list = [
-        {'membership_id': 1, 'membership_name': 'gold'},
-        {'membership_id': 2, 'membership_name': 'silver'},
-        {'membership_id': 3, 'membership_name': 'bronze'},
-        {'membership_id': 4, 'membership_name': 'platinum'},
+        {'id': 1, 'name': 'gold'},
+        {'id': 2, 'name': 'silver'},
+        {'id': 3, 'name': 'bronze'},
+        {'id': 4, 'name': 'platinum'},
     ]
 
     current_membership = None
     for membership_type in memberships_list:
-        if membership_type.id == int(key):
+        # When using db change this to dot notation
+        if membership_type['id'] == int(key):
             current_membership = membership_type
     context = {'current_membership': current_membership}
     return render(request, 'memberships/membership_page.html', context)
