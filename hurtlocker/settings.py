@@ -27,7 +27,6 @@ else:
     DEBUG = config('DEBUG')
 
 
-
 ALLOWED_HOSTS = ['hurtlocker-jtb.herokuapp.com', 'localhost']
 
 
@@ -48,7 +47,6 @@ INSTALLED_APPS = [
     'memberships',
     'profiles',
     'activities',
-    'gunicorn',
 ]
 
 MIDDLEWARE = [
@@ -108,17 +106,17 @@ WSGI_APPLICATION = 'hurtlocker.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-if 'DATABASE_URL' in os.environ:
-    DATABASES = {
-        'default': dj_database_url.parse(os.environ.get('DATABASE_URL'))
-    }
-else:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-        }
-    }
+# if 'DATABASE_URL' in os.environ:
+DATABASES = {
+    'default': dj_database_url.parse('postgres://ggdltnohphceco:b1a5405729a3b40e5d6e6edd28c6883e67194148f7d78f1017fc2e87cdebb5ca@ec2-54-228-32-29.eu-west-1.compute.amazonaws.com:5432/d8jg26kviavo20')
+}
+# else:
+#     DATABASES = {
+#         'default': {
+#             'ENGINE': 'django.db.backends.sqlite3',
+#             'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#         }
+#     }
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
