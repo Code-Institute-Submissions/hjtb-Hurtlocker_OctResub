@@ -22,7 +22,7 @@ else:
 
 if 'DEBUG' in os.environ:
 
-    DEBUG = 'DEVELOPMENT' in os.environ
+    DEBUG = 'DEBUG' in os.environ
 
 else:
     DEBUG = config('DEBUG', cast=bool)
