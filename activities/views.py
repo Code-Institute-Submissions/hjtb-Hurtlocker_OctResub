@@ -7,13 +7,7 @@ from .models import Activity
 def all_activities(request):
     """A view to show all activities"""
 
-    # activity_list = Activity.objects.all()
-    activity_list = [
-        {'id': 1, 'name': 'rugby'},
-        {'id': 2, 'name': 'football'},
-        {'id': 3, 'name': 'soccer'},
-        {'id': 4, 'name': 'hurling'},
-    ]
+    activity_list = Activity.objects.all()
 
     context = {'activity_list': activity_list}
 
@@ -25,18 +19,11 @@ def activity_page(request, key):
 
     current_activity = None
 
-    # activity_list = Activity.objects.all()
-
-    activity_list = [
-        {'id': 1, 'name': 'rugby'},
-        {'id': 2, 'name': 'football'},
-        {'id': 3, 'name': 'soccer'},
-        {'id': 4, 'name': 'hurling'},
-    ]
+    activity_list = Activity.objects.all()
 
     for activity_item in activity_list:
         # When using db change this to dot notation
-        if activity_item['id'] == int(key):
+        if activity_item.id == int(key):
             current_activity = activity_item
     context = {'current_activity': current_activity}
     return render(request, 'activities/activity_page.html', context)
