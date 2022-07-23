@@ -7,7 +7,13 @@ from .models import Activity
 def all_activities(request):
     """A view to show all activities"""
 
-    activity_list = Activity.objects.all()
+    # activity_list = Activity.objects.all()
+    activity_list = [
+        {'activity_id': 1, 'activity_name': 'rugby'},
+        {'activity_id': 2, 'activity_name': 'football'},
+        {'activity_id': 3, 'activity_name': 'soccer'},
+        {'activity_id': 4, 'activity_name': 'hurling'},
+    ]
 
     context = {'activity_list': activity_list}
 
