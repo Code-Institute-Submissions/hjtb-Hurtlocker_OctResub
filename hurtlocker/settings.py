@@ -3,6 +3,8 @@ from decouple import config
 import os
 import dj_database_url
 
+development = os.environ.get('DEVELOPMENT', False)
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -11,23 +13,18 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-if 'SECRET_KEY' in os.environ:
-
+if development:
     SECRET_KEY = os.environ.get('SECRET_KEY', '')
-
 else:
     SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = development
 
-if 'DEBUG' in os.environ:
-    DEBUG = os.environ.get('DEBUG')
-
+if development:
+    ALLOWED_HOSTS = ['localhost']
 else:
-    DEBUG = config('DEBUG')
-
-
-ALLOWED_HOSTS = ['hurtlocker-jtb.herokuapp.com', 'localhost']
+    ALLOWED_HOSTS = [os.environ.get('HEROKU_HOSTNAME')]
 
 
 # Application definition
@@ -107,19 +104,20 @@ WSGI_APPLICATION = 'hurtlocker.wsgi.application'
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
 # DATABASES = {
-#     'default': dj_database_url.parse('postgres://ggdltnohphceco:b1a5405729a3b40e5d6e6edd28c6883e67194148f7d78f1017fc2e87cdebb5ca@ec2-54-228-32-29.eu-west-1.compute.amazonaws.com:5432/d8jg26kviavo20')
+#     'default': config('DATABASE_URL')
 # }
 
-if 'DATABASE_URL' in os.environ:
-    DATABASES = {
-        'default': dj_database_url.parse(os.environ.get('DATABASE_URL'))
-    }
-else:
+
+if development:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
             'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
         }
+    }
+else:
+    DATABASES = {
+        'default': dj_database_url.parse(os.environ.get('DATABASE_URL'))
     }
 
 # Password validation
