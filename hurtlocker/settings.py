@@ -21,7 +21,7 @@ else:
 # SECURITY WARNING: don't run with debug turned on in production!
 
 if 'DEBUG' in os.environ:
-    DEBUG = os.environ.get('DEBUG')
+    DEBUG = os.environ.get('DEBUG', False)
 
 else:
     DEBUG = config('DEBUG')
