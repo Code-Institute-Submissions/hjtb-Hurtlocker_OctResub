@@ -1,1 +1,1 @@
-web: gunicorn hurtlocker-jtb.wsgi:application
+web: gunicorn hurtlocker.wsgi:application
