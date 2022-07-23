@@ -21,11 +21,11 @@ else:
 # SECURITY WARNING: don't run with debug turned on in production!
 
 if 'DEBUG' in os.environ:
-
-    DEBUG = 'DEBUG' in os.environ
+    DEBUG = os.environ.get('DEBUG')
 
 else:
-    DEBUG = config('DEBUG', cast=bool)
+    DEBUG = config('DEBUG')
+
 
 
 ALLOWED_HOSTS = ['hurtlocker-jtb.herokuapp.com', 'localhost']
@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'memberships',
     'profiles',
     'activities',
+    'gunicorn',
 ]
 
 MIDDLEWARE = [
