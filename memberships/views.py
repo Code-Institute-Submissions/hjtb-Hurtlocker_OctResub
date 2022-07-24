@@ -33,7 +33,7 @@ def membership_page(request, key):
     current_membership = None
     for membership_type in memberships_list:
         # When using db change this to dot notation
-        if membership_type.id == int(key):
+        if membership_type['id'] == int(key):
             current_membership = membership_type
     context = {'current_membership': current_membership}
     return render(request, 'memberships/membership_page.html', context)

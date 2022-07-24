@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from .models import Profile
 
 # Create your views here.
@@ -15,15 +15,9 @@ def all_profiles(request):
 
 
 def profile_page(request, key):
-    """ A view to return the profile page """
+    """A view to return the individual profile page"""
 
-    current_profile = None
+    current_profile = get_object_or_404(Profile, pk=key)
 
-    profile_list = Profile.objects.all()
-
-    for profile_item in profile_list:
-        # When using db change this to dot notation
-        if profile_item.id == int(key):
-            current_profile = profile_item
     context = {'current_profile': current_profile}
     return render(request, 'profiles/profile_page.html', context)
