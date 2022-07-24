@@ -14,7 +14,7 @@
                                 {% for profile in profile_list %}
                                     <div>
                                         <h2>
-                                            {{ profile.id }} <a href="{% url 'profile_page' profile.id %}">{{ profile.name }}</a>
+                                            {{ profile.id }} <a href="{% url 'profile_page' profile.id %}">'{{ profile.username }}'</a>
                                         </h2>
                                     </div>
                                 {% endfor %}

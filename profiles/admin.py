@@ -6,8 +6,13 @@ from .models import Profile
 
 class ProfileAdmin(admin.ModelAdmin):
     list_display = (
-        'name',
-        'description',
+        'id',
+        'username',
+        'first_name',
+        'last_name',
+        'bio',
+        'signup_date',
+        'image',
     )
 
 admin.site.register(Profile, ProfileAdmin)
