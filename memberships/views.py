@@ -1,5 +1,4 @@
 from django.shortcuts import render
-from .models import Membership
 
 # Create your views here.
 
@@ -7,7 +6,12 @@ from .models import Membership
 def all_memberships(request):
     """A view to show all memberships"""
 
-    memberships_list = Membership.objects.all()
+    memberships_list = [
+        {'id': 1, 'name': 'gold'},
+        {'id': 2, 'name': 'silver'},
+        {'id': 3, 'name': 'bronze'},
+        {'id': 4, 'name': 'platinum'},
+    ]
 
     context = {'memberships_list': memberships_list}
 
@@ -19,7 +23,12 @@ def all_memberships(request):
 def membership_page(request, key):
     """ A view to return the profile page """
 
-    memberships_list = Membership.objects.all()
+    memberships_list = [
+        {'id': 1, 'name': 'gold'},
+        {'id': 2, 'name': 'silver'},
+        {'id': 3, 'name': 'bronze'},
+        {'id': 4, 'name': 'platinum'},
+    ]
 
     current_membership = None
     for membership_type in memberships_list:
