@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, get_list_or_404
 from .models import Profile
 
 # Create your views here.
@@ -7,7 +7,7 @@ from .models import Profile
 def all_profiles(request):
     """A view to show all profiles"""
 
-    profile_list = Profile.objects.all()
+    profile_list = get_list_or_404(Profile)
 
     context = {'profile_list': profile_list}
 
