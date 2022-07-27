@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
+    'django_extensions',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
@@ -113,7 +114,7 @@ WSGI_APPLICATION = 'hurtlocker.wsgi.application'
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
 # DATABASES = {
-#     'default': dj_database_url.parseconfig('DEBUG')
+#     'default': dj_database_url.parse(config('DATABASE_URL'))
 # }
 
 if 'DATABASE_URL' in os.environ:
