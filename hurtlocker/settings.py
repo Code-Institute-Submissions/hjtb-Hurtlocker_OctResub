@@ -113,6 +113,7 @@ WSGI_APPLICATION = 'hurtlocker.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
+# for syncing the deployed database
 # DATABASES = {
 #     'default': dj_database_url.parse(config('DATABASE_URL'))
 # }
