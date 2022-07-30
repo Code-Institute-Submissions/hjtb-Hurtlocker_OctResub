@@ -1,0 +1,46 @@
+{% extends "base.html"%}
+{% block content %}
+
+<div class="container text-center">
+    <h1 class="mt-1">Hurtlocker</h1>
+    <div class="row">
+        <div class="col-sm-4">
+            <h1>Profiles</h1>
+            <div>
+                {% for profile in profile_list %}
+                    <div>
+                        <h2>
+                            {{ profile.id }}
+                        </h2>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <h1>Activities</h1>
+            <div>
+                {% for activity in activity_list %}
+                    <div>
+                        <h2>
+                            {{ activity.id }}
+                        </h2>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <h1>Memberships</h1>
+            <div>
+                {% for membership in membership_list %} 
+                    <div>
+                        <h2>
+                            {{ membership.id }}
+                        </h2>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
