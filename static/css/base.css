@@ -1,0 +1,23 @@
+html {
+    height: 100%;
+}
+
+body {
+    background-size: cover;
+    background: url("/media/hero_hurtlocker.jpg") no-repeat center center fixed;
+}
+
+.welcome-title {
+    font-family: 'Righteous', cursive;
+    font-size: 4rem;
+}
+
+.welcome-body {
+    font-family: 'Square Peg', cursive;
+    font-size: 2.5rem;
+}
+
+.welcome-btn {
+    font-family: 'Righteous', cursive;
+    font-size: 2.5rem;
+}
