@@ -20,7 +20,7 @@
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Righteous&family=Square+Peg&display=swap" rel="stylesheet"> 
+    <link href="https://fonts.googleapis.com/css2?family=Righteous&family=Square+Peg&display=swap" rel="stylesheet">
     {% endblock %}
 
     {% block extra_css %}
@@ -40,7 +40,11 @@
 
     {% block extra_js %}
     {% endblock %}
-
+    <!-- Favicons -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/media/favicon-apple.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/media/favicon-32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/media/favicon-16.png">
+    
     <title>HurtLocker {% block extra_title %}{% endblock %}</title>
 
 </head>

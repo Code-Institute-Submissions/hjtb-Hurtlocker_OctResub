@@ -3,18 +3,14 @@ from decouple import config
 import os
 import dj_database_url
 
-
 # models need to be migrated on the deployed app in heroku also
-# use heroku run python3 manage.py makemigrations 
+# use heroku run python3 manage.py makemigrations
 # use makemigrations -<app_name> -> if the individual app needs to be updated)
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
 if 'SECRET_KEY' in os.environ:
