@@ -2,44 +2,116 @@
 {% block content %}
 
 <div class="container text-center text-white">
-    <h1 class="mt-1">Hurtlocker</h1>
-    <div class="row">
-        <div class="col-6"></div>
-    </div>
-    <div class="row">
-        <div class="col-sm-4">
-            <h1>Profiles</h1>
-            <div>
-                {% for profile in profile_list %}
-                    <div>
-                        <h2>
-                            {{ profile.id }}
-                        </h2>
-                    </div>
-                {% endfor %}
+    <h1 class="mt-1 big-title-text">Hurtlocker</h1>
+    <div class="row text-center">
+        <div class="col-lg-8 offset-lg-2">
+            <div class="body-text">
+                <p class="med-title-text">About</p>
+                <p class="body-text">
+                    The Hurtlocker Training System is a unique approach to martial arts and triathlon.
+                    To make sure all Hurtlocker affiliates are moving in the same direction together,
+                    we suggest a balanced combination of programs, with a mix of both soft and hard activities.
+                    There are 8 activities, we suggest a cardio and combat activity to work on both fitness and
+                    technique.
+                    Each warmup focuses on a particular position, and gives attacking and defending options.
+                    Members are free to choose whichever activities they wish and can train for purely combat or
+                    fitness.
+                </p>
             </div>
         </div>
-        <div class="col-sm-4">
-            <h1>Activities</h1>
-            <div>
-                {% for activity in activity_list %}
-                    <div>
-                        <h2>
-                            {{ activity.id }}
-                        </h2>
+    </div>
+    <div class="row my-5">
+        <div class="col-lg-4">
+            <div class="med-title-text">
+                Instructors
+            </div>
+            <div class="card card-bg">
+                <div>
+                    {% for profile in profile_list %}
+                    <div class="body-text">
+                        <strong>{{ profile.first_name }} {{ profile.last_name }}</strong>
                     </div>
-                {% endfor %}
+                    ACTIVITY
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-8 my-5">
+            <div class="med-title-text">
+                Timetable
+            </div>
+            <table class="table table-striped table-dark table-borderless table-hover">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">First</th>
+                        <th scope="col">Last</th>
+                        <th scope="col">Handle</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>Mark</td>
+                        <td>Otto</td>
+                        <td>@mdo</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">2</th>
+                        <td>Jacob</td>
+                        <td>Thornton</td>
+                        <td>@fat</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">3</th>
+                        <td>Larry</td>
+                        <td>the Bird</td>
+                        <td>@twitter</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row my-5">
+        <div class="col-lg-4">
+            <div class="med-title-text">
+                Activities
+            </div>
+            <div class="card card-bg">
+                <div>
+                    {% for activity in activity_list %}
+                    <div class="body-text">
+                        <strong>{{ activity.name }}</strong>
+                    </div>
+                    ACTIVITY
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="med-title-text">
+                Memberships
+            </div>
+            <div class="card card-bg">
+                <div>
+                    {% for membership in membership_list %}
+                    <div class="body-text">
+                        <strong>{{ membership.name }}</strong>
+                    </div>
+                    ACTIVITY
+                    {% endfor %}
+                </div>
             </div>
         </div>
         <div class="col-sm-4">
             <h1>Memberships</h1>
             <div>
-                {% for membership in membership_list %} 
-                    <div>
-                        <h2>
-                            {{ membership.id }}
-                        </h2>
-                    </div>
+                {% for membership in membership_list %}
+                <div>
+                    <h2>
+                        {{ membership.id }}
+                    </h2>
+                </div>
                 {% endfor %}
             </div>
         </div>
