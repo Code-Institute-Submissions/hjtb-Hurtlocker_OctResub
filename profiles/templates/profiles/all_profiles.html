@@ -2,21 +2,23 @@
 {% load static %}
 {% block content %}
 
-<h1>Profiles</h1>
+<div class="big-title-text text-center">Profiles</div>
 <div class="container fluid">
     <div class="row mt-5">
         {% for profile in profile_list %}
             <div class="col-xl-4 col-md-6 col-xs-12 mb-4">
-                <div class="card">
+                <div class="card text-center card-bg">
+                    <div class="card-title med-title-text">
+                        <a href="{% url 'profile_page' profile.id %}">{{ profile.first_name }} {{ profile.last_name }}</a>
+                    </div>
+                    <img class="card-img-top" src="/media/bjj.png" alt="Card image cap">
                     <div class="card-body">
-                        <div>
-                            <h2>
+                        <div class="med-title-text">
                                 {{ profile.id }} <a href="{% url 'profile_page' profile.id %}">{{ profile.user }}</a>
-                            </h2>
                         </div>
                     </div>
-                    <div class="card-footer border-0 bg-light p-2 d-flex justify-content-around">
-                        <a class="btn btn-link m-0 text-reset" href="#" role="button" data-ripple-color="primary">Sign Up</a>
+                    <div class="border-0 p-2 text-center">
+                        <a class="btn btn-link m-0 text-reset" href="{% url 'profile_page' profile.id %}" role="button" data-ripple-color="primary">Edit</a>
                     </div>
                 </div>
             </div>

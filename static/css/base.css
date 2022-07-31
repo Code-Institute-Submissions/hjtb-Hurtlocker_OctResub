@@ -7,6 +7,22 @@ body {
     background: url("/media/hero_hurtlocker.jpg") no-repeat center center fixed;
 }
 
+.navbar-brand {
+    font-family: 'Righteous', cursive;
+    color: rgb(224, 142, 0) !important;
+    text-shadow: 6px 6px 5px rgba(0, 0, 0, 0.69);
+}
+
+.nav-link {
+    font-family: 'Righteous', cursive;
+    color: rgb(224, 142, 0) !important;
+    text-shadow: 6px 6px 5px rgba(0, 0, 0, 0.69);
+}
+
+.nav-link:hover {
+    color: rgb(187, 0, 0) !important;
+  }
+
 .big-title-text {
     font-family: 'Righteous', cursive;
     font-size: 5rem;
@@ -14,11 +30,21 @@ body {
     text-shadow: 6px 6px 5px rgba(0, 0, 0, 0.69);
 }
 
+a { 
+    color: inherit; 
+}
+
+a:hover {
+    color:rgb(224, 142, 0); 
+    text-decoration:none; 
+    cursor:pointer;  
+}
+
 .med-title-text {
     font-family: 'Righteous', cursive;
     font-size: 3rem;
     color: rgb(187, 0, 0);
-    text-shadow: 1px 1px 1px rgb(255, 255, 255);
+    text-shadow: 6px 6px 5px rgba(0, 0, 0, 0.69);
 }
 
 .body-text {
@@ -35,8 +61,14 @@ body {
 .card-bg {
     background: rgba(0, 0, 0, 0.441);
     border-radius: 10px;
+    box-shadow: rgba(255, 255, 255, 0.1) 0px 1px 0px, rgba(255, 255, 255, 0.1) 0px 8px 24px, rgba(178, 178, 255, 0.1) 0px 16px 48px;
 }
 
-.container {
-    overflow:hidden;
+.social-link {
+    color: rgb(224, 142, 0) !important;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.69);
+}
+
+.social-link:hover {
+    text-shadow: 1px 1px 1px rgba(224, 142, 0, 0.7);
 }
