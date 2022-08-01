@@ -34,6 +34,10 @@ a {
     color: inherit; 
 }
 
+button .custom-btn {
+    background-color: rgba(0, 0, 0, 0) !important;
+}
+
 a:hover {
     color:rgb(224, 142, 0); 
     text-decoration:none; 
