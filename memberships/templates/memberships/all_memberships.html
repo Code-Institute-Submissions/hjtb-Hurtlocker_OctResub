@@ -3,22 +3,23 @@
 {% block content %}
 
 <div class="big-title-text text-center">Memberships</div>
-<div class="container fluid">
+<div class="container fluid text-center">
+    <div class="med-title-text">Choose a Membership Option</div>
     <div class="row mt-5">
         {% for membership in memberships_list %}
             <div class="col-xl-4 col-md-6 col-xs-12 mb-4">
-                <div class="card text-center card-bg">
+                <div class="card h-100 text-center card-bg">
                     <div class="card-title med-title-text">
-                        {{ membership.id }} <a href="{% url 'membership_page' membership.id %}">{{ membership.name }}</a>
+                        <a href="{% url 'membership_page' membership.id %}">{{ membership.name }}</a>
                     </div>
-                    <img class="card-img-top" src="{{ MEDIA_URL }}profile_peter.jpg" alt="Card image cap">
+                    <img class="card-img-top" src="{{ membership.image.url }}" alt="Card image cap">
                     <div class="card-body">
-                        <div class="med-title-text">
-                            <a href="{% url 'membership_page' membership.id %}">{{ membership.name }}</a>
+                        <div class="body-text">
+                            {{ membership.description }}
                         </div>
                     </div>
                     <div class="p-2">
-                        <a class="custom-btn m-0" href="{% url 'membership_page' membership.id %}" role="button" data-ripple-color="primary">Edit</a>
+                        <a class="custom-btn m-0" href="{% url 'membership_page' membership.id %}" role="button" data-ripple-color="primary">Sign up</a>
                     </div>
                 </div>
             </div>
