@@ -18,7 +18,7 @@ def all_memberships(request):
 
 
 def membership_page(request, key):
-    """ A view to return the profile page """
+    """ A view to return the membership page """
 
     current_membership = get_object_or_404(Membership, pk=key)
 

@@ -3,8 +3,9 @@ html {
 }
 
 body {
-    background-size: cover;
-    background: url("/media/hero_hurtlocker.jpg") no-repeat center center fixed;
+    background: url("/media/hero_hurtlocker.jpg") center center fixed;
+    background-size: cover !important;
+    overflow: hidden;
 }
 
 .navbar-brand {
