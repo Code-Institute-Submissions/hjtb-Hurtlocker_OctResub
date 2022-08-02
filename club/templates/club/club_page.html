@@ -70,54 +70,14 @@
                         </tr>
                     </thead>
                     <tbody>
+                        {% for activity in activity_list %}
                         <tr>
-                            <th scope="row">BJJ</th>
+                            <th scope="row">{{ activity.name }}</th>
                             <td><strong>Tue:</strong> 0700-0800</td>
                             <td><strong>Thur:</strong> 1900-2000</td>
                             <td><strong>Sat:</strong> 2000-2100</td>
                         </tr>
-                        <tr>
-                            <th scope="row">Boxing</th>
-                            <td><strong>Tue:</strong> 0700-0800</td>
-                            <td><strong>Thur:</strong> 1900-2000</td>
-                            <td><strong>Sat:</strong> 2000-2100</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">Wrestling</th>
-                            <td><strong>Tue:</strong> 0700-0800</td>
-                            <td><strong>Thur:</strong> 1900-2000</td>
-                            <td><strong>Sat:</strong> 2000-2100</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">Running</th>
-                            <td><strong>Tue:</strong> 0700-0800</td>
-                            <td><strong>Thur:</strong> 1900-2000</td>
-                            <td><strong>Sat:</strong> 2000-2100</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">Cycling</th>
-                            <td><strong>Tue:</strong> 0700-0800</td>
-                            <td><strong>Thur:</strong> 1900-2000</td>
-                            <td><strong>Sat:</strong> 2000-2100</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">Swimming</th>
-                            <td><strong>Tue:</strong> 0700-0800</td>
-                            <td><strong>Thur:</strong> 1900-2000</td>
-                            <td><strong>Sat:</strong> 2000-2100</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">Bootcamp</th>
-                            <td><strong>Tue:</strong> 0700-0800</td>
-                            <td><strong>Thur:</strong> 1900-2000</td>
-                            <td><strong>Sat:</strong> 2000-2100</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">Yoga</th>
-                            <td><strong>Tue:</strong> 0700-0800</td>
-                            <td><strong>Thur:</strong> 1900-2000</td>
-                            <td><strong>Sat:</strong> 2000-2100</td>
-                        </tr>
+                        {% endfor %}
                     </tbody>
                 </table>
             </div>
