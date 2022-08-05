@@ -7,8 +7,7 @@
 
 
 {% block content %}
-<h1>{% trans "Confirm E-mail Address" %}</h1>
-
+<div class="big-title-text my-5">{% trans "Confirm E-mail Address" %}</div>
 {% if confirmation %}
 
 {% user_display confirmation.email_address.user as user_display %}

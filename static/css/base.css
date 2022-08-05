@@ -34,8 +34,9 @@ a {
     color: inherit; 
 }
 
-button .custom-btn {
+button.custom-btn {
     background-color: rgba(0, 0, 0, 0) !important;
+    border: none;
 }
 
 a:hover {
@@ -84,4 +85,24 @@ a:hover {
 
 .social-link:hover {
     text-shadow: 1px 1px 1px rgba(224, 142, 0, 0.7);
+}
+
+/* All Auth Forms styling */
+
+label.form-check-label {
+    font-size: medium;
+}
+
+label.requiredField {
+    font-size: large;
+}
+
+input.form-control {
+    font-size: large;
+    padding: 0 5;
+    text-align: center;
+}
+
+#id_login input::placeholder {
+    font-size: large;
 }
