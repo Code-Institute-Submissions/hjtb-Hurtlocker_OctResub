@@ -58,6 +58,10 @@ a:hover {
     color: rgb(255, 255, 255);
 }
 
+.custom-images {
+    border-radius: 10px;
+}
+
 .custom-btn {
     font-family: 'Righteous', cursive;
     font-size: 2.5rem;

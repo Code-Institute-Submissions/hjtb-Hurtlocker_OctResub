@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_list_or_404, get_object_or_404
 from .models import Membership
+from activities.models import Activity
 
 
 # Create your views here.
@@ -22,5 +23,10 @@ def membership_page(request, key):
 
     current_membership = get_object_or_404(Membership, pk=key)
 
-    context = {'current_membership': current_membership}
+    activities_list = get_list_or_404(Activity)
+
+    context = {
+        'current_membership': current_membership,
+        'activities_list': activities_list,
+    }
     return render(request, 'memberships/membership_page.html', context)

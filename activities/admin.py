@@ -6,6 +6,7 @@ from .models import Activity
 
 class ActivityAdmin(admin.ModelAdmin):
     list_display = (
+        'id',
         'name',
         'description',
     )
