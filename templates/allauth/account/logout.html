@@ -9,7 +9,7 @@
     {% trans "Sign Out" %}
 </div>
 
-<div class="med-title-text">
+<div class="med-title-text my-5">
     {% trans 'Are you sure you want to sign out?' %}
 </div>
 
@@ -20,8 +20,9 @@
     {% if redirect_field_value %}
     <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
     {% endif %}
-    <button class="custom-btn" type="submit">{% trans 'Sign Out' %}</button>
+    <button class="custom-btn my-3" type="submit"><i class="fa-solid fa-arrow-right-from-bracket"></i>  {% trans 'Sign Out' %}</button>
 </form>
+<a class="custom-btn" href="{% url 'club_page' %}"><i class="fa-solid fa-house-user"></i>  Go Back Home</a>
 
 
 {% endblock %}

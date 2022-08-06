@@ -34,7 +34,7 @@ a {
     color: inherit; 
 }
 
-button.custom-btn {
+button.custom-btn, input.custom-btn {
     background-color: rgba(0, 0, 0, 0) !important;
     border: none;
 }
