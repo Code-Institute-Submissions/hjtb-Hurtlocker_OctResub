@@ -29,3 +29,19 @@ def profile_page(request, key):
         'member_activity_list': member_activity_list,
         }
     return render(request, 'profiles/profile_page.html', context)
+
+
+def edit_profile(request, key):
+    """A view to return the individual profile page"""
+
+    current_profile = get_object_or_404(Profile, pk=key)
+    member_activity_list = current_profile.activities.all()
+
+    form = ProfileForm(instance=current_profile)
+
+    context = {
+        'form': form,
+        'current_profile': current_profile,
+        'member_activity_list': member_activity_list,
+        }
+    return render(request, 'profiles/edit_profile.html', context)
