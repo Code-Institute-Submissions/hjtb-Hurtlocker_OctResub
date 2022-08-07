@@ -4,9 +4,10 @@
 
 <div class="big-title-text text-center">Profiles</div>
 <div class="container fluid">
-    <div class="row mt-5">
+    <hr>
+    <div class="row">
         {% for profile in profile_list %}
-        <div class="col-xl-4 col-md-6 col-xs-12 mb-4">
+        <div class="col-xl-4 col-md-6 col-xs-12 my-5">
             <div class="card h-100 text-center card-bg">
                 <div class="card-title med-title-text">
                     <a href="{% url 'profile_page' profile.id %}">{{ profile.first_name }} {{ profile.last_name }}</a>
@@ -17,8 +18,9 @@
                         {{ profile.membership }}
                     </div>
                 </div>
-                <div class="p-2">
-                    <a class="custom-btn m-0" href="{% url 'profile_page' profile.id %}" role="button" data-ripple-color="primary">View Profile</a>
+                <div>
+                    <a class="custom-btn m-0" href="{% url 'profile_page' profile.id %}" role="button"
+                        data-ripple-color="primary">View Profile</a>
                 </div>
             </div>
         </div>

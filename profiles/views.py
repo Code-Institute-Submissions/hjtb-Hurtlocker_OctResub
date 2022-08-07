@@ -22,7 +22,6 @@ def profile_page(request, key):
     current_profile = get_object_or_404(Profile, pk=key)
     member_activity_list = current_profile.activities.all()
 
-    form = ProfileForm(instance=current_profile)
 
     context = {
         'form': form,
@@ -33,7 +32,7 @@ def profile_page(request, key):
 
 
 def edit_profile(request, key):
-    """A view to return the individual profile page"""
+    """A view to edit member profiles"""
 
     current_profile = get_object_or_404(Profile, pk=key)
     member_activity_list = current_profile.activities.all()
@@ -54,3 +53,4 @@ def edit_profile(request, key):
         'member_activity_list': member_activity_list,
         }
     return render(request, 'profiles/edit_profile.html', context)
+

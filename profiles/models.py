@@ -18,7 +18,7 @@ class Profile(models.Model):
     last_name = models.CharField(max_length=30)
     bio = models.TextField(max_length=200, blank=True)
     signup_date = models.DateTimeField(auto_now_add=True)
-    image = models.ImageField(blank=True)
+    image = models.ImageField(blank=True, null=True)
     activities = models.ManyToManyField(Activity)
 
     # billing information

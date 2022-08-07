@@ -72,7 +72,7 @@ a:hover {
 hr {
     background: radial-gradient(rgba(187, 0, 0, 1), rgba(224, 142, 0, 0));
     height: 2px;
-  }
+}
 
 .custom-btn:hover {
     color: rgb(187, 0, 0);

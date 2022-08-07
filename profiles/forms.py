@@ -13,10 +13,6 @@ class ProfileForm(forms.ModelForm):
             'membership',
             'activities',
         )
-        activities = forms.ModelMultipleChoiceField(
-            queryset=Activity.objects.all(),
-            widget=forms.CheckboxSelectMultiple,
-            required=True)
 
     def __init__(self, *args, **kwargs):
         """

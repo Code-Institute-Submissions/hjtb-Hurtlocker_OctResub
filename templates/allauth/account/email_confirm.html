@@ -12,18 +12,18 @@
 
 {% user_display confirmation.email_address.user as user_display %}
 
-<p>{% blocktrans with confirmation.email_address.email as email %}Please confirm that <a href="mailto:{{ email }}">{{ email }}</a> is an e-mail address for user {{ user_display }}.{% endblocktrans %}</p>
+<div class="med-title-text">{% blocktrans with confirmation.email_address.email as email %}Please confirm that <u><a href="mailto:{{ email }}">{{ email }}</a></u> is an e-mail address for user <u>{{ user_display }}</u>.{% endblocktrans %}</div>
 
 <form method="post" action="{% url 'account_confirm_email' confirmation.key %}">
 {% csrf_token %}
-    <button type="submit">{% trans 'Confirm' %}</button>
+    <button class="custom-btn" type="submit">{% trans 'Confirm' %}</button>
 </form>
 
 {% else %}
 
 {% url 'account_email' as email_url %}
 
-<p>{% blocktrans %}This e-mail confirmation link expired or is invalid. Please <a href="{{ email_url }}">issue a new e-mail confirmation request</a>.{% endblocktrans %}</p>
+<p>{% blocktrans %}This e-mail confirmation link expired or is invalid. Please <u><a href="{{ email_url }}"></u>issue a new e-mail confirmation request</a>.{% endblocktrans %}</p>
 
 {% endif %}
 
