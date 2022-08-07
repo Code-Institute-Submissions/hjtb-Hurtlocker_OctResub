@@ -1,4 +1,5 @@
-from django.shortcuts import render, get_object_or_404, get_list_or_404
+from django.shortcuts import render, get_object_or_404, get_list_or_404, redirect
+from django.contrib import messages
 from .models import Profile
 from .forms import ProfileForm
 
@@ -36,6 +37,14 @@ def edit_profile(request, key):
 
     current_profile = get_object_or_404(Profile, pk=key)
     member_activity_list = current_profile.activities.all()
+
+    if request.method == 'POST':
+        form = ProfileForm(request.POST, instance=current_profile)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Profile has been updated successfully')
+            return redirect('profile_page', key)
+
 
     form = ProfileForm(instance=current_profile)
 

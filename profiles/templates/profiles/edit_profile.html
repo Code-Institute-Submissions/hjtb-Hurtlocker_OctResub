@@ -17,13 +17,13 @@
     <hr>
 </div>
 <div class="container">
-    <div class="med-title-text  text-center mb-2"><u>Username</u>: <u>{{ current_profile.user }}</u></div>
+    <div class="med-title-text  text-center mb-2"><u>Username</u>: {{ current_profile.user }}</div>
     <div class="row">
         <div class="col-lg-4 offset-lg-2  text-center">
             <div class="med-title-text my-3">
                 <u>Membership</u>
             </div>
-            <div class="body-text">
+            <div class="med-title-text">
                 {{ current_profile.membership }}
             </div>
         </div>
@@ -48,10 +48,16 @@
                 <div id="button-container" class="form-row justify-content-center">
                     <div class="form-group mt-3 col-sm-6">
                         <button class="custom-btn form-control" id="save-profile"
-                            type="submit">Save</button>
+                            type="submit">Save <i class="far fa-save"></i>
+                        </button>
                     </div>
                 </div>
             </form>
+            <div class="mb-5 text-center">
+                <a class="custom-btn" href="{% url 'profile_page' current_profile.id %}" role="button" data-ripple-color="primary">
+                    Go Back <i class="fas fa-undo-alt"></i>
+                </a>
+            </div>
         </div>
     </div>
 </div>

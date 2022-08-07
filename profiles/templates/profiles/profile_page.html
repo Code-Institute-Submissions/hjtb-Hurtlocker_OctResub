@@ -15,11 +15,15 @@
     <div class="big-title-text mt-5">
         {{ current_profile.first_name }} {{ current_profile.last_name }}
     </div>
-    <div class="med-title-text mb-2">Username: {{ current_profile.user }}</div>
-    <div class="med-title-text mb-3">Membership: {{ current_profile.membership }}</div>
+    <hr>
+    <div class="med-title-text mb-2"><u>Username</u>: <span class="answer-title-text">{{ current_profile.user }}</span></div>
+    <div class="med-title-text mb-3"><u>Membership</u>: <span class="answer-title-text">{{ current_profile.membership }}</span></div>
     <div class="p-2">
-        <a class="custom-btn m-0" href="{% url 'edit_profile' current_profile.id %}" role="button" data-ripple-color="primary">Edit Profile</a>
+        <a class="custom-btn m-0" href="{% url 'edit_profile' current_profile.id %}" role="button" data-ripple-color="primary">
+            Edit Profile <i class="fas fa-user-edit"></i>
+        </a>
     </div>
+    <hr>
     <div class="card card-bg my-5">
         <div class="row no-gutters">
             <div class="col-lg-4 offset-lg-0 col-md-6 offset-md-3">
@@ -29,16 +33,16 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-xl-6 col-md-5">
-                            <div class="med-title-text mt-3">Activities</div>
+                            <div class="med-title-text mt-3"><u>Activities</u></div>
                             <div class="body-text mb-2">
                                 {% for activity in member_activity_list %}
                                 <div>{{ activity }}</div>
                                 {% endfor %}
                             </div>
-                            <div class="med-title-text mt-3">Bookings</div>
+                            <div class="med-title-text mt-3"><u>Bookings</u></div>
                         </div>
                         <div class="col-xl-6 col-md-7">
-                            <div class="med-title-text mt-2">Bio</div>
+                            <div class="med-title-text mt-2"><u>Bio</u></div>
                             <div class="body-text mb-2">{{ current_profile.bio }}</div>
                         </div>
                     </div>

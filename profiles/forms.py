@@ -37,5 +37,21 @@ class ProfileForm(forms.ModelForm):
             'postcode': 'Postcode',
         }
 
+        placeholders = {
+            'first_name': 'First Name',
+            'last_name': 'Last Name',
+            'bio': 'Bio',
+            'image': 'Upload a profile picture',
+            'phone_number': 'Phone Number',
+            'email': 'Email',
+            'street_address1': 'Street Address 1',
+            'street_address2': 'Street Address 2',
+            'city': 'City',
+            'county': 'County',
+            'postcode': 'Postcode',
+        }
+
+
         for field in self.fields:
             self.fields[field].label = labels[field]
+            self.fields[field].widget.attrs['placeholder'] = placeholders[field]

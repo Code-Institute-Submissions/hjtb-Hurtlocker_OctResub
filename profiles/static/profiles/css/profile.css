@@ -3,3 +3,19 @@
     border-radius: 20px;
     box-shadow: inset 0 0 10px;
 }
+
+#edit-profile-form input::placeholder {
+    color: rgb(193, 193, 193);
+}
+
+#edit-profile-form input::form-control {
+    color: rgb(0, 0, 0);
+}
+
+
+.answer-title-text {
+    font-family: 'Righteous', cursive;
+    font-size: 2rem;
+    color: rgb(224, 142, 0);
+    text-shadow: 6px 6px 5px rgba(0, 0, 0, 0.69);
+}
