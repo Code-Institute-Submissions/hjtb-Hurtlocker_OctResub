@@ -1,15 +1,14 @@
+
 from django import forms
-from .models import Profile
+from profiles.models import Profile
 
 
-class ProfileForm(forms.ModelForm):
+class SignupForm(forms.ModelForm):
     class Meta:
         model = Profile
         exclude = (
             'user',
             'signup_date',
-            'membership',
-            'activities',
         )
 
     def __init__(self, *args, **kwargs):
@@ -22,6 +21,8 @@ class ProfileForm(forms.ModelForm):
             'last_name': 'Last Name',
             'bio': 'Bio',
             'image': 'Upload a profile picture',
+            'membership': 'Membership',
+            'activities': 'Activities',
             'phone_number': 'Phone Number',
             'email': 'Email',
             'street_address1': 'Street Address 1',
@@ -36,6 +37,8 @@ class ProfileForm(forms.ModelForm):
             'last_name': 'Last Name',
             'bio': 'Bio',
             'image': 'Upload a profile picture',
+            'membership': 'Membership',
+            'activities': 'Activities',
             'phone_number': 'Phone Number',
             'email': 'Email',
             'street_address1': 'Street Address 1',

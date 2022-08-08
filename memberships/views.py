@@ -1,10 +1,10 @@
 from django.shortcuts import render, get_list_or_404, get_object_or_404, redirect
 from django.contrib import messages
 
-from .models import Membership
 from activities.models import Activity
-from profiles.forms import ProfileForm
 from profiles.models import Profile
+from .models import Membership
+from .forms import SignupForm
 
 
 # Create your views here.
@@ -38,7 +38,6 @@ def membership_page(request, key):
     return render(request, 'memberships/membership_page.html', context)
 
 
-
 def membership_signup(request):
     """
     Get information from the user before they pay
@@ -46,9 +45,8 @@ def membership_signup(request):
 
     current_profile = get_object_or_404(Profile, user=request.user)
 
-
     if request.method == 'POST':
-        form = ProfileForm(request.POST, instance=current_profile)
+        form = SignupForm(request.POST, instance=current_profile)
         if form.is_valid():
             form.save()
             messages.success(request, 'User has signed up')
@@ -57,9 +55,9 @@ def membership_signup(request):
             messages.error(request, 'Please ensure the data entered is valid.')
 
     else:
-        form = ProfileForm(instance=current_profile)
+        form = SignupForm(instance=current_profile)
 
     context = {
         'form': form,
-        }
+    }
     return render(request, 'memberships/membership_signup.html', context)

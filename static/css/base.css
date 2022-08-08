@@ -70,14 +70,14 @@ a:hover {
     padding: 5px;
 }
 
-hr {
-    background: radial-gradient(rgba(187, 0, 0, 1), rgba(224, 142, 0, 0));
-    height: 2px;
-}
-
 .custom-btn:hover {
     color: rgb(187, 0, 0);
     text-shadow: 6px 6px 5px rgba(0, 0, 0, 0.69);
+}
+
+hr {
+    background: radial-gradient(rgba(187, 0, 0, 1), rgba(224, 142, 0, 0));
+    height: 2px;
 }
 
 .card-bg {
@@ -105,10 +105,11 @@ label.requiredField {
     font-size: large;
 }
 
-input.form-control {
+.form-control {
     font-size: large;
     padding: 0 5;
     text-align: center;
+    border: 2px solid rgb(187, 0, 0);
 }
 
 #id_login input::placeholder {

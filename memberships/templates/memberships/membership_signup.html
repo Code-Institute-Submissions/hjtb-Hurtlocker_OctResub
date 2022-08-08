@@ -20,32 +20,41 @@
     <hr>
     <div class="row mt-5">
         <div class="col-xl-6 offset-xl-3 col-lg-8 offset-lg-2">
-            <form id="edit-profile-form" class="body-text" role="form"
-                action="{% url 'membership_signup' %}" method="POST">
+            <form id="edit-profile-form" class="body-text" role="form" action="{% url 'membership_signup' %}"
+                method="POST">
                 {% csrf_token %}
-                <h5 class="mb-3">First, please fill in information for your public profile:</h5>
-                {{ form.first_name | as_crispy_field }}
-                {{ form.last_name | as_crispy_field }}
-                {{ form.bio | as_crispy_field }}
-                {{ form.image | as_crispy_field }}
+                <fieldset class="rounded px-3 mb-5">
+                    <legend class="fieldset-label small text-black px-2 w-auto">Profile Details</legend>
+                    <h5 class="mb-3">First, please fill in information for your public profile:</h5>
+                    {{ form.first_name | as_crispy_field }}
+                    {{ form.last_name | as_crispy_field }}
+                    {{ form.bio | as_crispy_field }}
+                    {{ form.image | as_crispy_field }}
+                </fieldset>
                 <hr class="my-3">
-                <h5 class="mb-3">Save your billing details:</h5>
-                {{ form.first_name  | as_crispy_field }}
-                {{ form.last_name  | as_crispy_field }}
-                {{ form.email  | as_crispy_field }}
-                {{ form.street_address1  | as_crispy_field }}
-                {{ form.street_address2  | as_crispy_field }}            
-                {{ form.city  | as_crispy_field }}
-                {{ form.county  | as_crispy_field }}
-                {{ form.postcode  | as_crispy_field }}
+                <fieldset class="rounded px-3 mb-5">
+                    <legend class="fieldset-label small text-black px-2 w-auto">Billing Details</legend>
+                    <h5 class="mb-3">Save your billing details:</h5>
+                    {{ form.first_name  | as_crispy_field }}
+                    {{ form.last_name  | as_crispy_field }}
+                    {{ form.email  | as_crispy_field }}
+                    {{ form.street_address1  | as_crispy_field }}
+                    {{ form.street_address2  | as_crispy_field }}
+                    {{ form.city  | as_crispy_field }}
+                    {{ form.county  | as_crispy_field }}
+                    {{ form.postcode  | as_crispy_field }}
+                </fieldset>
                 <hr>
-                <div id="button-container" class="form-row justify-content-center">
-                    <div class="form-group mt-3 col-sm-6">
-                        <button class="custom-btn form-control" id="save-profile"
-                            type="submit">Save <i class="far fa-save"></i>
-                        </button>
+                <fieldset class="rounded px-3 mb-5">
+                    <legend class="fieldset-label small text-black px-2 w-auto">Payment</legend>
+                    <div id="button-container" class="form-row justify-content-center">
+                        <div class="form-group mt-3 col-sm-6">
+                            <button class="custom-btn form-control" id="save-profile" type="submit">
+                                Save <i class="far fa-save"></i>
+                            </button>
+                        </div>
                     </div>
-                </div>
+                </fieldset>
             </form>
             <div class="mb-5 text-center">
                 <a class="custom-btn" href="{% url 'memberships' %}" role="button" data-ripple-color="primary">
