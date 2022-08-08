@@ -4,7 +4,7 @@
 
 <div class="big-title-text text-center my-5">Memberships</div>
 <div class="container fluid text-center">
-    <div class="med-title-text my-5">Choose a Membership Option</div>
+    <div class="med-title-text my-5">Our Membership Options</div>
     <div class="row mt-5">
         {% for membership in memberships_list %}
         <div class="col-xl-4 col-md-6 col-xs-12 mb-4">
@@ -20,7 +20,7 @@
                 </div>
                 <div class="p-2">
                     <a class="custom-btn m-0" href="{% url 'membership_page' membership.id %}" role="button"
-                        data-ripple-color="primary">Sign Up<small><i class="fa-solid fa-angles-right"></i></small></a>
+                        data-ripple-color="primary">More info</a>
                 </div>
             </div>
         </div>

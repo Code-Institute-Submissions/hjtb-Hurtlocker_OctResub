@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block extra_title %}
-    | {{ current_profile }}'s Profile
+| {{ current_profile }}'s Profile
 {% endblock %}
 
 {% block extra_css %}
@@ -16,10 +16,13 @@
         {{ current_profile.first_name }} {{ current_profile.last_name }}
     </div>
     <hr>
-    <div class="med-title-text mb-2"><u>Username</u>: <span class="answer-title-text">{{ current_profile.user }}</span></div>
-    <div class="med-title-text mb-3"><u>Membership</u>: <span class="answer-title-text">{{ current_profile.membership }}</span></div>
+    <div class="med-title-text mb-2"><u>Username</u>: <span class="answer-title-text">{{ current_profile.user }}</span>
+    </div>
+    <div class="med-title-text mb-3"><u>Membership</u>: <span
+            class="answer-title-text">{{ current_profile.membership }}</span></div>
     <div class="p-2">
-        <a class="custom-btn m-0" href="{% url 'edit_profile' current_profile.id %}" role="button" data-ripple-color="primary">
+        <a class="custom-btn m-0" href="{% url 'edit_profile' current_profile.id %}" role="button"
+            data-ripple-color="primary">
             Edit Profile <i class="fas fa-user-edit"></i>
         </a>
     </div>
@@ -27,7 +30,11 @@
     <div class="card card-bg my-5">
         <div class="row no-gutters">
             <div class="col-lg-4 offset-lg-0 col-md-6 offset-md-3">
-                <img class="img-fluid custom-images m-3" src="{{ current_profile.image.url }}" alt="Membership Image">
+                {% if current_profile.image %}
+                    <img class="img-fluid custom-images m-3" src="{{ current_profile.image.url }}" alt="Membership Image">
+                {% else %}
+                    <img class="card-img-top" src="{{ MEDIA_URL }}dummy.jpg" alt="Profile Image">
+                {% endif %}
             </div>
             <div class="col-lg-8">
                 <div class="card-body">

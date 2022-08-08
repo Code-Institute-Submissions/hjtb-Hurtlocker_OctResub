@@ -24,7 +24,6 @@ def profile_page(request, key):
 
 
     context = {
-        'form': form,
         'current_profile': current_profile,
         'member_activity_list': member_activity_list,
         }

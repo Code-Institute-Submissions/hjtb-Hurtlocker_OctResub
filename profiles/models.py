@@ -33,6 +33,7 @@ class Profile(models.Model):
     def __str__(self):
         return str(self.user)
 
+    # Taken from Boutique Ado tutorial
     @receiver(post_save, sender=User)
     def create_or_update_profile(sender, instance, created, **kwargs):
         """
