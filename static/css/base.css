@@ -95,23 +95,27 @@ hr {
     text-shadow: 1px 1px 1px rgba(224, 142, 0, 0.7);
 }
 
+
+.form-text {
+    font-family: 'Roboto Condensed', sans-serif;
+    font-size: 1rem;
+    color: rgb(255, 255, 255);
+}
+
 /* All Auth Forms styling */
 
 label.form-check-label {
-    font-size: medium;
+    font-size: 1rem;
 }
 
 label.requiredField {
-    font-size: large;
+    font-size: 1rem;
 }
 
 .form-control {
-    font-size: large;
-    padding: 0 5;
-    text-align: center;
     border: 2px solid rgb(187, 0, 0);
 }
 
 #id_login input::placeholder {
-    font-size: large;
+    font-size: 1rem;
 }

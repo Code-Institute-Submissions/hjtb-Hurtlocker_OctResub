@@ -1,6 +1,7 @@
 
 from django import forms
 from profiles.models import Profile
+from activities.models import Activity
 
 
 class SignupForm(forms.ModelForm):
@@ -10,6 +11,8 @@ class SignupForm(forms.ModelForm):
             'user',
             'signup_date',
         )
+
+    activities = forms.ModelMultipleChoiceField(queryset=Activity.objects.all(), required=True, widget=forms.CheckboxSelectMultiple)
 
     def __init__(self, *args, **kwargs):
         """

@@ -16,7 +16,7 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
-    bio = models.TextField(max_length=200, blank=True)
+    bio = models.TextField(max_length=300, blank=True)
     signup_date = models.DateTimeField(auto_now_add=True)
     image = models.ImageField(blank=True, null=True)
     activities = models.ManyToManyField(Activity)
