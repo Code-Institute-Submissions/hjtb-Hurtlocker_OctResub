@@ -45,6 +45,8 @@ def membership_signup(request):
 
     current_profile = get_object_or_404(Profile, user=request.user)
 
+    
+
     if request.method == 'POST':
         form = SignupForm(request.POST, instance=current_profile)
         if form.is_valid():
