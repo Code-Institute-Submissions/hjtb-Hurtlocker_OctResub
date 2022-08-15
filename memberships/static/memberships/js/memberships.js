@@ -1,6 +1,28 @@
 $(document).ready(function () {
     console.log("Before");
-    
+
+    // fetch('http://some_url.com')
+    //     .then(response => response.json()) // converts the response to JSON
+    //     .then(data => {
+    //         console.log(data);
+    //         // do something (like update the DOM with the data)
+    //     });
+
+    // var membership_select = document.getElementById("id_membership");
+    // console.log(membership_select);
+    // var initial_unchecked_boxes = document.querySelectorAll('input[class=form-check-input]:not(:checked)');
+
+    // if (membership_select = "gold" || "silver" || "platinum") {
+    //     for (var i = 0; i < initial_unchecked_boxes.length; i++) {
+    //         initial_unchecked_boxes[i].setAttribute("disabled", "disabled");
+    //     }
+    // }
+    // else {
+    //     for (var i = 0; i < initial_unchecked_boxes.length; i++) {
+    //         initial_unchecked_boxes[i].removeAttribute("disabled");
+    //     }
+    // }
+
     var checkbox_divs = document.querySelectorAll("div.form-check");
     console.log(checkbox_divs);
     for (var i = 0; i < checkbox_divs.length; i++) {
@@ -24,17 +46,17 @@ $(document).ready(function () {
                 delete selections[checkbox.id];
             }
         }
-        var unchecked = document.querySelectorAll('input[class=form-check-input]:not(:checked)');
-        console.log(unchecked);
+        var remaining_unchecked = document.querySelectorAll('input[class=form-check-input]:not(:checked)');
+        console.log(remaining_unchecked);
         if (Object.keys(selections).length >= limit) {
-            console.log(unchecked);
-            for (var i = 0; i < unchecked.length; i++) {
-                unchecked[i].setAttribute("disabled", "disabled");
+            console.log(remaining_unchecked);
+            for (var i = 0; i < remaining_unchecked.length; i++) {
+                remaining_unchecked[i].setAttribute("disabled", "disabled");
             }
         }
         else {
-            for (var i = 0; i < unchecked.length; i++) {
-                unchecked[i].removeAttribute("disabled");
+            for (var i = 0; i < remaining_unchecked.length; i++) {
+                remaining_unchecked[i].removeAttribute("disabled");
             }
         }
         console.log(selections);
@@ -42,61 +64,3 @@ $(document).ready(function () {
     }
     checkboxTotal()
 })
-
-        // var checkbox_divs = document.getElementsByClassName("form-check");
-        // console.log(checkbox_divs);
-        // var limit = 5;
-        // var counter = 0;
-        // for (var i = 0; i < checkbox_divs.length; i++) {
-        //     if (checkbox_divs[i].firstElementChild.checked) {
-        //         console.log(checkbox_divs[i].outerText);
-        //         counter++;
-        //         if (counter >= limit) {
-        //             console.log("Limit exceeded");
-        //         }
-        //     }
-        // }
-
-        // var selections = {};
-        // var checkboxElems = document.querySelectorAll("input[type='checkbox']");
-        // var totalElem = document.getElementById("seats-total");
-        // var seatsElem = document.getElementById("selected-seats");
-
-        // for (var i = 0; i < checkboxElems.length; i++) {
-        //   checkboxElems[i].addEventListener("click", displayCheck);
-        // }
-
-        // function displayCheck(e) {
-        //   if (e.target.checked) {
-        //     selections[e.target.id] = {
-        //       name: e.target.name,
-        //       value: e.target.value
-        //     };
-        //   } 
-        //   else {
-        //     delete selections[e.target.id];
-        //   }
-
-        //   var result = [];
-        //   var total = 0;
-
-        //   for (var key in selections) {
-        //     console.log(key);
-        //   }
-
-        //   totalElem.innerText = total;
-        //   seatsElem.innerHTML = result.join("");
-        // }
-
-        // function ValidateActivitySelection() {
-        //     console.log(checkboxes);
-        //     var numberOfCheckedItems = 0;
-        //     for (var i = 0; i < checkboxes.length; i++) {
-        //         if (checkboxes[i].checked)
-        //             numberOfCheckedItems++;
-        //     }
-        //     if (numberOfCheckedItems > 2) {
-        //         alert("You can't select more than two activities!");
-        //         return false;
-        //     }
-        // }

@@ -44,8 +44,7 @@ def membership_signup(request):
     """
 
     current_profile = get_object_or_404(Profile, user=request.user)
-
-    
+    memberships_list = get_list_or_404(Membership)
 
     if request.method == 'POST':
         form = SignupForm(request.POST, instance=current_profile)
@@ -61,5 +60,6 @@ def membership_signup(request):
 
     context = {
         'form': form,
+        'memberships_list': memberships_list,
     }
     return render(request, 'memberships/membership_signup.html', context)
