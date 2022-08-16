@@ -1,38 +1,54 @@
 $(document).ready(function () {
     console.log("Before");
+    
+    var limit = 5;
 
-    // fetch('http://some_url.com')
-    //     .then(response => response.json()) // converts the response to JSON
-    //     .then(data => {
-    //         console.log(data);
-    //         // do something (like update the DOM with the data)
-    //     });
-
-    // var membership_select = document.getElementById("id_membership");
-    // console.log(membership_select);
-    // var initial_unchecked_boxes = document.querySelectorAll('input[class=form-check-input]:not(:checked)');
-
-    // if (membership_select = "gold" || "silver" || "platinum") {
-    //     for (var i = 0; i < initial_unchecked_boxes.length; i++) {
-    //         initial_unchecked_boxes[i].setAttribute("disabled", "disabled");
-    //     }
+    // async function getMemberships() {
+    //     let response = await fetch('/memberships/membership_data', {
+    //         method: 'get',
+    //         headers: {
+    //             'X-Requested-With': 'XMLHttpRequest',
+    //             'Content-Type': 'application/json'
+    //         }
+    //     })
+    //     let membership_data = await response.json()
+    //     console.log(await membership_data)
     // }
-    // else {
-    //     for (var i = 0; i < initial_unchecked_boxes.length; i++) {
-    //         initial_unchecked_boxes[i].removeAttribute("disabled");
-    //     }
-    // }
+    // getMemberships()
 
+    var membership_select = document.getElementById("id_membership");
+    membership_select.addEventListener("change", checkMembership)
+
+    var initial_checkboxes = document.querySelectorAll("input[class=form-check-input]");
+    var membership_ids = [1, 2, 3, 4, 5]
+    function checkMembership() {
+        if (!membership_ids.includes(parseInt(membership_select.value))) {
+            for (var i = 0; i < initial_checkboxes.length; i++) {
+                initial_checkboxes[i].removeAttribute("checked");
+                initial_checkboxes[i].setAttribute("disabled", "disabled");
+                console.log(initial_checkboxes[i]);
+            }
+        }
+        else {
+            for (var i = 0; i < initial_checkboxes.length; i++) {
+                initial_checkboxes[i].removeAttribute("disabled");
+            }
+        }
+    }
+
+
+    console.log(initial_checkboxes);
+    
+
+    // Add onclick event listeners to the checkboxes
     var checkbox_divs = document.querySelectorAll("div.form-check");
-    console.log(checkbox_divs);
     for (var i = 0; i < checkbox_divs.length; i++) {
         checkbox_divs[i].firstElementChild.addEventListener("click", checkboxTotal);
         checkbox_divs[i].firstElementChild.name = checkbox_divs[i].outerText;
-        console.log(checkbox_divs[i].firstElementChild);
     }
 
+    // collect the selected items in an object and count them
     var selections = {};
-    var limit = 5;
     function checkboxTotal() {
         for (var i = 0; i < checkbox_divs.length; i++) {
             var checkbox = checkbox_divs[i].firstElementChild;
@@ -46,10 +62,10 @@ $(document).ready(function () {
                 delete selections[checkbox.id];
             }
         }
-        var remaining_unchecked = document.querySelectorAll('input[class=form-check-input]:not(:checked)');
-        console.log(remaining_unchecked);
+
+        // deactivate the remaining unchecked boxes when we have selecte the limit
+        var remaining_unchecked = document.querySelectorAll("input[class=form-check-input]:not(:checked)");
         if (Object.keys(selections).length >= limit) {
-            console.log(remaining_unchecked);
             for (var i = 0; i < remaining_unchecked.length; i++) {
                 remaining_unchecked[i].setAttribute("disabled", "disabled");
             }
@@ -59,8 +75,8 @@ $(document).ready(function () {
                 remaining_unchecked[i].removeAttribute("disabled");
             }
         }
-        console.log(selections);
         console.log("After");
     }
     checkboxTotal()
+    checkMembership()
 })

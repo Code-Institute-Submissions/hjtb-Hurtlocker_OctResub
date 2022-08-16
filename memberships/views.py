@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_list_or_404, get_object_or_404, redirect
 from django.contrib import messages
+from django.http import HttpResponseBadRequest, JsonResponse
 
 from activities.models import Activity
 from profiles.models import Profile
