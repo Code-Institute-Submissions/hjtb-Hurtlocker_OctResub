@@ -26,7 +26,8 @@ $(document).ready(function () {
             for (var i = 0; i < initial_checkboxes.length; i++) {
                 initial_checkboxes[i].removeAttribute("checked");
                 initial_checkboxes[i].setAttribute("disabled", "disabled");
-                console.log(initial_checkboxes[i]);
+                console.log("Checked = " + initial_checkboxes[i].checked);
+                console.log("Disabled = " + initial_checkboxes[i].disabled);
             }
         }
         else {
@@ -75,8 +76,8 @@ $(document).ready(function () {
                 remaining_unchecked[i].removeAttribute("disabled");
             }
         }
-        console.log("After");
     }
-    checkboxTotal()
-    checkMembership()
+    checkboxTotal();
+    checkMembership();
+    console.log("After");
 })
