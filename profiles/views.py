@@ -9,8 +9,12 @@ def user_profile_check(user):
     """
     Checks if a profile is associated with this user
     """
+    existing_user = False
     if user.is_authenticated:
-        current_profile = get_object_or_404(Profile, user=user)
+        try:
+            current_profile = get_object_or_404(Profile, user=user)
+        except Profile.DoesNotExist:
+            pass
         if current_profile.membership:
             existing_user = True
     else:

@@ -13,8 +13,12 @@ def user_profile_check(user):
     """
     Checks if a profile is associated with this user
     """
+    existing_user = False
     if user.is_authenticated:
-        current_profile = get_object_or_404(Profile, user=user)
+        try:
+            current_profile = get_object_or_404(Profile, user=user)
+        except Profile.DoesNotExist:
+            pass
         if current_profile.membership:
             existing_user = True
     else:
@@ -51,6 +55,7 @@ def membership_page(request, key):
     return render(request, 'memberships/membership_page.html', context)
 
 
+# NOW WE NEED TO REDIRECT AND USE THE FORM DATA TO SAVE THE PROFILE ASSOCIATED WITH THE USER
 def membership_signup(request):
     """
     Get information from the user before they pay
