@@ -3,31 +3,31 @@ $(document).ready(function () {
     
     var limit = 5;
 
-    // async function getMemberships() {
-    //     let response = await fetch('/memberships/membership_data', {
-    //         method: 'get',
-    //         headers: {
-    //             'X-Requested-With': 'XMLHttpRequest',
-    //             'Content-Type': 'application/json'
-    //         }
-    //     })
-    //     let membership_data = await response.json()
-    //     console.log(await membership_data)
-    // }
-    // getMemberships()
-
+    async function getMemberships() {
+        let response = await fetch('/memberships/membership_signup', {
+            method: 'get',
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'Content-Type': 'application/json'
+            }
+        })
+        let membership_data = await response.json()
+        return membership_data
+    }
+    
+    var membership_data = getMemberships();
+    console.log(membership_data);
+    
     var membership_select = document.getElementById("id_membership");
     membership_select.addEventListener("change", checkMembership)
 
     var initial_checkboxes = document.querySelectorAll("input[class=form-check-input]");
-    var membership_ids = [1, 2, 3, 4, 5]
+    
+    var membership_ids = []
     function checkMembership() {
         if (!membership_ids.includes(parseInt(membership_select.value))) {
             for (var i = 0; i < initial_checkboxes.length; i++) {
-                initial_checkboxes[i].removeAttribute("checked");
                 initial_checkboxes[i].setAttribute("disabled", "disabled");
-                console.log("Checked = " + initial_checkboxes[i].checked);
-                console.log("Disabled = " + initial_checkboxes[i].disabled);
             }
         }
         else {
@@ -36,16 +36,12 @@ $(document).ready(function () {
             }
         }
     }
-
-
-    console.log(initial_checkboxes);
     
 
     // Add onclick event listeners to the checkboxes
     var checkbox_divs = document.querySelectorAll("div.form-check");
     for (var i = 0; i < checkbox_divs.length; i++) {
         checkbox_divs[i].firstElementChild.addEventListener("click", checkboxTotal);
-        checkbox_divs[i].firstElementChild.name = checkbox_divs[i].outerText;
     }
 
     // collect the selected items in an object and count them
