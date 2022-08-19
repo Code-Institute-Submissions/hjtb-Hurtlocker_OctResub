@@ -15,15 +15,19 @@ $(document).ready(function () {
         return membership_data
     }
     
-    var membership_data = getMemberships();
-    console.log(membership_data);
-    
+
     var membership_select = document.getElementById("id_membership");
     membership_select.addEventListener("change", checkMembership)
 
-    var initial_checkboxes = document.querySelectorAll("input[class=form-check-input]");
+    // Gather the checkboxes to disable the
+    var initial_checkboxes = document.querySelectorAll("input.form-check-input");
+    // Ensure the checkboxes are gathered even when user information isn't autofilled
+    if (initial_checkboxes.length <= 0) {
+        var initial_checkboxes = document.querySelectorAll("input.form-check-input.is-invalid");
+    }
+    console.log(initial_checkboxes);
     
-    var membership_ids = []
+    var membership_ids = [1,2,3,4,5]
     function checkMembership() {
         if (!membership_ids.includes(parseInt(membership_select.value))) {
             for (var i = 0; i < initial_checkboxes.length; i++) {
@@ -60,8 +64,13 @@ $(document).ready(function () {
             }
         }
 
-        // deactivate the remaining unchecked boxes when we have selecte the limit
-        var remaining_unchecked = document.querySelectorAll("input[class=form-check-input]:not(:checked)");
+        // deactivate the remaining unchecked boxes when we have hit the limit
+        var remaining_unchecked = document.querySelectorAll("input[class='form-check-input']:not(:checked)");
+        // Ensure the checkboxes are gathered even when user information isn't autofilled
+        if (remaining_unchecked.length <= 0) {
+            var remaining_unchecked = document.querySelectorAll("input[class='form-check-input is-invalid']:not(:checked)");
+        }
+        console.log(remaining_unchecked)
         if (Object.keys(selections).length >= limit) {
             for (var i = 0; i < remaining_unchecked.length; i++) {
                 remaining_unchecked[i].setAttribute("disabled", "disabled");
@@ -75,5 +84,7 @@ $(document).ready(function () {
     }
     checkboxTotal();
     checkMembership();
+    var membership_data = getMemberships();
+    console.log(membership_data);
     console.log("After");
 })

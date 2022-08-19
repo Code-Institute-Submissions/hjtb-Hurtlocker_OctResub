@@ -74,8 +74,6 @@ def membership_signup(request):
                 "activities": membership.number_of_activities
                 }    
         return JsonResponse({'context': membership_data})
-    else:
-        return JsonResponse({'status': 'Invalid request'}, status=400)
         
     if request.user.is_authenticated:
         try:
