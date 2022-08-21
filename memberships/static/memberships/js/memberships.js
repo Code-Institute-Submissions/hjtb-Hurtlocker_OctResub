@@ -28,9 +28,7 @@ $(document).ready(function () {
         }
     }
     getMemberships();
-
     var activity_limit = checkMembership();
-    console.log(activity_limit);
 
 
     
@@ -45,24 +43,14 @@ $(document).ready(function () {
         })
         let membership_data = await response.json()
         var membership_data_list = membership_data["context"]
-        // var membership_activity_limits = []
 
         for (var i = 0; i < membership_options_list.length; i++) {
             var option_value = membership_options_list[i].attributes.value.value;
             if (option_value > 0){
                 var data_activity = membership_data_list[option_value.toString()].activities;
                 membership_options_list[i].setAttribute('data-activity', data_activity)
-                // limit_object = {
-                //     membership_id: option_value.toString(),
-                //     activities: data_activity.toString(),
-                // }
-                // membership_activity_limits.push(limit_object);
-                // membership_selection = checkMembership();
-                // console.log(membership_selection);
             }
         }
-        // console.log(membership_activity_limits);
-        // return membership_activity_limits
     }
     
 
@@ -123,6 +111,6 @@ $(document).ready(function () {
         }
     }
 
-    checkboxTotal(activity_limit);
+    checkboxTotal();
     checkMembership()
 })
