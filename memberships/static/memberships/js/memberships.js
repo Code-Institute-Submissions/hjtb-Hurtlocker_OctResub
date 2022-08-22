@@ -1,6 +1,4 @@
 $(document).ready(function () {
-    console.log("Before");
-
 
     // Gather the checkboxes
     var initial_checkboxes = document.querySelectorAll("input.form-check-input");
@@ -28,7 +26,7 @@ $(document).ready(function () {
         }
     }
     getMemberships();
-    var activity_limit = checkMembership();
+    var activity_limit;
 
 
     
@@ -54,9 +52,14 @@ $(document).ready(function () {
     }
     
 
-
+        
+    
     // Get the membership id from the membership field
     function checkMembership() {
+        // Uncheck all checkboxes when the membership selection changes
+        for (var i = 0; i < initial_checkboxes.length; i++) {
+        initial_checkboxes[i].checked = false;
+        }
         // initially check the membership selection isn't empty
         if (!membership_ids.includes(membership_select.value)) {
             for (var i = 0; i < initial_checkboxes.length; i++) {
@@ -68,9 +71,6 @@ $(document).ready(function () {
                 initial_checkboxes[i].removeAttribute("disabled");
             }
         }
-        var activity_limit = membership_select.options[membership_select.selectedIndex].getAttribute('data-activity');
-        // Now return the activity limit
-        return activity_limit;
     }
 
 
@@ -79,8 +79,8 @@ $(document).ready(function () {
     // Collect the selected checkbox items in an object and count them
     // Then disable the remaining checkboxes when we reach our limit
     function checkboxTotal() {
-        var activity_limit = checkMembership();
-        console.log(activity_limit)
+        // Retrieve the activity limit from the membership select dropdown
+        var activity_limit = membership_select.options[membership_select.selectedIndex].getAttribute('data-activity');
         for (var i = 0; i < checkbox_divs.length; i++) {
             var checkbox = checkbox_divs[i].firstElementChild;
             if (checkbox.checked) {
