@@ -47,6 +47,9 @@ $(document).ready(function () {
             if (option_value > 0){
                 var data_activity = membership_data_list[option_value.toString()].activities;
                 membership_options_list[i].setAttribute('data-activity', data_activity)
+                var data_price = membership_data_list[option_value.toString()].price;
+                membership_options_list[i].setAttribute('data-price', data_price)
+                console.log(membership_options_list[i]);
             }
         }
     }

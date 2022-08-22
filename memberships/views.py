@@ -97,6 +97,8 @@ def membership_signup(request):
     context = {
         'form': form,
         'memberships_list': memberships_list,
+        'stripe_public_key': 'pk_test_51LUx5ZHw2Z3gzQYHe5Ys0QQKavkVo0tb9d7tphwAZmqEwN69LGV8YXhqenqOHeJv2JTOeD274sYSEGc37IXtr2SH00KHTpeI4p',
+        'client_secret': 'test_client_secret',
     }
     return render(request, 'memberships/membership_signup.html', context)
 
