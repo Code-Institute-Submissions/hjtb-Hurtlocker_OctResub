@@ -14,6 +14,7 @@ $(document).ready(function () {
     // Add onchange event listener to the select membership dropdown
     const membership_select = document.getElementById("id_membership");
     membership_select.addEventListener("change", checkMembership)
+    membership_select.addEventListener("change", getMemberships)
     
     // Get the options from the dropdown element
     const membership_options_list = membership_select.options;
@@ -47,9 +48,6 @@ $(document).ready(function () {
             if (option_value > 0){
                 var data_activity = membership_data_list[option_value.toString()].activities;
                 membership_options_list[i].setAttribute('data-activity', data_activity)
-                var data_price = membership_data_list[option_value.toString()].price;
-                membership_options_list[i].setAttribute('data-price', data_price)
-                console.log(membership_options_list[i]);
             }
         }
     }
