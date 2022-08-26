@@ -2,6 +2,10 @@
 {% load static %}
 {% block content %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'profiles/css/profile.css' %}">
+{% endblock %}
+
 <div class="big-title-text text-center">Profiles</div>
 <div class="container fluid">
     <hr>
@@ -11,9 +15,9 @@
             <div class="card h-100 text-center card-bg">
                 <div class="card-title med-title-text">
                     {% if profile.first_name and profile.last_name %}
-                        <a href="{% url 'profile_page' profile.id %}">{{ profile.first_name }} {{ profile.last_name }}</a>
+                    <a href="{% url 'profile_page' profile.id %}">{{ profile.first_name }} {{ profile.last_name }}</a>
                     {% else %}
-                        <a href="{% url 'profile_page' profile.id %}">{{ profile.user }}</a>
+                    <a href="{% url 'profile_page' profile.id %}">{{ profile.user }}</a>
                     {% endif %}
 
                 </div>
@@ -24,9 +28,15 @@
                 {% endif %}
                 <div class="card-body">
                     <div class="med-title-text">
+                        <u>
+                            Subscribed:
+                        </u>
+                    </div>
+                    <div class="answer-title-text">
                         {{ profile.is_subscribed }}
                     </div>
                 </div>
+                <hr>
                 <div>
                     <a class="custom-btn m-0" href="{% url 'profile_page' profile.id %}" role="button"
                         data-ripple-color="primary">View Profile</a>

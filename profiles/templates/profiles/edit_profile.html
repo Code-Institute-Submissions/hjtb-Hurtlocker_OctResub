@@ -16,17 +16,11 @@
     <hr>
 </div>
 <div class="container">
-    <div class="med-title-text  text-center mb-2"><u>Username</u>:<span class="answer-title-text"> {{ current_profile.user }}</span></div>
-    
-    <div class="row">
-        <div class="col-lg-4 offset-lg-2  text-center">
-            <div class="med-title-text my-3">
-                <u>Membership</u>
-            </div>
-            <div class="answer-title-text">
-                {{ current_profile.is_subscribed }}
-            </div>
-        </div>
+    <div class="med-title-text  text-center mb-2">
+        <u>Username</u>:<span class="answer-title-text"> {{ current_profile.user }}</span>
+    </div>
+    <div class="text-center med-title-text my-3">
+        <u>Subscribed: </u><span class="answer-title-text">{{ current_profile.is_subscribed }}</span>
     </div>
     <hr>
     <div class="row mt-5">
@@ -35,7 +29,7 @@
                 action="{% url 'edit_profile' current_profile.id %}" method="POST">
                 {% csrf_token %}
                 <fieldset class="rounded px-3 mb-5">
-                    <legend class="fieldset-label med-title-text px-2 w-auto">Profile Details</legend>
+                    <legend class="fieldset-label med-title-text px-2 w-auto"><u>Profile Details</u></legend>
                     {{ form.first_name | as_crispy_field }}
                     {{ form.last_name | as_crispy_field }}
                     {{ form.bio | as_crispy_field }}
@@ -44,7 +38,7 @@
                 </fieldset>
                 <hr class="my-3">
                 <fieldset class="rounded px-3 mb-5">
-                    <legend class="fieldset-label med-title-text px-2 w-auto">Billing Details</legend>
+                    <legend class="fieldset-label med-title-text px-2 w-auto"><u>Billing Details</u></legend>
                     {{ form.email  | as_crispy_field }}
                     {{ form.phone_number  | as_crispy_field }}
                     {{ form.street_address1  | as_crispy_field }}
