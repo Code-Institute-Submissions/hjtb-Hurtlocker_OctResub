@@ -30,6 +30,12 @@ class Profile(models.Model):
     county = models.CharField(max_length=80, null=True, blank=True)
     postcode = models.CharField(max_length=20, null=True, blank=True)
 
+    # Stripe Customer Fields
+    stripe_customer_id = models.CharField(
+        max_length=255, null=True, blank=True)
+    stripe_subscription_id = models.CharField(
+        max_length=255, null=True, blank=True)
+
     def __str__(self):
         return str(self.user)
 

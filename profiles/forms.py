@@ -10,6 +10,8 @@ class ProfileForm(forms.ModelForm):
             'signup_date',
             'membership',
             'activities',
+            'stripe_customer_id',
+            'stripe_subscription_id',
         )
 
     def __init__(self, *args, **kwargs):

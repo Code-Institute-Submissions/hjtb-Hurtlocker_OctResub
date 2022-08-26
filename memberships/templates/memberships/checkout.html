@@ -13,12 +13,13 @@
 
 {% block extra_js %}
 <script src="{% static '/memberships/js/memberships.js' %}"></script> 
+<script src="{% static '/memberships/js/stripe_elements.js' %}"></script> 
 {% endblock %}
 
 {% block content %}
 
 <div class="big-title-text my-5 text-center">
-    Create Your Profile
+    Subscribe
 </div>
 <div class="container">
     <hr>
@@ -27,7 +28,6 @@
             <form id="edit-profile-form" class="form-text" role="form" action="{% url 'checkout' %}"
                 method="POST">
                 {% csrf_token %}
-                <hr class="my-3">
                 <fieldset class="rounded px-3">
                     <legend class="fieldset-label med-title-text px-2 w-auto">Payment</legend>
                     <div id="payment-details" class="my-5"></div>
@@ -36,7 +36,7 @@
                 <div id="button-container" class="form-row justify-content-center">
                     <div class="form-group mt-3 col-sm-6">
                         <button class="custom-btn form-control" id="save-profile" type="submit">
-                            Save <i class="far fa-save"></i>
+                            Subscribe <i class="far fa-check"></i>
                         </button>
                     </div>
                 </div>

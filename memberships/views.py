@@ -2,6 +2,9 @@ from django.shortcuts import render, get_list_or_404, get_object_or_404, redirec
 from django.contrib import messages
 from django.contrib.auth.decorators import user_passes_test
 from django.http import JsonResponse
+from django.core.exceptions import ObjectDoesNotExist
+from django.views.decorators.csrf import csrf_exempt
+from django.conf import settings
 
 from activities.models import Activity
 from profiles.models import Profile
@@ -18,7 +21,7 @@ def user_profile_check(user):
     if user.is_authenticated:
         try:
             current_profile = get_object_or_404(Profile, user=user)
-        except Profile.DoesNotExist:
+        except ObjectDoesNotExist:
             pass
         if current_profile.membership:
             existing_user = True
@@ -38,6 +41,7 @@ def all_memberships(request):
     context = {'memberships_list': memberships_list}
 
     return render(request, 'memberships/all_memberships.html', context)
+
 
 @user_passes_test(user_profile_check, login_url='../memberships/membership_signup')
 def membership_page(request, key):
@@ -72,9 +76,9 @@ def membership_signup(request):
                 "name": membership.name,
                 "price": membership.price,
                 "activities": membership.number_of_activities
-                }    
+            }
         return JsonResponse({'context': membership_data})
-        
+
     if request.user.is_authenticated:
         try:
             current_profile = get_object_or_404(Profile, user=request.user)
@@ -89,7 +93,7 @@ def membership_signup(request):
         if form.is_valid():
             form.save()
             messages.success(request, 'User has signed up')
-            return redirect('/club')
+            return redirect('/memberships/checkout')
         else:
             messages.error(
                 request, 'Please ensure the data entered is valid.')
@@ -101,8 +105,6 @@ def membership_signup(request):
         'client_secret': 'test_client_secret',
     }
     return render(request, 'memberships/membership_signup.html', context)
-
-
 
 
 @user_passes_test(user_profile_check, login_url='../memberships/membership_signup')
@@ -119,6 +121,8 @@ def checkout(request):
         except Exception as e:
             print(e)
             return JsonResponse({'error': (e.args[0])}, status=403)
+    else:
+        return redirect('/account/login')
 
     context = {
         'current_profile': current_profile,
@@ -128,3 +132,10 @@ def checkout(request):
         'client_secret': 'test_client_secret',
     }
     return render(request, 'memberships/checkout.html', context)
+
+
+@csrf_exempt
+def stripe_config(request):
+    if request.method == 'GET':
+        stripe_config = {'publicKey': settings.STRIPE_PUBLISHABLE_KEY}
+        return JsonResponse(stripe_config, safe=False)
