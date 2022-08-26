@@ -2,7 +2,6 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
-from activities.models import Activity
 
 # Create your models here.
 
@@ -11,15 +10,13 @@ class Profile(models.Model):
     """User profile model"""
 
     id = models.BigAutoField(primary_key=True)
-    membership = models.ForeignKey(
-        'memberships.Membership', on_delete=models.PROTECT, null=True)
+    is_subscribed = models.BooleanField(default=False)
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
     bio = models.TextField(max_length=300, blank=True)
     signup_date = models.DateTimeField(auto_now_add=True)
     image = models.ImageField(blank=True, null=True)
-    activities = models.ManyToManyField(Activity)
 
     # billing information
     phone_number = models.CharField(max_length=20, null=True, blank=True)

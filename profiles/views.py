@@ -5,6 +5,8 @@ from .models import Profile
 from .forms import ProfileForm
 
 # Create your views here.
+
+
 def user_profile_check(user):
     """
     Checks if a profile is associated with this user
@@ -15,12 +17,12 @@ def user_profile_check(user):
             current_profile = get_object_or_404(Profile, user=user)
         except Profile.DoesNotExist:
             pass
-        if current_profile.membership:
+        if current_profile.is_subscribed:
             existing_user = True
     else:
         existing_user = True
     return existing_user
-    
+
 
 @user_passes_test(user_profile_check, login_url='../memberships/membership_signup')
 @login_required
@@ -40,11 +42,9 @@ def profile_page(request, key):
     """A view to return the individual profile page"""
 
     current_profile = get_object_or_404(Profile, pk=key)
-    member_activity_list = current_profile.activities.all()
 
     context = {
         'current_profile': current_profile,
-        'member_activity_list': member_activity_list,
         }
     return render(request, 'profiles/profile_page.html', context)
 
@@ -55,7 +55,6 @@ def edit_profile(request, key):
     """A view to edit member profiles"""
 
     current_profile = get_object_or_404(Profile, pk=key)
-    member_activity_list = current_profile.activities.all()
 
     if request.method == 'POST':
         form = ProfileForm(request.POST, instance=current_profile)
@@ -70,7 +69,5 @@ def edit_profile(request, key):
     context = {
         'form': form,
         'current_profile': current_profile,
-        'member_activity_list': member_activity_list,
         }
     return render(request, 'profiles/edit_profile.html', context)
-

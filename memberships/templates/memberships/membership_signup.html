@@ -10,10 +10,6 @@
 <link rel="stylesheet" href="{% static 'memberships/css/memberships.css' %}">
 {% endblock %}
 
-{% block extra_js %}
-<script src="{% static '/memberships/js/memberships.js' %}"></script> 
-{% endblock %}
-
 {% block content %}
 
 <div class="big-title-text my-5 text-center">
@@ -33,12 +29,6 @@
                     {{ form.bio | as_crispy_field }}
                     <hr class="my-5">
                     {{ form.image | as_crispy_field }}
-                </fieldset>
-                <hr class="my-3">
-                <fieldset class="rounded px-3 mb-5">
-                    <legend class="fieldset-label med-title-text px-2 w-auto">Membership Options</legend>
-                    {{ form.membership | as_crispy_field }}
-                    {{ form.activities | as_crispy_field }}
                 </fieldset>
                 <hr class="my-3">
                 <fieldset class="rounded px-3 mb-5">
@@ -64,7 +54,7 @@
         </div>
     </div>
     <div class="row my-5 text-center">
-        <a class="custom-btn" href="{% url 'memberships' %}" role="button" data-ripple-color="primary">
+        <a class="custom-btn" href="{% url 'club_page' %}" role="button" data-ripple-color="primary">
             Go Back <i class="fas fa-undo-alt"></i>
         </a>
     </div>

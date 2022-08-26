@@ -19,7 +19,7 @@
     <div class="med-title-text mb-2"><u>Username</u>: <span class="answer-title-text">{{ current_profile.user }}</span>
     </div>
     <div class="med-title-text mb-3"><u>Membership</u>: <span
-            class="answer-title-text">{{ current_profile.membership }}</span></div>
+            class="answer-title-text">{{ current_profile.is_subscribed }}</span></div>
     <div class="p-2">
         <a class="custom-btn m-0" href="{% url 'edit_profile' current_profile.id %}" role="button"
             data-ripple-color="primary">
@@ -39,15 +39,6 @@
             <div class="col-lg-8">
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-xl-6 col-md-5">
-                            <div class="med-title-text mt-3"><u>Activities</u></div>
-                            <div class="body-text mb-2">
-                                {% for activity in member_activity_list %}
-                                <div>{{ activity }}</div>
-                                {% endfor %}
-                            </div>
-                            <div class="med-title-text mt-3"><u>Bookings</u></div>
-                        </div>
                         <div class="col-xl-6 col-md-7">
                             <div class="med-title-text mt-2"><u>Bio</u></div>
                             <div class="body-text mb-2">{{ current_profile.bio }}</div>

@@ -1,8 +1,6 @@
 
 from django import forms
 from profiles.models import Profile
-from activities.models import Activity
-
 
 class SignupForm(forms.ModelForm):
     class Meta:
@@ -10,9 +8,9 @@ class SignupForm(forms.ModelForm):
         exclude = (
             'user',
             'signup_date',
+            'stripe_customer_id',
+            'stripe_subscription_id',
         )
-
-    activities = forms.ModelMultipleChoiceField(queryset=Activity.objects.all(), required=True, widget=forms.CheckboxSelectMultiple)
 
     def __init__(self, *args, **kwargs):
         """
@@ -24,8 +22,7 @@ class SignupForm(forms.ModelForm):
             'last_name': 'Last Name',
             'bio': 'Bio',
             'image': 'Upload a profile picture',
-            'membership': 'Membership',
-            'activities': 'Activities',
+            'is_subscribed': 'Membership',
             'phone_number': 'Phone Number',
             'email': 'Email',
             'street_address1': 'Street Address 1',
@@ -40,8 +37,7 @@ class SignupForm(forms.ModelForm):
             'last_name': 'Last Name',
             'bio': 'Bio',
             'image': 'Upload a profile picture',
-            'membership': 'Membership',
-            'activities': 'Activities',
+            'is_subscribed': 'Membership',
             'phone_number': 'Phone Number',
             'email': 'Email',
             'street_address1': 'Street Address 1',

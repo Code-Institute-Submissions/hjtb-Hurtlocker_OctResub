@@ -12,7 +12,6 @@
 {% endblock %}
 
 {% block extra_js %}
-<script src="{% static '/memberships/js/memberships.js' %}"></script> 
 <script src="{% static '/memberships/js/stripe_elements.js' %}"></script> 
 {% endblock %}
 
@@ -36,13 +35,13 @@
                 <div id="button-container" class="form-row justify-content-center">
                     <div class="form-group mt-3 col-sm-6">
                         <button class="custom-btn form-control" id="save-profile" type="submit">
-                            Subscribe <i class="far fa-check"></i>
+                            Subscribe <i class="fa-solid fa-paper-plane"></i>
                         </button>
                     </div>
                 </div>
             </form>
             <div class="mb-5 text-center">
-                <a class="custom-btn" href="{% url 'memberships' %}" role="button" data-ripple-color="primary">
+                <a class="custom-btn" href="{% url 'membership_signup' %}" role="button" data-ripple-color="primary">
                     Go Back <i class="fas fa-undo-alt"></i>
                 </a>
             </div>

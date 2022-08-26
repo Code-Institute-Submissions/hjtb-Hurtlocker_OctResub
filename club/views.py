@@ -1,7 +1,6 @@
 from django.shortcuts import render, redirect, get_list_or_404, get_object_or_404
 from django.contrib.auth.decorators import user_passes_test
 from activities.models import Activity
-from memberships.models import Membership
 from profiles.models import Profile
 
 # Create your views here.
@@ -17,7 +16,7 @@ def user_profile_check(user):
             current_profile = get_object_or_404(Profile, user=user)
         except Profile.DoesNotExist:
             pass
-        if current_profile.membership:
+        if current_profile.is_subscribed:
             existing_user = True
     else:
         existing_user = True
@@ -31,11 +30,9 @@ def club_page(request):
     """
 
     activity_list = get_list_or_404(Activity)
-    membership_list = get_list_or_404(Membership)
     profile_list = get_list_or_404(Profile)
 
     context = {'activity_list': activity_list,
-               'membership_list': membership_list,
                'profile_list': profile_list
                }
 

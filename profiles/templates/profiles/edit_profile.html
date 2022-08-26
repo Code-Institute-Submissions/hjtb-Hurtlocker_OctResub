@@ -24,16 +24,7 @@
                 <u>Membership</u>
             </div>
             <div class="answer-title-text">
-                {{ current_profile.membership }}
-            </div>
-        </div>
-
-        <div class="col-lg-4  text-center">
-            <div class="med-title-text my-3"><u>Activities</u></div>
-            <div class="answer-title-text">
-                {% for activity in member_activity_list %}
-                <div>{{ activity }}</div>
-                {% endfor %}
+                {{ current_profile.is_subscribed }}
             </div>
         </div>
     </div>
