@@ -20,12 +20,12 @@ class Profile(models.Model):
 
     # billing information
     phone_number = models.CharField(max_length=20, null=True, blank=True)
-    email = models.CharField(max_length=50, null=True, blank=True)
-    street_address1 = models.CharField(max_length=80, null=True, blank=True)
+    email = models.CharField(max_length=50, null=True)
+    street_address1 = models.CharField(max_length=80, null=True)
     street_address2 = models.CharField(max_length=80, null=True, blank=True)
-    city = models.CharField(max_length=40, null=True, blank=True)
-    county = models.CharField(max_length=80, null=True, blank=True)
-    postcode = models.CharField(max_length=20, null=True, blank=True)
+    city = models.CharField(max_length=40, null=True)
+    county = models.CharField(max_length=80, null=True)
+    postcode = models.CharField(max_length=20, null=True)
 
     # Stripe Customer Fields
     stripe_customer_id = models.CharField(

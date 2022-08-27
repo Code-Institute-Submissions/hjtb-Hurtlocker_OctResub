@@ -25,7 +25,12 @@
                 {% csrf_token %}
                 <fieldset class="rounded px-3">
                     <legend class="fieldset-label med-title-text px-2 w-auto">Payment</legend>
-                    <div id="payment-details" class="my-5"></div>
+                    <div id="payment-details" class="mt-5">
+                        <!-- Elements will create input elements here -->
+                    </div>
+                    <div id="card-input-errors" class="card-errors mb-5" role="alert">
+                        <!-- Used to display form errors -->
+                    </div>
                     <hr>
                 </fieldset>
                 <div id="button-container" class="form-row justify-content-center">
@@ -37,7 +42,7 @@
                 </div>
             </form>
             <div class="mb-5 text-center">
-                <a class="custom-btn" href="{% url 'membership_signup' %}" role="button" data-ripple-color="primary">
+                <a class="custom-btn" href="{% url 'membership_signup' %}" role="button">
                     Go Back <i class="fas fa-undo-alt"></i>
                 </a>
             </div>

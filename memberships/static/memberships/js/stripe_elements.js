@@ -21,6 +21,17 @@ $(document).ready(function () {
             iconColor: 'rgb(187, 0, 0)'
         }
     };
-    var card = elements.create('card', {style: style});
+    var card = elements.create('card', { style: style });
     card.mount('#payment-details');
+    function showCardError(event) {
+        let showErrorDiv = document.getElementById('card-input-errors');
+        if (event.error) {
+            showErrorDiv.textContent = event.error.message;
+        } else {
+            showErrorDiv.textContent = '';
+        }
+    }
+    card.addEventListener('change', function (event) {
+        showCardError(event);
+    });
 })

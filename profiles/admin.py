@@ -11,6 +11,7 @@ class ProfileAdmin(admin.ModelAdmin):
         'user',
         'first_name',
         'last_name',
+        'email',
         'bio',
         'signup_date',
         'image',

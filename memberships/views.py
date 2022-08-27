@@ -21,7 +21,7 @@ def user_profile_check(user):
             current_profile = get_object_or_404(Profile, user=user)
         except ObjectDoesNotExist:
             pass
-        if current_profile.is_subscribed:
+        if current_profile.first_name and current_profile.first_name:
             existing_user = True
     else:
         existing_user = True

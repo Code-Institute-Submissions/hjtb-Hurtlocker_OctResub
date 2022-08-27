@@ -3,25 +3,26 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required, user_passes_test
 from .models import Profile
 from .forms import ProfileForm
+from memberships.views import user_profile_check
 
 # Create your views here.
 
 
-def user_profile_check(user):
-    """
-    Checks if a profile is associated with this user
-    """
-    existing_user = False
-    if user.is_authenticated:
-        try:
-            current_profile = get_object_or_404(Profile, user=user)
-        except Profile.DoesNotExist:
-            pass
-        if current_profile.is_subscribed:
-            existing_user = True
-    else:
-        existing_user = True
-    return existing_user
+# def user_profile_check(user):
+#     """
+#     Checks if a profile is associated with this user
+#     """
+#     existing_user = False
+#     if user.is_authenticated:
+#         try:
+#             current_profile = get_object_or_404(Profile, user=user)
+#         except Profile.DoesNotExist:
+#             pass
+#         if current_profile.is_subscribed:
+#             existing_user = True
+#     else:
+#         existing_user = True
+#     return existing_user
 
 
 @user_passes_test(user_profile_check, login_url='../memberships/membership_signup')
