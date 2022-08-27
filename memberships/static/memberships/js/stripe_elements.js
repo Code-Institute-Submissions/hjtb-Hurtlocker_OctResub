@@ -34,4 +34,25 @@ $(document).ready(function () {
     card.addEventListener('change', function (event) {
         showCardError(event);
     });
+    let submitButton = document.querySelector("#signupButton");
+    if (submitButton !== null) {
+        submitButton.addEventListener("click", () => {
+            fetch("/memberships/checkout", {
+                method: 'get',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then((result) => { return result.json(); })
+                .then((data) => {
+                    console.log(data);
+                    // Redirect to Stripe Checkout
+                    return stripe.redirectToCheckout({ sessionId: data.sessionId })
+                })
+                .then((res) => {
+                    console.log(res);
+                });
+        });
+    };
 })

@@ -1,10 +1,11 @@
 from django.shortcuts import render, get_list_or_404, get_object_or_404, redirect
 from django.contrib import messages
-from django.contrib.auth.decorators import user_passes_test
+from django.contrib.auth.decorators import user_passes_test, login_required
 from django.http import JsonResponse
 from django.core.exceptions import ObjectDoesNotExist
 from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
+import stripe
 
 from profiles.models import Profile
 from .forms import SignupForm
@@ -28,6 +29,7 @@ def user_profile_check(user):
     return existing_user
 
 
+@login_required
 def membership_signup(request):
     """
     Get information from the user before they pay
@@ -54,16 +56,16 @@ def membership_signup(request):
 
     context = {
         'form': form,
-        'stripe_public_key': 'pk_test_51LUx5ZHw2Z3gzQYHe5Ys0QQKavkVo0tb9d7tphwAZmqEwN69LGV8YXhqenqOHeJv2JTOeD274sYSEGc37IXtr2SH00KHTpeI4p',
-        'client_secret': 'test_client_secret',
     }
     return render(request, 'memberships/membership_signup.html', context)
 
 
+@login_required
 def checkout(request):
     """
     A view to allow users to checkout
     """
+    is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
 
     if request.user.is_authenticated:
         try:
@@ -72,18 +74,48 @@ def checkout(request):
             print(e)
             return JsonResponse({'error': (e.args[0])}, status=403)
     else:
-        return redirect('/account/login')
+        return redirect('/accounts/login')
+
+    if current_profile.is_subscribed:
+        return redirect('/club')
+
+    else:
+        domain_url = 'localhost:8000/'
+        stripe_public_key = settings.STRIPE_PUBLIC_KEY
+        stripe_secret_key = settings.STRIPE_SECRET_KEY
+        stripe.api_key = settings.STRIPE_SECRET_KEY
+        price_id = settings.STRIPE_PRICE_ID
+        customer_id = current_profile.stripe_customer_id
+        billing_name = current_profile.first_name
+        billing_email = current_profile.email
+
+    if is_ajax:
+        try:
+            checkout_session = stripe.checkout.Session.create(
+                client_reference_id=request.user.id,
+                success_url=domain_url + 'success?session_id={CHECKOUT_SESSION_ID}',
+                cancel_url=domain_url + 'memberships/signup/',
+                payment_method_types=['card'],
+                mode='subscription',
+                line_items=[
+                    {
+                        'price': settings.STRIPE_PRICE_ID,
+                        'quantity': 1,
+                    }
+                ]
+            )
+            return JsonResponse({'sessionId': checkout_session['id']})
+        except Exception as e:
+            return JsonResponse({'error': str(e)})
 
     context = {
         'current_profile': current_profile,
-        'stripe_public_key': 'pk_test_51LUx5ZHw2Z3gzQYHe5Ys0QQKavkVo0tb9d7tphwAZmqEwN69LGV8YXhqenqOHeJv2JTOeD274sYSEGc37IXtr2SH00KHTpeI4p',
+        'stripe_public_key': stripe_public_key,
+        'stripe_secret_key': stripe_secret_key,
+        'price_id': price_id,
+        'customer_id': customer_id,
+        'billing_name': billing_name,
+        'billing_email': billing_email,
         'client_secret': 'test_client_secret',
     }
     return render(request, 'memberships/checkout.html', context)
-
-
-@csrf_exempt
-def stripe_config(request):
-    if request.method == 'GET':
-        stripe_config = {'publicKey': settings.STRIPE_PUBLIC_KEY}
-        return JsonResponse(stripe_config, safe=False)
