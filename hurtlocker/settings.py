@@ -187,6 +187,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 # Stripe
+STRIPE_CURRENCY = 'eur'
+STRIPE_PRICE_ID = 'price_1Lb6i4Hw2Z3gzQYHcWReC3No'
+
 if 'STRIPE_PUBLIC_KEY' in os.environ:
     STRIPE_PUBLIC_KEY = os.environ.get('STRIPE_PUBLIC_KEY', '')
 else:
@@ -197,5 +200,7 @@ if 'STRIPE_SECRET_KEY' in os.environ:
 else:
     STRIPE_SECRET_KEY = config('STRIPE_SECRET_KEY')
 
-STRIPE_CURRENCY = 'eur'
-STRIPE_PRICE_ID = 'price_1Lb6i4Hw2Z3gzQYHcWReC3No'
+if 'STRIPE_ENDPOINT_SECRET' in os.environ:
+    STRIPE_ENDPOINT_SECRET = os.environ.get('STRIPE_ENDPOINT_SECRET', '')
+else:
+    STRIPE_ENDPOINT_SECRET = config('STRIPE_ENDPOINT_SECRET')
