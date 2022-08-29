@@ -1,10 +1,9 @@
-
 from django.conf import settings
 from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 import stripe
-#from memberships.webhook_handler import Stripe_Webhook_Handler
+from memberships.webhook_handler import Stripe_Webhook_Handler
 
 
 @require_POST
@@ -35,30 +34,17 @@ def webhooks(request):
     except Exception as e:
         print(e)
         return JsonResponse({'error': (e.args[0])}, status=403)
-        
-    print(event)
-    return HttpResponse(content="SUCCESS!!", status=200)
 
-    # Handle the checkout.session.completed event
-    # if event['type'] == 'checkout.session.completed':
-    #     session = event['data']['object']
-    #     try:
-    #         current_profile = get_object_or_404(Profile, user=request.user)
-    #         stripe.api_key = settings.STRIPE_SECRET_KEY
-    #     except Exception as e:
-    #         return JsonResponse({'error': (e.args[0])}, status=403)
-    #         print(e)
+    handler = Stripe_Webhook_Handler(request)
 
-    #     # Fetch all the required data from session
-    #     session = stripe.checkout.Session.retrieve(request.GET.get('session_id'))
-    #     customer = stripe.Customer.retrieve(session.customer)
-    #     subscription = stripe.Subscription.retrieve(session.subscription)
-    #     current_profile.is_subscribed = True
-    #     current_profile.stripe_customer_id = customer.id
-    #     current_profile.stripe_subscription_id = subscription.id
-    #     try:
-    #         current_profile.save()
-    #     except Exception as e:
-    #         print(e)
-    #         return JsonResponse({'error': (e.args[0])}, status=403)
-    #     print(current_profile.user + ' just subscribed.')
+    event_map = {
+        'checkout.session.completed': handler.handle_checkout_success,
+        'invoice.paid': handler.handle_payment_succeeded,
+        'invoice.payment_failed': handler.handle_payment_failed,
+    }
+
+    event_type = event['type']
+    event_handler = event_map.get(event_type, handler.handle_event)
+
+    response = event_handler(event)
+    return response
