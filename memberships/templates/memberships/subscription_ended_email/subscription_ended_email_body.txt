@@ -1,0 +1,11 @@
+Hi {{ email_data.first_name }},
+
+We're really sorry to see you go!
+
+This email confirms your membership will end on it's next renewal date.
+
+You can book classes until this subscription ends on the {{subscription_end}}.
+
+Your card won't be charged again unless you resubscribe.
+
+Thanks for being a part of the Hurtlocker Team.

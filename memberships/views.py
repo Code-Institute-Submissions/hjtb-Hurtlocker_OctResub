@@ -11,7 +11,6 @@ from profiles.models import Profile
 from .forms import SignupForm
 
 
-# Create your views here.
 def user_profile_check(user):
     """
     Checks if a profile is associated with the user
@@ -21,7 +20,7 @@ def user_profile_check(user):
         try:
             current_profile = get_object_or_404(Profile, user=user)
         except ObjectDoesNotExist:
-            pass
+            current_profile = None
         if current_profile.first_name and current_profile.last_name:
             user_has_profile = True
     else:

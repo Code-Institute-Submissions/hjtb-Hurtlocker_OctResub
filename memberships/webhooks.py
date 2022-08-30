@@ -27,10 +27,12 @@ def webhooks(request):
         # Invalid payload
         print(e)        
         return HttpResponse(status=400)
+
     except stripe.error.SignatureVerificationError as e:
         # Invalid signature
         print(e)
         return HttpResponse(status=400)
+
     except Exception as e:
         print(e)
         return JsonResponse({'error': (e.args[0])}, status=403)
@@ -38,8 +40,9 @@ def webhooks(request):
     handler = Stripe_Webhook_Handler(request)
 
     event_map = {
-        'checkout.session.completed': handler.handle_checkout_success,
-        'invoice.paid': handler.handle_payment_succeeded,
+        'checkout.session.completed': handler.handle_checkout_complete,
+        'customer.subscription.deleted': handler.handle_subscription_deleted,
+        'invoice.payment_succeeded': handler.handle_payment_succeeded,
         'invoice.payment_failed': handler.handle_payment_failed,
     }
 

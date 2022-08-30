@@ -1,0 +1,7 @@
+Hi {{ email_data.first_name }},
+
+We would like to thank you for your subscription payment on {{ last_payment }}
+
+Your next payment isn't due until one year from that payment date.
+
+We hope you enjoy the perks of being a member of the Hurtlocker.
