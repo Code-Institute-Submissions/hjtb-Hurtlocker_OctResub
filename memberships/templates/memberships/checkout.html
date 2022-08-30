@@ -17,40 +17,48 @@
 </div>
 <div class="container">
     <hr>
-    <div class="row">
-        <div class="col-xl-6 offset-xl-3 col-lg-8 offset-lg-2">
-            <form class="form-text" role="form" action="{% url 'create_checkout_session' %}" method="POST">
-                {% csrf_token %}
-                <fieldset class="rounded px-3">
-                    <legend class="fieldset-label med-title-text px-2 w-auto">Payment</legend>
-                    <div id="payment-details" class="mt-5">
-                        <!-- Elements will create input elements here -->
-                    </div>
-                    <div id="card-input-errors" class="card-errors mt-1 mb-5 text-center" role="alert">
-                        <!-- Used to display form errors -->
-                    </div>
-                    <hr>
-                </fieldset>
-                <div id="button-container" class="form-row justify-content-center">
-                    <div class="form-group mt-3 col-sm-6">
-                        <input type="hidden" name="priceId" value="{{ price_id }}"/>
-                        <button id="signupButton" class="custom-btn form-control" type="submit">
-                            Subscribe <i class="fa-solid fa-paper-plane"></i>
-                        </button>
-                    </div>
-                </div>
-            </form>
-            <div class="mb-5 text-center">
-                <a class="custom-btn" href="{% url 'membership_signup' %}" role="button">
-                    Go Back <i class="fas fa-undo-alt"></i>
-                </a>
+    <form class="form-text" role="form" action="{% url 'create_checkout_session' %}" method="POST">
+        {% csrf_token %}
+        <div class="row my-5">
+            <div class="col-12 med-title-text text-center">
+                <u>Price</u>:
             </div>
-            <!-- <form action="{% url 'create_checkout_session' %}" method="POST">
-
-                <input type="hidden" name="priceId" value="{{ price_id }}" />
-                <button type="submit">Checkout</button>
-            </form> -->
+            <div class="col-12 answer-title-text text-center">
+                {{ price }}
+            </div>
         </div>
+        <div class="row my-5">
+            <div class="col-12 med-title-text text-center">
+                <u>Subscription Details</u>:
+            </div>
+            <div class="col-xl-6 offset-xl-3 col-m-8 offset-m-2 answer-title-text text-center">
+                {{ subscription_details }}
+            </div>
+        </div>
+        <div class="row my-5">
+            <div class="col-12 med-title-text text-center">
+                <u>Billing Details</u>:
+            </div>
+            <div class="col-xl-6 offset-xl-3 col-m-8 offset-m-2 answer-title-text text-center">
+                {{ billing_name }}
+                <br>
+                {{ billing_email }}
+            </div>
+        </div>
+        <hr>
+        <div id="button-container" class="form-row justify-content-center">
+            <div class="form-group mt-3 col-sm-6">
+                <input type="hidden" name="priceId" value="{{ price_id }}"/>
+                <button id="signupButton" class="custom-btn form-control" type="submit">
+                    Subscribe <i class="fa-solid fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+    </form>
+    <div class="mb-5 text-center">
+        <a class="custom-btn" href="{% url 'membership_signup' %}" role="button">
+            Go Back <i class="fas fa-undo-alt"></i>
+        </a>
     </div>
 </div>
 {% endblock %}

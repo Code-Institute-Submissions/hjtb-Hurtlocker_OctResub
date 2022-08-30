@@ -1,6 +1,6 @@
 Hi {{ email_data.first_name }},
 
-We would like to thank you for your subscription payment on {{ last_payment }}
+We would like to thank you for your subscription payment at {{ email_data.last_payment }}
 
 Your next payment isn't due until one year from that payment date.
 

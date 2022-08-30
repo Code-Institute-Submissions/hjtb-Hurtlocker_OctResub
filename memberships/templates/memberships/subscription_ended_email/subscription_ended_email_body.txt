@@ -4,7 +4,7 @@ We're really sorry to see you go!
 
 This email confirms your membership will end on it's next renewal date.
 
-You can book classes until this subscription ends on the {{subscription_end}}.
+You can book classes until this subscription ends on the {{ email_data.subscription_end }}.
 
 Your card won't be charged again unless you resubscribe.
 

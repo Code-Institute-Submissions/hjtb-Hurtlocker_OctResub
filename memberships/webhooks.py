@@ -3,7 +3,7 @@ from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 import stripe
-from memberships.webhook_handler import Stripe_Webhook_Handler
+from .webhook_handler import Stripe_Webhook_Handler
 
 
 @require_POST

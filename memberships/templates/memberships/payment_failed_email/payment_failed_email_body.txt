@@ -2,7 +2,7 @@ Hi {{ email_data.first_name }},
 
 We are just letting you know that we have put your membership on hold for the minute. 
 
-We attempted to collect your subscription but it failed.
+We attempted to collect your subscription at {{ email_data.last_payment }} but it failed.
 
 This could be as a result of a card expiry or other error.
 

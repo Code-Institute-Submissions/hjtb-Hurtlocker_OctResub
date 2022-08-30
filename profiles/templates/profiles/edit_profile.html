@@ -35,18 +35,10 @@
                     {{ form.bio | as_crispy_field }}
                     <hr class="my-5">
                     {{ form.image }}
-                </fieldset>
-                <hr class="my-3">
-                <fieldset class="rounded px-3 mb-5">
-                    <legend class="fieldset-label med-title-text px-2 w-auto"><u>Billing Details</u></legend>
                     {{ form.email  | as_crispy_field }}
                     {{ form.phone_number  | as_crispy_field }}
-                    {{ form.street_address1  | as_crispy_field }}
-                    {{ form.street_address2  | as_crispy_field }}
-                    {{ form.city  | as_crispy_field }}
-                    {{ form.county  | as_crispy_field }}
-                    {{ form.postcode  | as_crispy_field }}
                 </fieldset>
+                <hr class="my-3">
                 <div id="button-container" class="form-row justify-content-center">
                     <div class="form-group mt-3 col-sm-6">
                         <button class="custom-btn form-control" id="save-profile"

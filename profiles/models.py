@@ -1,9 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.db.models.signals import post_save, post_delete
+from django.db.models.signals import post_save
 from django.dispatch import receiver
-
-# Create your models here.
+from django.contrib.auth import get_user_model
 
 
 class Profile(models.Model):
@@ -17,15 +16,8 @@ class Profile(models.Model):
     bio = models.TextField(max_length=300, blank=True)
     signup_date = models.DateTimeField(auto_now_add=True)
     image = models.ImageField(blank=True, null=True)
-
-    # billing information
     phone_number = models.CharField(max_length=20, null=True, blank=True)
     email = models.CharField(max_length=50, null=True)
-    street_address1 = models.CharField(max_length=80, null=True)
-    street_address2 = models.CharField(max_length=80, null=True, blank=True)
-    city = models.CharField(max_length=40, null=True)
-    county = models.CharField(max_length=80, null=True)
-    postcode = models.CharField(max_length=20, null=True)
 
     # Stripe Customer Fields
     stripe_customer_id = models.CharField(

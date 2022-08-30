@@ -25,11 +25,6 @@ class SignupForm(forms.ModelForm):
             'is_subscribed': 'Membership',
             'phone_number': 'Phone Number',
             'email': 'Email',
-            'street_address1': 'Street Address 1',
-            'street_address2': 'Street Address 2',
-            'city': 'City',
-            'county': 'County',
-            'postcode': 'Postcode',
         }
 
         placeholders = {
@@ -40,11 +35,6 @@ class SignupForm(forms.ModelForm):
             'is_subscribed': 'Membership',
             'phone_number': 'Phone Number',
             'email': 'Email',
-            'street_address1': 'Street Address 1',
-            'street_address2': 'Street Address 2',
-            'city': 'City',
-            'county': 'County',
-            'postcode': 'Postcode',
         }
 
         for field in self.fields:
