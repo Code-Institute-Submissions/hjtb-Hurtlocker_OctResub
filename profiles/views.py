@@ -1,11 +1,13 @@
 from django.shortcuts import render, get_object_or_404, get_list_or_404, redirect
 from django.contrib import messages
+from django.contrib.auth.models import User
 from django.conf import settings
 from django.contrib.auth.decorators import login_required, user_passes_test
 from .models import Profile
 from .forms import ProfileForm
 from memberships.views import user_profile_check
 from activities.models import Activity
+import stripe
 
 # Create your views here.
 
@@ -14,6 +16,10 @@ from activities.models import Activity
 @login_required
 def all_profiles(request):
     """A view to show all profiles"""
+
+    if not request.user.is_staff:
+# MESSAGE
+        return redirect('club_page')
 
     profile_list = get_list_or_404(Profile)
 
@@ -34,12 +40,9 @@ def profile_page(request, key):
 
     activities = get_list_or_404(Activity)
 
-    customer_portal_url = settings.STRIPE_CUSTOMER_PORTAL_URL
-
     context = {
         'current_profile': current_profile,
         'activities': activities,
-        'customer_portal_url': customer_portal_url,
         }
     return render(request, 'profiles/profile_page.html', context)
 
@@ -50,6 +53,7 @@ def edit_profile(request, key):
     """A view to edit member profiles"""
 
     current_profile = get_object_or_404(Profile, pk=key)
+    current_user = get_object_or_404(User, email=current_profile.email)
 
     if request.method == 'POST':
         form = ProfileForm(request.POST, instance=current_profile)
@@ -64,5 +68,26 @@ def edit_profile(request, key):
     context = {
         'form': form,
         'current_profile': current_profile,
+        'current_user': current_user,
         }
     return render(request, 'profiles/edit_profile.html', context)
+
+
+@user_passes_test(user_profile_check, login_url='../memberships/membership_signup')
+@login_required
+def manage_subscription(request):
+    """
+    A view to let members access the stript billing portal
+    """
+
+    current_profile = get_object_or_404(Profile, user=request.user)
+    customer_id = current_profile.stripe_customer_id
+    stripe.api_key = settings.STRIPE_SECRET_KEY
+    return_url = 'https://8000-hjtb-hurtlockerv1-zs2xiyzn5y4.ws-eu63.gitpod.io/club'
+
+    session = stripe.billing_portal.Session.create(
+        customer=customer_id,
+        return_url=return_url,
+    )
+
+    return redirect(session.url, code=303)

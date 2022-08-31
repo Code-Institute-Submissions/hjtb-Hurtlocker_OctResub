@@ -172,10 +172,10 @@ class Stripe_Webhook_Handler:
 
         user_email = email_data['email']
         subject = render_to_string(
-            'memberships/new_subscription_email/new_subscription_email_subject.txt',
+            'memberships/renewed_subscription_email/renewed_subscription_email_subject.txt',
             {'email_data': email_data})
         body = render_to_string(
-            'memberships/new_subscription_email/new_subscription_email_body.txt',
+            'memberships/renewed_subscription_email/renewed_subscription_email_body.txt',
             {'email_data': email_data,
              'contact_email': settings.DEFAULT_FROM_EMAIL})
 
@@ -186,22 +186,25 @@ class Stripe_Webhook_Handler:
         """
         A view to handle subscription updates
         """
-        session = event['data']['object']
-        customer = stripe.Customer.retrieve(session.customer)
-        customer_email = customer.email
-        subscription = session.id
 
+        stripe.api_key = settings.STRIPE_SECRET_KEY
+        session = event['data']['object']
         try:
+            customer = stripe.Customer.retrieve(session.customer)
+            customer_email = customer.email
+            subscription = session.id
             current_profile = get_object_or_404(
                 Profile, email=customer_email
                 )
-            stripe.api_key = settings.STRIPE_SECRET_KEY
 
         except Exception as e:
             print(e)
             return HttpResponse(
                 content=f'Webhook received: {event["type"]}.\
                     Profile or subscription does not exist', status=404)
+
+
+
 
         if session.canceled_at:
             cancelled_seconds = session.canceled_at
@@ -225,7 +228,10 @@ class Stripe_Webhook_Handler:
                 }
 
                 self._membership_deleted_email(email_data)
-
+                return HttpResponse(
+                    content=f"""Webhook received: {event['type']},
+                    {subscription} renewed""", status=200
+                )
             except Exception as e:
                 print(e)
                 return HttpResponse(
@@ -239,7 +245,7 @@ class Stripe_Webhook_Handler:
                 subscription_end_seconds).strftime("%d %B %Y")
             current_profile.is_subscribed = True
             current_profile.subscription_end = subscription_end_seconds
-            current_profile.stripe_customer_id = customer
+            current_profile.stripe_customer_id = customer.id
             current_profile.stripe_subscription_id = subscription
 
             try:
@@ -247,6 +253,8 @@ class Stripe_Webhook_Handler:
                 email_data = {
                     'first_name': current_profile.first_name,
                     'email': current_profile.email,
+                    'subscription': subscription,
+                    'customer': customer.id,
                 }
 
                 self._renewed_subscription_email(email_data)
@@ -267,6 +275,7 @@ class Stripe_Webhook_Handler:
         """
         send an email when a payment fails
         """
+
         user_email = email_data['email']
         subject = render_to_string(
             'memberships/payment_failed_email/payment_failed_email_subject.txt',
@@ -283,6 +292,7 @@ class Stripe_Webhook_Handler:
         """
         Remove user access and direct them to the customer portal
         """
+
         session = event['data']['object']
         customer_email = session.customer_email
         last_payment = datetime.fromtimestamp(

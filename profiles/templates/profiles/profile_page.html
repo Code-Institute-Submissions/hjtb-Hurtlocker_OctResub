@@ -23,7 +23,7 @@
         </a>
     </div>
     <div class="p-2">
-        <a class="custom-btn m-0" href="{{ customer_portal_url }}" role="button"
+        <a class="custom-btn m-0" href="{% url 'manage_subscription' %}" role="button"
             data-ripple-color="primary">
             Manage Subscription <i class="fa-solid fa-pen-to-square"></i>
         </a>
@@ -42,10 +42,20 @@
                     <div class="row">
                         <div class="col-lg-6 offset-lg-0 col-10 offset-1">
                             <div class="med-title-text mb-2">
-                                <u>Username</u>: <span class="answer-title-text">{{ current_profile.user }}</span>
+                                <u>Username</u>: 
+                                <br>
+                                <span class="answer-title-text">{{ current_profile.user }}</span>
                             </div>
-                            <div class="med-title-text mb-3"><u>Subscribed</u>: <span
-                                    class="answer-title-text">{{ current_profile.is_subscribed }}</span></div>
+                            <div class="med-title-text mb-3"><u>Subscribed</u>: 
+                                <br>
+                                <span class="answer-title-text">{{ current_profile.is_subscribed }}</span>
+                            </div>
+                            <div class="med-title-text mb-3">
+                                <u>Email</u>: 
+                            </div>
+                            <div class="body-text mb-3">
+                                {{ current_profile.email }}
+                            </div>
                         </div>
                         <div class="col-lg-6 offset-lg-0 col-10 offset-1">
                             <div class="med-title-text mt-2"><u>Bookings</u></div>

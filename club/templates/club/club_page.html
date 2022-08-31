@@ -5,7 +5,7 @@
     <div class="my-5 big-title-text">
         Hurtlocker
     </div>
-    <div class="row text-center">
+    <div class="row mt-5 text-center">
         <div class="col-lg-8 offset-lg-2">
             <div class="body-text">
                 <p class="med-title-text">About</p>
@@ -53,6 +53,13 @@
             </div>
         </div>
     </div>
+    {% if user.is_authenticated %}
+    <div class="p-2">
+        <a class="custom-btn m-0" href="{% url 'profile_page' current_profile.id %}" role="button" data-ripple-color="primary">
+            View Your Profile <i class="fa-solid fa-user"></i>
+        </a>
+    </div>
+    {% endif %}
     <div class="row my-5">
         <div class="col-12 my-5">
             <div class="med-title-text">

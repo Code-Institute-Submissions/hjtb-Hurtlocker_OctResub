@@ -8,25 +8,33 @@
     <div class="collapse navbar-collapse" id="navbar">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-                <a class="nav-link" href="{% url 'club_page' %}">Club</a>
+                <a class="nav-link" href="{% url 'club_page' %}">Club Page</a>
             </li>
+            {% if user.is_authenticated %}
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'activities' %}">Activities</a>
             </li>
+            {% endif %}
+            {% if user.is_staff %}
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'profiles' %}">Profiles</a>
             </li>
+            {% endif %}
         </ul>
         <ul class="navbar-nav navbar-right mr-4">
+            {% if user.is_anonymous %}
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'account_login' %}">Login</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{% url 'account_logout' %}">Logout</a>
-            </li>
-            <li class="nav-item">
                 <a class="nav-link" href="{% url 'account_signup' %}">Sign Up</a>
             </li>
+            {% endif %}
+            {% if user.is_authenticated %}
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'account_logout' %}">Logout</a>
+            </li>
+            {% endif %}
         </ul>
     </div>
 </nav>

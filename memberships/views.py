@@ -15,8 +15,9 @@ from .forms import SignupForm
 def user_profile_check(user):
     """
     Checks if a profile is associated with the user
+    and if their subscription is in date
     """
-    
+
     now = datetime.now()
     current_time = datetime.timestamp(now)
     user_has_profile = False
@@ -73,8 +74,6 @@ def checkout(request):
     """
     try:
         current_profile = get_object_or_404(Profile, user=request.user)
-        if current_profile.stripe_customer_id:
-            customer_id = current_profile.stripe_customer_id
     except Exception as e:
         return JsonResponse({'error': (e.args[0])}, status=403)
 
@@ -96,7 +95,6 @@ def checkout(request):
         'current_profile': current_profile,
         'stripe_public_key': stripe_public_key,
         'price': price,
-        'customer_id': customer_id,
         'billing_name': billing_name,
         'billing_email': billing_email,
         'client_secret': 'test_client_secret',
@@ -122,7 +120,7 @@ def create_checkout_session(request):
         if current_profile.stripe_customer_id:
             customer_id = current_profile.stripe_customer_id
             checkout_session = stripe.checkout.Session.create(
-                client_reference_id=request.user.id,
+                client_reference_id=request.current_profile.id,
                 customer=customer_id,
                 success_url=domain_url + 'memberships/checkout_success?session_id={CHECKOUT_SESSION_ID}',
                 cancel_url=domain_url + 'club/',

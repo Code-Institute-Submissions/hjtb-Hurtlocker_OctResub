@@ -12,11 +12,14 @@ def club_page(request):
     A view to return the club page
     """
 
+    current_profile = get_object_or_404(Profile, user=request.user)
+
     activity_list = get_list_or_404(Activity)
     profile_list = get_list_or_404(Profile)
 
     context = {'activity_list': activity_list,
-               'profile_list': profile_list
+               'profile_list': profile_list,
+               'current_profile': current_profile,
                }
 
     return render(request, 'club/club_page.html', context)

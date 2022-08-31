@@ -19,27 +19,27 @@
     <hr>
     <div class="row">
         <div class="col-xl-6 offset-xl-3 col-lg-8 offset-lg-2">
-            <div class="my-5 med-title-text">
+            <div class="my-t med-title-text">
                 Congratulations {{ current_profile.first_name }}!
                 <br>
             </div>
-            <div class="my-5 body-text">
+            <div class="my-b body-text">
                 You're officially in the Hurtlocker!
                 <br>
                 Head over to the club page to view our timetable and start booking classes
                 <br>
             </div>
-            <div class="my-5 med-title-text">
+            <div class="mt-5 med-title-text">
                 <u>Subscription Details</u>: 
                 <br>
             </div>
-            <div class="my-5 body-text">
+            <div class="mb-5 body-text">
                 Subscription id: {{ subscription }}
                 <br>
                 Customer id: {{ customer }}
                 <br>
             </div>
-            <a class="custom-btn mb-5" href="{% url 'club_page' %}" role="button">
+            <a class="custom-btn" href="{% url 'club_page' %}" role="button">
                 Club Page <i class="fa-solid fa-hand-fist"></i>
             </a>
         </div>
