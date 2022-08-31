@@ -8,6 +8,9 @@ This could be as a result of a card expiry or other error.
 
 If you would like to resubscribe just head over and log back in and resubscribe again.
 
+Alternatively you can manage your subscription using the following link:
+{{ email_data.customer_portal_url }}
+
 Hope to see you soon,
 
 The Hurtlocker Crew.

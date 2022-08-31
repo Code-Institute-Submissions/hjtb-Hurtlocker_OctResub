@@ -6,6 +6,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
 import stripe
+from datetime import datetime
 
 from profiles.models import Profile
 from .forms import SignupForm
@@ -15,12 +16,21 @@ def user_profile_check(user):
     """
     Checks if a profile is associated with the user
     """
+    
+    now = datetime.now()
+    current_time = datetime.timestamp(now)
     user_has_profile = False
     if user.is_authenticated:
         try:
             current_profile = get_object_or_404(Profile, user=user)
+            if current_profile.subscription_end:
+                if current_profile.subscription_end <= current_time:
+                    current_profile.is_subscribed = False
+            else:
+                pass
         except ObjectDoesNotExist:
             current_profile = None
+
         if current_profile.first_name and current_profile.last_name:
             user_has_profile = True
     else:
@@ -35,9 +45,8 @@ def membership_signup(request):
     """
     try:
         current_profile = get_object_or_404(Profile, user=request.user)
+        current_profile.email = request.user.email
         form = SignupForm(request.POST, instance=current_profile)
-        form.instance.email = request.user.email
-        form.initial["email"] = request.user.email
     except Exception as e:
         print(e)
         return JsonResponse({'error': (e.args[0])}, status=403)
@@ -80,7 +89,6 @@ def checkout(request):
         subscription_details = stripe.Product.retrieve(
             price_object.product
             ).description
-        customer_id = current_profile.stripe_customer_id
         billing_name = f"{current_profile.first_name} {current_profile.last_name}"
         billing_email = current_profile.email
 
@@ -158,16 +166,16 @@ def checkout_success(request):
         current_profile = get_object_or_404(Profile, user=request.user)
         stripe.api_key = settings.STRIPE_SECRET_KEY
         session = stripe.checkout.Session.retrieve(request.GET.get('session_id'))
-        customer = stripe.Customer.retrieve(session.customer)
-        subscription = stripe.Subscription.retrieve(session.subscription)
+        customer_id  = stripe.Customer.retrieve(session.customer).id
+        subscription_id  = stripe.Subscription.retrieve(session.subscription).id
     except Exception as e:
         print(e)
         return JsonResponse({'error': (e.args[0])}, status=403)
 
     context = {
         'session': session,
-        'customer': customer,
+        'customer': customer_id,
         'current_profile': current_profile,
-        'subscription': subscription,
+        'subscription': subscription_id,
     }
     return render(request, 'memberships/checkout_success.html', context)

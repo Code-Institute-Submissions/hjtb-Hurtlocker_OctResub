@@ -16,33 +16,42 @@
         {{ current_profile.first_name }} {{ current_profile.last_name }}
     </div>
     <hr>
-    <div class="med-title-text mb-2">
-        <u>Username</u>: <span class="answer-title-text">{{ current_profile.user }}</span>
-    </div>
-    <div class="med-title-text mb-3"><u>Subscribed</u>: <span
-            class="answer-title-text">{{ current_profile.is_subscribed }}</span></div>
     <div class="p-2">
         <a class="custom-btn m-0" href="{% url 'edit_profile' current_profile.id %}" role="button"
             data-ripple-color="primary">
             Edit Profile <i class="fas fa-user-edit"></i>
         </a>
     </div>
-    <hr>
+    <div class="p-2">
+        <a class="custom-btn m-0" href="{{ customer_portal_url }}" role="button"
+            data-ripple-color="primary">
+            Manage Subscription <i class="fa-solid fa-pen-to-square"></i>
+        </a>
+    </div>
     <div class="card card-bg my-5">
         <div class="row no-gutters">
-            <div class="col-lg-4 offset-lg-0 col-md-6 offset-md-3">
+            <div class="col-lg-4 offset-lg-0 col-sm-8 offset-sm-2 col-10 offset-1 p-2">
                 {% if current_profile.image %}
-                    <img class="img-fluid custom-images m-3" src="{{ current_profile.image.url }}" alt="Membership Image">
+                <img class="img-fluid custom-images" src="{{ current_profile.image.url }}" alt="Membership Image">
                 {% else %}
-                    <img class="card-img-top" src="{{ MEDIA_URL }}dummy.jpg" alt="Profile Image">
+                <img class="card-img-top" src="{{ MEDIA_URL }}dummy.jpg" alt="Profile Image">
                 {% endif %}
             </div>
-            <div class="col-lg-8">
-                <div class="card-body">
+            <div class="col-lg-8 col-12">
+                <div class="card-body m-2">
                     <div class="row">
-                        <div class="col-xl-6 col-md-7">
-                            <div class="med-title-text mt-2"><u>Bio</u></div>
-                            <div class="body-text mb-2">{{ current_profile.bio }}</div>
+                        <div class="col-lg-6 offset-lg-0 col-10 offset-1">
+                            <div class="med-title-text mb-2">
+                                <u>Username</u>: <span class="answer-title-text">{{ current_profile.user }}</span>
+                            </div>
+                            <div class="med-title-text mb-3"><u>Subscribed</u>: <span
+                                    class="answer-title-text">{{ current_profile.is_subscribed }}</span></div>
+                        </div>
+                        <div class="col-lg-6 offset-lg-0 col-10 offset-1">
+                            <div class="med-title-text mt-2"><u>Bookings</u></div>
+                            {% for activity in activities %}
+                            <div class="body-text mb-2">{{ activity }}</div>
+                            {% endfor %}
                         </div>
                     </div>
                 </div>

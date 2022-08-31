@@ -8,6 +8,7 @@ class ProfileForm(forms.ModelForm):
         exclude = (
             'user',
             'signup_date',
+            'subscription_end',
             'is_subscribed',
             'stripe_customer_id',
             'stripe_subscription_id',
@@ -21,7 +22,6 @@ class ProfileForm(forms.ModelForm):
         labels = {
             'first_name': 'First Name',
             'last_name': 'Last Name',
-            'bio': 'Bio',
             'image': 'Upload a profile picture',
             'phone_number': 'Phone Number',
             'email': 'Email',
@@ -30,7 +30,6 @@ class ProfileForm(forms.ModelForm):
         placeholders = {
             'first_name': 'First Name',
             'last_name': 'Last Name',
-            'bio': 'Bio',
             'image': 'Upload a profile picture',
             'phone_number': 'Phone Number',
             'email': 'Email',

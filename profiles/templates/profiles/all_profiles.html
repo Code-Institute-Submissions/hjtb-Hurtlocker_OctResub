@@ -19,7 +19,6 @@
                     {% else %}
                     <a href="{% url 'profile_page' profile.id %}">{{ profile.user }}</a>
                     {% endif %}
-
                 </div>
                 {% if profile.image %}
                 <img class="card-img-top" src="{{ profile.image.url }}" alt="Profile Image">
@@ -28,9 +27,7 @@
                 {% endif %}
                 <div class="card-body">
                     <div class="med-title-text">
-                        <u>
-                            Subscribed:
-                        </u>
+                        <u>Subscribed</u>:
                     </div>
                     <div class="answer-title-text">
                         {{ profile.is_subscribed }}

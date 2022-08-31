@@ -41,7 +41,8 @@ def webhooks(request):
 
     event_map = {
         'checkout.session.completed': handler.handle_checkout_complete,
-        'customer.subscription.deleted': handler.handle_subscription_deleted,
+        'customer.subscription.deleted': handler.handle_subscription_updated,
+        'customer.subscription.updated': handler.handle_subscription_updated,
         'invoice.payment_succeeded': handler.handle_payment_succeeded,
         'invoice.payment_failed': handler.handle_payment_failed,
     }

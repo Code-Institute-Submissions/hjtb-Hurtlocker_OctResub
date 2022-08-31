@@ -1,9 +1,11 @@
 from django.shortcuts import render, get_object_or_404, get_list_or_404, redirect
 from django.contrib import messages
+from django.conf import settings
 from django.contrib.auth.decorators import login_required, user_passes_test
 from .models import Profile
 from .forms import ProfileForm
 from memberships.views import user_profile_check
+from activities.models import Activity
 
 # Create your views here.
 
@@ -25,10 +27,19 @@ def all_profiles(request):
 def profile_page(request, key):
     """A view to return the individual profile page"""
 
-    current_profile = get_object_or_404(Profile, pk=key)
+    if key and request.user.is_staff:
+        current_profile = get_object_or_404(Profile, pk=key)
+    else:
+        current_profile = get_object_or_404(Profile, user=request.user)
+
+    activities = get_list_or_404(Activity)
+
+    customer_portal_url = settings.STRIPE_CUSTOMER_PORTAL_URL
 
     context = {
         'current_profile': current_profile,
+        'activities': activities,
+        'customer_portal_url': customer_portal_url,
         }
     return render(request, 'profiles/profile_page.html', context)
 

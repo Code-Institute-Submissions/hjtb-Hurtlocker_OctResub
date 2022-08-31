@@ -7,7 +7,9 @@ class SignupForm(forms.ModelForm):
         model = Profile
         exclude = (
             'user',
+            'email',
             'signup_date',
+            'subscription_end',
             'stripe_customer_id',
             'stripe_subscription_id',
         )
@@ -20,21 +22,17 @@ class SignupForm(forms.ModelForm):
         labels = {
             'first_name': 'First Name',
             'last_name': 'Last Name',
-            'bio': 'Bio',
             'image': 'Upload a profile picture',
             'is_subscribed': 'Membership',
             'phone_number': 'Phone Number',
-            'email': 'Email',
         }
 
         placeholders = {
             'first_name': 'First Name',
             'last_name': 'Last Name',
-            'bio': 'Bio',
             'image': 'Upload a profile picture',
             'is_subscribed': 'Membership',
             'phone_number': 'Phone Number',
-            'email': 'Email',
         }
 
         for field in self.fields:
