@@ -26,6 +26,7 @@
             <div class="med-title-text">
                 Activities
             </div>
+            {% if activity_list|length > 0 %}
             <div class="card card-bg">
                 <div>
                     {% for activity in activity_list %}
@@ -36,6 +37,7 @@
                     {% endfor %}
                 </div>
             </div>
+            {% endif %}
         </div>
         <div class="col-lg-6 my-5">
             <div class="med-title-text">

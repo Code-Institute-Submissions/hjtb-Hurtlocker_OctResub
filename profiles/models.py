@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.contrib.auth import get_user_model
+# from activities.models import Booking
 
 
 class Profile(models.Model):
@@ -10,6 +11,7 @@ class Profile(models.Model):
 
     id = models.BigAutoField(primary_key=True)
     is_subscribed = models.BooleanField(default=False)
+    # possibly change email to be reference field on the user - https://docs.djangoproject.com/en/4.1/ref/models/fields/#django.db.models.ForeignKey.to_field
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
@@ -18,6 +20,7 @@ class Profile(models.Model):
     image = models.ImageField(blank=True, null=True)
     phone_number = models.CharField(max_length=20, null=True, blank=True)
     email = models.CharField(max_length=50, null=True)
+    # bookings = models.ManyToManyField(Booking, blank=True)
 
     # Stripe Customer Fields
     stripe_customer_id = models.CharField(

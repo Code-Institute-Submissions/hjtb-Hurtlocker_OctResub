@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from .models import Profile
 from .forms import ProfileForm
 from memberships.views import user_profile_check
-from activities.models import Activity
+# from activities.models import Activity
 import stripe
 
 # Create your views here.
@@ -38,11 +38,14 @@ def profile_page(request, key):
     else:
         current_profile = get_object_or_404(Profile, user=request.user)
 
-    activities = get_list_or_404(Activity)
+    # try:
+    #     bookings = current_profile.bookings
+    # except:
+    #     bookings =[]
 
     context = {
         'current_profile': current_profile,
-        'activities': activities,
+        # 'bookings': bookings,
         }
     return render(request, 'profiles/profile_page.html', context)
 

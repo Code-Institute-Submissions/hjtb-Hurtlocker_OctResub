@@ -7,7 +7,7 @@ from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from datetime import datetime
 import stripe
-
+import os
 from profiles.models import Profile
 
 
@@ -297,7 +297,6 @@ class Stripe_Webhook_Handler:
         customer_email = session.customer_email
         last_payment = datetime.fromtimestamp(
             session.created).strftime("%H:%M:%S, %d %B %Y")
-        customer_portal_url = settings.STRIPE_CUSTOMER_PORTAL_URL
         try:
             current_profile = get_object_or_404(Profile, email=customer_email)
             current_profile.is_subscribed = False
@@ -306,7 +305,6 @@ class Stripe_Webhook_Handler:
                 'first_name': current_profile.first_name,
                 'email': current_profile.email,
                 'last_payment': last_payment,
-                'customer_portal_url': customer_portal_url,
             }
 
             self._payment_failed_email(email_data)

@@ -13,10 +13,13 @@ def club_page(request):
     """
 
     current_profile = get_object_or_404(Profile, user=request.user)
-
-    activity_list = get_list_or_404(Activity)
     profile_list = get_list_or_404(Profile)
 
+    try:
+        activity_list = get_list_or_404(Activity)
+    except:
+        activity_list =[]
+        
     context = {'activity_list': activity_list,
                'profile_list': profile_list,
                'current_profile': current_profile,
