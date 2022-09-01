@@ -10,7 +10,6 @@ class SignupForm(forms.ModelForm):
             'email',
             'signup_date',
             'subscription_end',
-            # 'bookings',
             'stripe_customer_id',
             'stripe_subscription_id',
         )

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Activity, Booking_Slot
+from .models import Activity, Booking_Slot, Booking
 
 
 # Register your models here.
@@ -7,7 +7,7 @@ from .models import Activity, Booking_Slot
 class ActivityAdmin(admin.ModelAdmin):
     list_display = (
         'id',
-        'name',
+        'activity_name',
         'description',
     )
 
@@ -15,19 +15,21 @@ class ActivityAdmin(admin.ModelAdmin):
 class Booking_SlotAdmin(admin.ModelAdmin):
     list_display = (
         'id',
-        'activity_id',
-        'start_time',
+        'activity',
+        'day',
+        'start_hour',
         'duration',
     )
 
 
-# class BookingAdmin(admin.ModelAdmin):
-#     list_display = (
-#         'id',
-#         'booking_slot',
-#     )
+class BookingAdmin(admin.ModelAdmin):
+    list_display = (
+        'id',
+        'member',
+        'booking_slot_used',
+    )
 
 
 admin.site.register(Activity, ActivityAdmin,)
 admin.site.register(Booking_Slot, Booking_SlotAdmin,)
-# admin.site.register(Booking, BookingAdmin,)
+admin.site.register(Booking, BookingAdmin,)

@@ -20,7 +20,6 @@ class Profile(models.Model):
     image = models.ImageField(blank=True, null=True)
     phone_number = models.CharField(max_length=20, null=True, blank=True)
     email = models.CharField(max_length=50, null=True)
-    # bookings = models.ManyToManyField(Booking, blank=True)
 
     # Stripe Customer Fields
     stripe_customer_id = models.CharField(
