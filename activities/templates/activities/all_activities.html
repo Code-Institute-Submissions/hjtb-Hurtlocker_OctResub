@@ -14,7 +14,7 @@
     <div class="row">
         {% for activity in activity_list %}
         <div class="col-xl-4 col-md-6 col-xs-12 my-5">
-            <div class="card h-100 text-center card-bg">
+            <div class="card h-100 text-center card-bg p-2">
                 <div class="card-title med-title-text">
                     <a href="{% url 'activity_page' activity.id %}">{{ activity.name }}</a>
                 </div>

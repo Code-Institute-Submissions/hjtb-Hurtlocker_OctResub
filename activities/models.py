@@ -13,7 +13,7 @@ class Activity(models.Model):
 
     id = models.BigAutoField(primary_key=True)
     activity_name = models.CharField(max_length=255, unique=True)
-    booking_slot_limit = models.IntegerField(default=3)
+    booking_slot_limit = models.PositiveSmallIntegerField(default=3, validators=[MaxValueValidator(20), MinValueValidator(1)])
     image = models.ImageField(blank=True, null=True)
     description = models.TextField(max_length=255, blank=True, null=True)
 

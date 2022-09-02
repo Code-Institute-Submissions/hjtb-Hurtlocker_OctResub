@@ -30,21 +30,16 @@
             <div class="col-lg-8 col-12">
                 <div class="card-body m-2">
                     <div class="row">
-                        <div class="col-lg-6 offset-lg-0 col-10 offset-1">
-                            <div class="med-title-text mb-2">
-                                <u>Acivity Name</u>: 
-                                <br>
-                                <span class="answer-title-text">{{ current_activity.user }}</span>
-                            </div>
-                            <div class="med-title-text mb-3"><u>Subscribed</u>: 
-                                <br>
-                                <span class="answer-title-text">{{ current_activity.is_subscribed }}</span>
-                            </div>
+                        <div class="col-lg-8 offset-lg-2 col-10 offset-1">
                             <div class="med-title-text mb-3">
-                                <u>Email</u>: 
+                                <u>Booking Slots</u>: 
+                                <span class="answer-title-text mb-3">
+                                    {{ current_activity.booking_slot_limit }}
+                                </span>
                             </div>
-                            <div class="body-text mb-3">
-                                {{ activity.email }}
+                            <div class="med-title-text mb-3"><u>Description</u>: 
+                                <br>
+                                <span class="body-text">{{ current_activity.description }}</span>
                             </div>
                         </div>
                         <!-- <div class="col-lg-6 offset-lg-0 col-10 offset-1">
