@@ -5,14 +5,18 @@
 | {{ current_activity }}
 {% endblock %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'activities/css/activities.css' %}">
+{% endblock %}
+
 {% block content %}
 
-<div class="container text-center">
-    <div class="big-title-text mt-5">
+<div class="container">
+    <div class="big-title-text mt-5  text-center">
         {{ current_activity.activity_name }}
     </div>
     <hr>
-    <div class="p-2">
+    <div class="p-2 text-center">
         <a class="custom-btn m-0" href="{% url 'edit_activity' current_activity.id %}" role="button"
             data-ripple-color="primary">
             Edit Activity <i class="fas fa-user-edit"></i>
@@ -30,9 +34,9 @@
             <div class="col-lg-8 col-12">
                 <div class="card-body m-2">
                     <div class="row">
-                        <div class="col-lg-8 offset-lg-2 col-10 offset-1">
+                        <div class="col-lg-6 offset-lg-0 col-10 offset-1">
                             <div class="med-title-text mb-3">
-                                <u>Booking Slots</u>: 
+                                <u>Session Limit</u>: 
                                 <span class="answer-title-text mb-3">
                                     {{ current_activity.booking_slot_limit }}
                                 </span>
@@ -42,12 +46,33 @@
                                 <span class="body-text">{{ current_activity.description }}</span>
                             </div>
                         </div>
-                        <!-- <div class="col-lg-6 offset-lg-0 col-10 offset-1">
-                            <div class="med-title-text mt-2"><u>Bookings</u></div>
-                            {% for booking in bookings %}
-                            <div class="body-text mb-2">{{ booking }}</div>
-                            {% endfor %}
-                        </div> -->
+                        <div class="col-lg-6 offset-lg-0 col-10 offset-1">
+                            <div class="med-title-text"><u>Sessions</u>:</div>
+                            <table class="table table-borderless body-text">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Day</th>
+                                        <th scope="col">Start</th>
+                                        <th scope="col">Duration</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="mb-2">
+                                    {% for slot in slots %}
+                                    <tr>
+                                        <th scope="row">{{ slot.get_day_display }}</th>
+                                        <td>{{ slot.start_hour|time:"H:i" }}</td>
+                                        <td>{{ slot.get_duration_display }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                            <div class="p-2 text-left">
+                                <a class="custom-slot-btn m-0" href="{% url 'add_booking_slot' current_activity.id %}" role="button"
+                                    data-ripple-color="primary">
+                                    Add Slot <i class="fas fa-plus"></i>
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -55,3 +80,21 @@
     </div>
 </div>
 {% endblock %}
+
+<table class="table table-striped table-dark">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">First</th>
+            <th scope="col">Last</th>
+            <th scope="col">Handle</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th scope="row">1</th>
+            <td>Mark</td>
+            <td>Otto</td>
+            <td>@mdo</td>
+        </tr>
+    </tbody>

@@ -8,7 +8,7 @@
 {% block content %}
 
 <div class="big-title-text mt-5 text-center">
-    Edit Activity
+    Edit {{ current_activity }}
 </div>
 <div class="container">
     <hr>
@@ -19,7 +19,6 @@
                 {% csrf_token %}
                 <fieldset class="rounded px-3 mb-5">
                     <legend class="fieldset-label med-title-text px-2 w-auto"><u>Activity Details</u></legend>
-                    {{ form.activity_name | as_crispy_field }}
                     {{ form.description | as_crispy_field }}
                     <hr class="my-5">
                     <div class="row text-center">

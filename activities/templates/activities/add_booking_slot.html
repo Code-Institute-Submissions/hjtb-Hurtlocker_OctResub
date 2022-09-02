@@ -1,0 +1,52 @@
+{% extends "base.html"%}
+{% load static %}
+
+{% block extra_title %}
+| Editing {{ current_slot }}
+{% endblock %}
+
+{% block content %}
+
+<div class="big-title-text mt-5 text-center">
+    New {{ current_activity }} Booking Slot
+</div>
+<div class="container">
+    <hr>
+    <div class="row mt-5">
+        <div class="col-lg-8 offset-lg-2">
+            <form id="add-slot-form" class="form-text" role="form"
+                action="{% url 'add_booking_slot' current_activity.id %}" method="POST">
+                {% csrf_token %}
+                <fieldset class="rounded px-3 mb-5 text-center">
+                    <legend class="fieldset-label med-title-text px-2 w-auto"><u>Booking Slot Details</u></legend>
+                    <div class="row text-center">
+                        <div class="col-6 offset-3 col-sm-4 offset-sm-0">
+                            {{ form.activity | as_crispy_field }}
+                            {{ form.day | as_crispy_field }}
+                        </div>
+                        <div class="col-6 offset-3 col-sm-4 offset-sm-0">
+                            {{ form.start_hour | as_crispy_field  }}
+                        </div>
+                        <div class="col-6 offset-3 col-sm-4 offset-sm-0">
+                            {{ form.duration  | as_crispy_field }}
+                        </div>
+                    </div>
+                </fieldset>
+                <hr class="my-3">
+                <div id="button-container" class="form-row justify-content-center">
+                    <div class="form-group mt-3 col-sm-6">
+                        <button class="custom-btn form-control" id="save-slot"
+                            type="submit">Save <i class="far fa-save"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+            <div class="mb-5 text-center">
+                <a class="custom-btn" href="{% url 'activity_page' current_activity.id %}" role="button" data-ripple-color="primary">
+                    Go Back <i class="fas fa-undo-alt"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
