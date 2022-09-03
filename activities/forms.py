@@ -16,14 +16,14 @@ class ActivityForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         labels = {
             'activity_name': 'Activity Name',
-            'booking_slot_limit': 'Max Time Slots',
+            'booking_slot_limit': 'Max Sessions',
             'image': 'Upload a picture',
             'description': 'Description',
         }
 
         placeholders = {
             'activity_name': 'Activity Name',
-            'booking_slot_limit': 'Max Time Slots',
+            'booking_slot_limit': 'Max Sessions',
             'image': 'Upload a picture',
             'description': 'Description',
         }
@@ -47,13 +47,13 @@ class EditActivityForm(forms.ModelForm):
         """
         super().__init__(*args, **kwargs)
         labels = {
-            'booking_slot_limit': 'Max Time Slots',
+            'booking_slot_limit': 'Max Sessions',
             'image': 'Upload a picture',
             'description': 'Description',
         }
 
         placeholders = {
-            'booking_slot_limit': 'Max Time Slots',
+            'booking_slot_limit': 'Max Sessions',
             'image': 'Upload a picture',
             'description': 'Description',
         }
@@ -68,6 +68,7 @@ class BookingSlotForm(forms.ModelForm):
         model = Booking_Slot
         exclude = (
             'id',
+            'end_hour',
         )
 
     def __init__(self, *args, **kwargs):

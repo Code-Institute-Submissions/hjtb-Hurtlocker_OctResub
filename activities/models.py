@@ -32,9 +32,9 @@ DURATION_CHOICES = [
             (dt.timedelta(hours=2.5), '2:30 mins'), (dt.timedelta(hours=3), '3 hours'),
             ]
 DAY_CHOICES = [
-            (1, 'Mon'), (2, 'Tue'), (3, 'Wed'),
-            (4, 'Thur'), (5, 'Fri'), (6, 'Sat'),
-            (7, 'Sun'),
+            (0, 'Mon'), (1, 'Tue'), (2, 'Wed'),
+            (3, 'Thur'), (4, 'Fri'), (5, 'Sat'),
+            (6, 'Sun'),
             ]
 
 
@@ -52,6 +52,7 @@ class Booking_Slot(models.Model):
         )
     start_hour = models.TimeField(auto_now_add=False, choices=HOUR_CHOICES,)
     duration = models.DurationField(null=False, blank=False, default=dt.timedelta(hours=1), choices=DURATION_CHOICES)
+    end_hour = models.TimeField(auto_now_add=False, blank=True, null=True)
 
     def __str__(self):
         return str(self.id)

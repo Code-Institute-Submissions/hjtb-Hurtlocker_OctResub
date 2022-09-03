@@ -14,7 +14,7 @@
     <div class="row">
         {% for activity in activity_list %}
         <div class="col-xl-4 col-md-6 col-xs-12 my-5">
-            <div class="card h-100 text-center card-bg p-2">
+            <div class="card h-100 text-center card-bg p-3">
                 <div class="card-title med-title-text">
                     <a href="{% url 'activity_page' activity.id %}">{{ activity.activity_name }}</a>
                 </div>
@@ -31,7 +31,6 @@
                         <!-- {{ profile.is_subscribed }} -->
                     </div>
                 </div>
-                <hr>
                 <div>
                     <a class="custom-btn m-0" href="{% url 'activity_page' activity.id %}" role="button"
                         data-ripple-color="primary">View Activity</a>

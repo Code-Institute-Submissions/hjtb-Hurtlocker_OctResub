@@ -57,7 +57,11 @@ def membership_signup(request):
             messages.error(
                 request, 'Please ensure the data entered is valid.')
     else:
-        form = SignupForm(instance=current_profile)
+        form = SignupForm(
+            initial={
+                'email': request.user.email,
+            },
+            )
 
     context = {
         'form': form,
@@ -162,8 +166,8 @@ def checkout_success(request):
         current_profile = get_object_or_404(Profile, user=request.user)
         stripe.api_key = settings.STRIPE_SECRET_KEY
         session = stripe.checkout.Session.retrieve(request.GET.get('session_id'))
-        customer_id  = stripe.Customer.retrieve(session.customer).id
-        subscription_id  = stripe.Subscription.retrieve(session.subscription).id
+        customer_id = stripe.Customer.retrieve(session.customer).id
+        subscription_id = stripe.Subscription.retrieve(session.subscription).id
     except Exception as e:
         print(e)
         return JsonResponse({'error': (e.args[0])}, status=403)

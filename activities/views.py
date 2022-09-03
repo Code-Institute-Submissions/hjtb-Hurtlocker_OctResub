@@ -1,9 +1,9 @@
-from django.shortcuts import render, redirect, get_object_or_404, get_list_or_404
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
-from django.http import JsonResponse
 from .models import Activity, Booking_Slot
 from profiles.models import Profile
 from .forms import ActivityForm, EditActivityForm, BookingSlotForm
+import datetime as dt
 
 
 def all_activities(request):
@@ -24,11 +24,37 @@ def activity_page(request, key):
     """
     A view to return the activity page
     """
-
     current_activity = get_object_or_404(Activity, pk=key)
+
+    try:
+        sessions = Booking_Slot.objects.filter(activity=current_activity.activity_name)
+
+    except Booking_Slot.DoesNotExist:
+        sessions = []
+
+    current_datetime = dt.datetime.now()
+    datetimes_of_next_week = {}
+
+    for x in range(1, 8):
+        future_datetime = current_datetime + dt.timedelta(days=x)
+        day_of_week = future_datetime.weekday()
+        datetimes_of_next_week[day_of_week] = future_datetime
+
+    for session in sessions:
+        session_date = datetimes_of_next_week[session.day].date()
+        session_start_time = session.start_hour
+        session_start_datetime = dt.datetime.combine(session_date, session_start_time)
+        session_start_seconds = session_start_datetime.timestamp()
+        session_duration_seconds = session.duration.seconds
+        session_end = session_start_seconds + session_duration_seconds
+        session_end_datetime = dt.datetime.fromtimestamp(session_end)
+        session.end_hour = session_end_datetime.time()
 
     context = {
         'current_activity': current_activity,
+        'sessions': sessions,
+        'current_datetime': current_datetime,
+        'datetimes_of_next_week': datetimes_of_next_week,
         }
     return render(request, 'activities/activity_page.html', context)
 
@@ -69,7 +95,7 @@ def edit_activity(request, key):
         slots = []
 
     if request.method == 'POST':
-        form = EditActivityForm(request.POST, instance=current_activity)
+        form = EditActivityForm(request.POST, request.FILES, instance=current_activity)
         if form.is_valid():
             form.save()
             messages.success(request, 'Activity Updated Successfully')
@@ -109,7 +135,7 @@ def add_booking_slot(request, key):
                 'activity': current_activity,
             },
         )
-        
+
     context = {
         'form': form,
         'current_activity': current_activity
@@ -144,3 +170,33 @@ def edit_booking_slot(request, key):
         'form': form,
         }
     return render(request, 'activities/edit_booking_slot.html', context)
+
+
+def create_booking(request, key):
+    """
+    A view to allow members make bookings
+    """
+    current_activity = get_object_or_404(Activity, pk=key)
+
+    if request.method == 'POST':
+        form = BookingSlotForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'New Booking Slot Created Successfully')
+            return redirect('activity_page', current_activity.id)
+        else:
+            messages.error(
+                request, 'Please ensure the data entered is valid.')
+    else:
+        form = BookingSlotForm(
+            initial={
+                'activity': current_activity,
+            },
+        )
+
+    context = {
+        'form': form,
+        'current_activity': current_activity
+        }
+
+    return render(request, 'activities/add_booking_slot.html', context)

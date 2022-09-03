@@ -18,7 +18,7 @@
     <hr>
     <div class="row mt-5">
         <div class="col-lg-8 offset-lg-2">
-            <div class="med-title-text px-4 my-2"><u>Sessions</u></div>
+            <div class="med-title-text px-4 my-2"><u>Booking Slots</u></div>
             <div class="card card-bg text-center">
                 <table class="table table-borderless table-sm body-text">
                     <thead>
@@ -55,7 +55,7 @@
                 </div>
             </div>
             <hr class="my-5">
-            <form id="edit-activity-form" class="form-text" role="form"
+            <form id="edit-activity-form" class="form-text" role="form" enctype="multipart/form-data"
                 action="{% url 'edit_activity' current_activity.id %}" method="POST">
                 {% csrf_token %}
                 <fieldset class="rounded px-3 mb-5">
