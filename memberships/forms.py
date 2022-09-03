@@ -1,13 +1,12 @@
-
 from django import forms
 from profiles.models import Profile
+
 
 class SignupForm(forms.ModelForm):
     class Meta:
         model = Profile
         exclude = (
             'user',
-            'email',
             'signup_date',
             'subscription_end',
             'stripe_customer_id',
@@ -25,6 +24,7 @@ class SignupForm(forms.ModelForm):
             'image': 'Upload a profile picture',
             'is_subscribed': 'Membership',
             'phone_number': 'Phone Number',
+            'email': 'Email',
         }
 
         placeholders = {
@@ -33,8 +33,12 @@ class SignupForm(forms.ModelForm):
             'image': 'Upload a profile picture',
             'is_subscribed': 'Membership',
             'phone_number': 'Phone Number',
+            'email': 'Email',
         }
 
         for field in self.fields:
             self.fields[field].label = labels[field]
             self.fields[field].widget.attrs['placeholder'] = placeholders[field]
+   
+        super(SignupForm, self).__init__(*args, **kwargs)
+        self.fields['email'].widget = forms.HiddenInput()

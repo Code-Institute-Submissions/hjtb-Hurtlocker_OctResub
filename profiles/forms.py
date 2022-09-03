@@ -38,3 +38,6 @@ class ProfileForm(forms.ModelForm):
         for field in self.fields:
             self.fields[field].label = labels[field]
             self.fields[field].widget.attrs['placeholder'] = placeholders[field]
+
+        super(ProfileForm, self).__init__(*args, **kwargs)
+        self.fields['email'].widget = forms.HiddenInput()

@@ -19,14 +19,15 @@
                 {% csrf_token %}
                 <fieldset class="rounded px-3 mb-5">
                     <legend class="fieldset-label med-title-text px-2 w-auto"><u>Booking Slot Details</u></legend>
-                    {{ form.activity | as_crispy_field }}
-                    {{ form.day | as_crispy_field }}
-                    <hr class="my-5">
                     <div class="row text-center">
-                        <div class="col-8 offset-2 col-md-6 offset-md-0">
+                        <div class="col-6 offset-3 col-sm-4 offset-sm-0">
+                            {{ form.activity | as_crispy_field }}
+                            {{ form.day | as_crispy_field }}
+                        </div>
+                        <div class="col-6 offset-3 col-sm-4 offset-sm-0">
                             {{ form.start_hour | as_crispy_field  }}
                         </div>
-                        <div class="col-6 offset-3 col-md-3 offset-md-0">
+                        <div class="col-6 offset-3 col-sm-4 offset-sm-0">
                             {{ form.duration  | as_crispy_field }}
                         </div>
                     </div>

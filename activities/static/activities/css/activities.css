@@ -7,3 +7,9 @@
     border-radius: 5px;
     padding: 5px;
 }
+
+
+.custom-slot-btn:hover {
+    color: rgb(187, 0, 0);
+    text-shadow: 6px 6px 5px rgba(0, 0, 0, 0.69);
+}

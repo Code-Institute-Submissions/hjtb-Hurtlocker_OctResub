@@ -44,15 +44,11 @@ def membership_signup(request):
     """
     Get information from the user before they pay
     """
-    try:
-        current_profile = get_object_or_404(Profile, user=request.user)
-        current_profile.email = request.user.email
-        form = SignupForm(request.POST, instance=current_profile)
-    except Exception as e:
-        print(e)
-        return JsonResponse({'error': (e.args[0])}, status=403)
+
+    current_profile = get_object_or_404(Profile, user=request.user)
 
     if request.method == 'POST':
+        form = SignupForm(request.POST, request.FILES, instance=current_profile)
         if form.is_valid():
             form.save()
             messages.success(request, 'User has signed up')
@@ -60,6 +56,8 @@ def membership_signup(request):
         else:
             messages.error(
                 request, 'Please ensure the data entered is valid.')
+    else:
+        form = SignupForm(instance=current_profile)
 
     context = {
         'form': form,

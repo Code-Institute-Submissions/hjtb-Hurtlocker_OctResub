@@ -32,9 +32,9 @@ DURATION_CHOICES = [
             (dt.timedelta(hours=2.5), '2:30 mins'), (dt.timedelta(hours=3), '3 hours'),
             ]
 DAY_CHOICES = [
-            (1, 'Monday'), (2, 'Tuesday'), (3, 'Wednesday'),
-            (4, 'Thursday'), (5, 'Friday'), (6, 'Saturday'),
-            (7, 'Sunday'),
+            (1, 'Mon'), (2, 'Tue'), (3, 'Wed'),
+            (4, 'Thur'), (5, 'Fri'), (6, 'Sat'),
+            (7, 'Sun'),
             ]
 
 
@@ -51,7 +51,7 @@ class Booking_Slot(models.Model):
         validators=[MaxValueValidator(7), MinValueValidator(1)]
         )
     start_hour = models.TimeField(auto_now_add=False, choices=HOUR_CHOICES,)
-    duration = models.DurationField(max_length=255, default=10000, null=False, blank=False, choices=DURATION_CHOICES)
+    duration = models.DurationField(null=False, blank=False, default=dt.timedelta(hours=1), choices=DURATION_CHOICES)
 
     def __str__(self):
         return str(self.id)
@@ -68,6 +68,5 @@ class Booking(models.Model):
     booking_slot_used = models.ForeignKey(
         Booking_Slot, on_delete=models.CASCADE
         )
-
     def __str__(self):
         return str(self.id)

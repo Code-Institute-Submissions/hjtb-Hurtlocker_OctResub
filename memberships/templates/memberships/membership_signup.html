@@ -26,9 +26,10 @@
                     <legend class="fieldset-label med-title-text px-2 w-auto">Profile Details</legend>
                     {{ form.first_name | as_crispy_field }}
                     {{ form.last_name | as_crispy_field }}
+                    {{ form.phone_number  | as_crispy_field }}
                     <hr class="my-5">
                     {{ form.image | as_crispy_field }}
-                    {{ form.phone_number  | as_crispy_field }}
+                    {{ form.email  | as_crispy_field }}
                 </fieldset>
                 <hr class="my-3">
                 <div id="button-container" class="form-row my-5 justify-content-center">

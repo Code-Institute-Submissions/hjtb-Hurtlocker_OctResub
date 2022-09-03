@@ -48,30 +48,6 @@
                         </div>
                         <div class="col-lg-6 offset-lg-0 col-10 offset-1">
                             <div class="med-title-text"><u>Sessions</u>:</div>
-                            <table class="table table-borderless body-text">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">Day</th>
-                                        <th scope="col">Start</th>
-                                        <th scope="col">Duration</th>
-                                    </tr>
-                                </thead>
-                                <tbody class="mb-2">
-                                    {% for slot in slots %}
-                                    <tr>
-                                        <th scope="row">{{ slot.get_day_display }}</th>
-                                        <td>{{ slot.start_hour|time:"H:i" }}</td>
-                                        <td>{{ slot.get_duration_display }}</td>
-                                    </tr>
-                                    {% endfor %}
-                                </tbody>
-                            </table>
-                            <div class="p-2 text-left">
-                                <a class="custom-slot-btn m-0" href="{% url 'add_booking_slot' current_activity.id %}" role="button"
-                                    data-ripple-color="primary">
-                                    Add Slot <i class="fas fa-plus"></i>
-                                </a>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -80,21 +56,3 @@
     </div>
 </div>
 {% endblock %}
-
-<table class="table table-striped table-dark">
-    <thead>
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">First</th>
-            <th scope="col">Last</th>
-            <th scope="col">Handle</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <th scope="row">1</th>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>@mdo</td>
-        </tr>
-    </tbody>

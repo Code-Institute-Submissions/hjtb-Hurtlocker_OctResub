@@ -5,6 +5,10 @@
 | Editing {{ current_activity }}
 {% endblock %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'activities/css/activities.css' %}">
+{% endblock %}
+
 {% block content %}
 
 <div class="big-title-text mt-5 text-center">
@@ -14,6 +18,43 @@
     <hr>
     <div class="row mt-5">
         <div class="col-lg-8 offset-lg-2">
+            <div class="med-title-text px-4 my-2"><u>Sessions</u></div>
+            <div class="card card-bg text-center">
+                <table class="table table-borderless table-sm body-text">
+                    <thead>
+                        <tr>
+                            <th scope="col">Day</th>
+                            <th scope="col">ID</th>
+                            <th scope="col">Start</th>
+                            <th scope="col">Duration</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody class="mb-2">
+                        {% for slot in slots %}
+                        <tr>
+                            <th scope="row">{{ slot.get_day_display }}</th>
+                            <td>{{ slot.id }}</td>
+                            <td>{{ slot.start_hour }}</td>
+                            <td>{{ slot.get_duration_display }}</td>
+                            <td>
+                                <a class="custom-slot-btn m-0" href="{% url 'edit_booking_slot' slot.id %}" role="button"
+                                data-ripple-color="primary">
+                                Edit<i class="fa-solid fa-pen"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <div class="px-3 mb-3 text-center">
+                    <a class="custom-slot-btn m-0" href="{% url 'add_booking_slot' current_activity.id %}" role="button"
+                    data-ripple-color="primary">
+                    Add Slot <i class="fas fa-plus"></i>
+                    </a>
+                </div>
+            </div>
+            <hr class="my-5">
             <form id="edit-activity-form" class="form-text" role="form"
                 action="{% url 'edit_activity' current_activity.id %}" method="POST">
                 {% csrf_token %}

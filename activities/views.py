@@ -9,7 +9,11 @@ from .forms import ActivityForm, EditActivityForm, BookingSlotForm
 def all_activities(request):
     """A view to show all activities"""
 
-    activity_list = get_list_or_404(Activity)
+    try:
+        activity_list = Activity.objects.all()
+
+    except Activity.DoesNotExist:
+        activity_list = []
 
     context = {'activity_list': activity_list}
 
@@ -23,15 +27,8 @@ def activity_page(request, key):
 
     current_activity = get_object_or_404(Activity, pk=key)
 
-    try:
-        slots = Booking_Slot.objects.filter(activity=current_activity.activity_name)
-
-    except Booking_Slot.DoesNotExist:
-        slots = []
-        
     context = {
         'current_activity': current_activity,
-        'slots': slots,
         }
     return render(request, 'activities/activity_page.html', context)
 
@@ -40,9 +37,9 @@ def add_activity(request):
     """
     A view to allow admins add actvities
     """
-    form = ActivityForm(request.POST)
 
     if request.method == 'POST':
+        form = ActivityForm(request.POST, request.FILES,)
         if form.is_valid():
             form.save()
             messages.success(request, 'New Activity Created Successfully')
@@ -50,6 +47,8 @@ def add_activity(request):
         else:
             messages.error(
                 request, 'Please ensure the data entered is valid.')
+    else:
+        form = ActivityForm()
 
     context = {'form': form}
 
@@ -60,14 +59,17 @@ def edit_activity(request, key):
     """
     A view to allow admins edit actvities
     """
+
+    current_activity = get_object_or_404(Activity, pk=key)
+
     try:
-        current_activity = get_object_or_404(Activity, pk=key)
-        form = EditActivityForm(request.POST, instance=current_activity)
-    except Exception as e:
-        print(e)
-        return JsonResponse({'error': (e.args[0])}, status=403)
+        slots = Booking_Slot.objects.filter(activity=current_activity.activity_name)
+
+    except Booking_Slot.DoesNotExist:
+        slots = []
 
     if request.method == 'POST':
+        form = EditActivityForm(request.POST, instance=current_activity)
         if form.is_valid():
             form.save()
             messages.success(request, 'Activity Updated Successfully')
@@ -75,10 +77,13 @@ def edit_activity(request, key):
         else:
             messages.error(
                 request, 'Please ensure the data entered is valid.')
+    else:
+        form = EditActivityForm(instance=current_activity)
 
     context = {
         'current_activity': current_activity,
         'form': form,
+        'slots': slots,
         }
     return render(request, 'activities/edit_activity.html', context)
 
@@ -115,27 +120,27 @@ def add_booking_slot(request, key):
 
 def edit_booking_slot(request, key):
     """
-    A view to allow admins edit actvities
+    A view to allow admins edit booking slots for activities
     """
-    try:
-        current_activity = get_object_or_404(Activity, pk=key)
-        form = ActivityForm(request.POST, instance=current_activity)
 
-    except Exception as e:
-        print(e)
-        return JsonResponse({'error': (e.args[0])}, status=403)
+    current_slot = get_object_or_404(Booking_Slot, pk=key)
+    current_activity = current_slot.activity
 
     if request.method == 'POST':
+        form = BookingSlotForm(request.POST, instance=current_slot)
         if form.is_valid():
             form.save()
-            messages.success(request, 'Activity Updated Successfully')
-            return redirect('/activities')
+            messages.success(request, 'Booking Slot Updated Successfully')
+            return redirect('activity_page', current_activity.id)
         else:
             messages.error(
                 request, 'Please ensure the data entered is valid.')
+    else:
+        form = BookingSlotForm(instance=current_slot)
 
     context = {
         'current_activity': current_activity,
+        'current_slot': current_slot,
         'form': form,
         }
-    return render(request, 'activities/edit_activity.html', context)
+    return render(request, 'activities/edit_booking_slot.html', context)

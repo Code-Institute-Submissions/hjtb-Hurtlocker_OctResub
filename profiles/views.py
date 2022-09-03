@@ -53,13 +53,12 @@ def profile_page(request, key):
 @user_passes_test(user_profile_check, login_url='../memberships/membership_signup')
 @login_required
 def edit_profile(request, key):
-    """A view to edit member profiles"""
+    """A view to edit member profile details"""
 
     current_profile = get_object_or_404(Profile, pk=key)
-    current_user = get_object_or_404(User, email=current_profile.email)
 
     if request.method == 'POST':
-        form = ProfileForm(request.POST, instance=current_profile)
+        form = ProfileForm(request.POST, request.FILES, instance=current_profile)
         if form.is_valid():
             form.save()
             messages.success(request, 'Profile has been updated successfully')
@@ -71,7 +70,6 @@ def edit_profile(request, key):
     context = {
         'form': form,
         'current_profile': current_profile,
-        'current_user': current_user,
         }
     return render(request, 'profiles/edit_profile.html', context)
 

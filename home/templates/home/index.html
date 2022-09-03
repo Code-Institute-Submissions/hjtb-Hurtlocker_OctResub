@@ -12,8 +12,7 @@
                     </div>
                     <p class="d-none d-lg-block med-title-text">The Home of Performance Excellence</p>
                     <div class="body-text">
-                        <p>We cater for all those wishing to train in martial arts, yoga
-                            and triathlon.</p>
+                        <p>We cater for all those wishing to train in martial arts.</p>
                         <p>With little kids as young as 5, to big kids over 50!!</p>
                     </div>
                 </div>
@@ -22,12 +21,14 @@
         <div class="row justify-content-center text-center mt-1">
                 <a href="{% url 'club_page' %}" class="custom-btn">View the Club Page</a>
         </div>
+        {% if user.is_anonymous %}
         <div class="row justify-content-center text-center my-2">
-                <a href="{% url 'account_signup' %}" class="custom-btn">Sign Up <i class="fa-solid fa-angles-right"></i></a>
+            <a href="{% url 'account_signup' %}" class="custom-btn">Sign Up <i class="fa-solid fa-angles-right"></i></a>
         </div>
         <div class="row justify-content-center text-center my-2">
-                <a href="{% url 'account_login' %}" class="custom-btn">Log In <i class="fa-solid fa-arrow-right-to-bracket"></i></a>
+            <a href="{% url 'account_login' %}" class="custom-btn">Log In <i class="fa-solid fa-arrow-right-to-bracket"></i></a>
         </div>
+        {% endif %}
     </div>
 </section>
 
