@@ -58,10 +58,38 @@
                             </div>
                         </div>
                         <div class="col-lg-6 offset-lg-0 col-10 offset-1">
-                            <div class="med-title-text mt-2"><u>Bookings</u></div>
-                            {% for booking in members_bookings %}
-                            <div class="body-text mb-2">{{ booking }}</div>
-                            {% endfor %}
+                            <div class="med-title-text mb-3"><u>Bookings</u></div>
+                            <table class="table table-borderless table-sm body-text">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Activity</th>
+                                        <th scope="col">Day</th>
+                                        <th scope="col">Start/Finish</th>
+                                        <th scope="col"></th>
+                                    </tr>
+                                </thead>
+                                <tbody class="my-2">
+                                    {% for booking in members_bookings %}
+                                    <tr>
+                                        <th scope="row">
+                                        {% for booking_slot in booking_slots %}
+                                            {% if booking_slot == booking.booking_slot_used %}
+                                                {{ booking_slot.activity.activity_name }}
+                                            {% endif %}
+                                        {% endfor %}
+                                        </th>
+                                        <td>{{ booking.booking_end_time|date:'d/m' }}</td>
+                                        <td>{{ booking.booking_start_time }} - {{ booking.booking_end_time.time }}</td>
+                                        <td>
+                                            <a class="custom-slot-btn m-0" href="{% url 'cancel_booking' booking.id %}" role="button"
+                                            data-ripple-color="primary">
+                                            <p class="d-none d-sm-inline">Cancel </p><i class="fa-solid fa-xmark"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>

@@ -68,7 +68,7 @@ class BookingSlotForm(forms.ModelForm):
         model = Booking_Slot
         exclude = (
             'id',
-            'end_hour',
+            'end_datetime',
         )
 
     def __init__(self, *args, **kwargs):

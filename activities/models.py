@@ -4,7 +4,6 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 import datetime as dt
 
 
-
 class Activity(models.Model):
     """
     Activity model to hold information regarding activities
@@ -50,9 +49,14 @@ class Booking_Slot(models.Model):
         choices=DAY_CHOICES,
         validators=[MaxValueValidator(7), MinValueValidator(1)]
         )
+    duration = models.DurationField(
+        null=False, blank=False, default=dt.timedelta(hours=1),
+        choices=DURATION_CHOICES
+        )
     start_hour = models.TimeField(auto_now_add=False, choices=HOUR_CHOICES,)
-    duration = models.DurationField(null=False, blank=False, default=dt.timedelta(hours=1), choices=DURATION_CHOICES)
-    end_hour = models.TimeField(auto_now_add=False, blank=True, null=True)
+    end_datetime = models.DateTimeField(
+        auto_now_add=False, blank=True, null=True
+        )
 
     def __str__(self):
         return str(self.id)
@@ -69,5 +73,12 @@ class Booking(models.Model):
     booking_slot_used = models.ForeignKey(
         Booking_Slot, on_delete=models.CASCADE
         )
+    booking_start_time = models.TimeField(
+        auto_now_add=False, blank=True, null=True
+        )
+    booking_end_time = models.DateTimeField(
+        auto_now_add=False, blank=True, null=True
+        )
+
     def __str__(self):
         return str(self.id)

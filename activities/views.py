@@ -27,34 +27,19 @@ def activity_page(request, key):
     current_activity = get_object_or_404(Activity, pk=key)
 
     try:
-        sessions = Booking_Slot.objects.filter(activity=current_activity.activity_name)
+        booking_slots = Booking_Slot.objects.filter(
+            activity=current_activity.activity_name
+            ).order_by('end_datetime')
 
     except Booking_Slot.DoesNotExist:
-        sessions = []
+        booking_slots = []
 
     current_datetime = dt.datetime.now()
-    datetimes_of_next_week = {}
-
-    for x in range(1, 8):
-        future_datetime = current_datetime + dt.timedelta(days=x)
-        day_of_week = future_datetime.weekday()
-        datetimes_of_next_week[day_of_week] = future_datetime
-
-    for session in sessions:
-        session_date = datetimes_of_next_week[session.day].date()
-        session_start_time = session.start_hour
-        session_start_datetime = dt.datetime.combine(session_date, session_start_time)
-        session_start_seconds = session_start_datetime.timestamp()
-        session_duration_seconds = session.duration.seconds
-        session_end = session_start_seconds + session_duration_seconds
-        session_end_datetime = dt.datetime.fromtimestamp(session_end)
-        session.end_hour = session_end_datetime.time()
 
     context = {
         'current_activity': current_activity,
-        'sessions': sessions,
+        'booking_slots': booking_slots,
         'current_datetime': current_datetime,
-        'datetimes_of_next_week': datetimes_of_next_week,
         }
     return render(request, 'activities/activity_page.html', context)
 
@@ -89,13 +74,17 @@ def edit_activity(request, key):
     current_activity = get_object_or_404(Activity, pk=key)
 
     try:
-        slots = Booking_Slot.objects.filter(activity=current_activity.activity_name)
+        slots = Booking_Slot.objects.filter(
+            activity=current_activity.activity_name
+            )
 
     except Booking_Slot.DoesNotExist:
         slots = []
 
     if request.method == 'POST':
-        form = EditActivityForm(request.POST, request.FILES, instance=current_activity)
+        form = EditActivityForm(
+            request.POST, request.FILES, instance=current_activity
+            )
         if form.is_valid():
             form.save()
             messages.success(request, 'Activity Updated Successfully')
@@ -120,9 +109,28 @@ def add_booking_slot(request, key):
     """
     current_activity = get_object_or_404(Activity, pk=key)
 
+    current_datetime = dt.datetime.now()
+    datetimes_of_next_week = {}
+
+    for x in range(1, 8):
+        future_datetime = current_datetime + dt.timedelta(days=x)
+        day_of_week = future_datetime.weekday()
+        datetimes_of_next_week[day_of_week] = future_datetime
+
     if request.method == 'POST':
         form = BookingSlotForm(request.POST)
         if form.is_valid():
+            booking = form.instance
+            booking_date = datetimes_of_next_week[booking.day].date()
+            booking_start_time = booking.start_hour
+            booking_start_datetime = dt.datetime.combine(
+                booking_date, booking_start_time
+                )
+            booking_start_seconds = booking_start_datetime.timestamp()
+            booking_duration_seconds = booking.duration.seconds
+            booking_end = booking_start_seconds + booking_duration_seconds
+            booking_end_datetime = dt.datetime.fromtimestamp(booking_end)
+            booking.end_datetime = booking_end_datetime
             form.save()
             messages.success(request, 'New Booking Slot Created Successfully')
             return redirect('activity_page', current_activity.id)
@@ -179,12 +187,17 @@ def create_booking(request, key):
     current_booking_slot = get_object_or_404(Booking_Slot, pk=key)
     current_profile = get_object_or_404(Profile, user=request.user)
     current_activity = current_booking_slot.activity
+    start_time = current_booking_slot.start_hour
+    end_time = current_booking_slot.end_datetime
 
     new_booking = Booking(
         booking_slot_used=current_booking_slot,
         member=current_profile,
+        booking_start_time=start_time,
+        booking_end_time=end_time,
         )
+
     new_booking.save()
     messages.success(request, 'New Booking Slot Created Successfully')
-    
+
     return redirect('activity_page', current_activity.id)

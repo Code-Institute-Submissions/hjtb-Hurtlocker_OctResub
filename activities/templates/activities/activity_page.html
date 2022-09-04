@@ -51,20 +51,20 @@
                 <table class="table table-borderless table-sm body-text">
                     <thead>
                         <tr>
-                            <th scope="col">ID</th>
                             <th scope="col">Day</th>
+                            <th scope="col">Date</th>
                             <th scope="col">Start/Finish</th>
                             <th scope="col"></th>
                         </tr>
                     </thead>
                     <tbody class="mb-2">
-                        {% for session in sessions %}
+                        {% for slot in booking_slots %}
                         <tr>
-                            <td>{{ session.id }}</td>
-                            <th scope="row">{{ session.get_day_display }}</th>
-                            <td>{{ session.start_hour }} - {{ session.end_hour }}</td>
+                            <td>{{ slot.get_day_display }}</td>
+                            <th scope="row">{{ slot.end_datetime|date:'d/m' }}</th>
+                            <td>{{ slot.start_hour }} - {{ slot.end_datetime.time }}</td>
                             <td>
-                                <a class="custom-slot-btn m-0" href="{% url 'create_booking' session.id %}" role="button"
+                                <a class="custom-slot-btn m-0" href="{% url 'create_booking' slot.id %}" role="button"
                                 data-ripple-color="primary">
                                 <p class="d-none d-sm-inline">Book </p><i class="fa-solid fa-calendar-check"></i>
                                 </a>

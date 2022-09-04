@@ -3,7 +3,7 @@ from django.contrib import messages
 from django.conf import settings
 from django.contrib.auth.decorators import login_required, user_passes_test
 from .models import Profile
-from activities.models import Booking
+from activities.models import Booking, Booking_Slot
 from .forms import ProfileForm
 from memberships.views import user_profile_check
 # from activities.models import Activity
@@ -39,13 +39,21 @@ def profile_page(request, key):
         current_profile = get_object_or_404(Profile, user=request.user)
 
     try:
-        members_bookings = Booking.objects.filter(member=current_profile)
+        booking_slots = Booking_Slot.objects.all()
+    except Booking_Slot.DoesNotExist:
+        booking_slots = []
+
+    try:
+        members_bookings = Booking.objects.filter(
+            member=current_profile
+            ).order_by('booking_end_time')
     except Booking.DoesNotExist:
         members_bookings = []
 
     context = {
         'current_profile': current_profile,
         'members_bookings': members_bookings,
+        'booking_slots': booking_slots,
         }
     return render(request, 'profiles/profile_page.html', context)
 
@@ -56,6 +64,7 @@ def edit_profile(request, key):
     """A view to edit member profile details"""
 
     current_profile = get_object_or_404(Profile, pk=key)
+    profile_user = current_profile.user
 
     if request.method == 'POST':
         form = ProfileForm(request.POST, request.FILES, instance=current_profile)
@@ -65,7 +74,11 @@ def edit_profile(request, key):
             return redirect('profile_page', key)
 
     else:
-        form = ProfileForm(instance=current_profile)
+        form = ProfileForm(instance=current_profile,
+            initial={
+                'email': profile_user.email
+            },
+        )
 
     context = {
         'form': form,
@@ -92,3 +105,16 @@ def manage_subscription(request):
     )
 
     return redirect(session.url, code=303)
+
+
+def cancel_booking(request, key):
+    """
+    A view to allow members cancel bookings
+    """
+    current_profile = get_object_or_404(Profile, user=request.user)
+    booking_to_be_deleted = get_object_or_404(Booking, pk=key)
+
+    booking_to_be_deleted.delete()
+    messages.success(request, 'Booking Cancelled Successfully')
+
+    return redirect('profile_page', current_profile.id)
