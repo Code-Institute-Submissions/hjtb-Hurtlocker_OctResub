@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
-from .models import Activity, Booking_Slot
+from .models import Activity, Booking_Slot, Booking
 from profiles.models import Profile
 from .forms import ActivityForm, EditActivityForm, BookingSlotForm
 import datetime as dt
@@ -176,27 +176,15 @@ def create_booking(request, key):
     """
     A view to allow members make bookings
     """
-    current_activity = get_object_or_404(Activity, pk=key)
+    current_booking_slot = get_object_or_404(Booking_Slot, pk=key)
+    current_profile = get_object_or_404(Profile, user=request.user)
+    current_activity = current_booking_slot.activity
 
-    if request.method == 'POST':
-        form = BookingSlotForm(request.POST)
-        if form.is_valid():
-            form.save()
-            messages.success(request, 'New Booking Slot Created Successfully')
-            return redirect('activity_page', current_activity.id)
-        else:
-            messages.error(
-                request, 'Please ensure the data entered is valid.')
-    else:
-        form = BookingSlotForm(
-            initial={
-                'activity': current_activity,
-            },
+    new_booking = Booking(
+        booking_slot_used=current_booking_slot,
+        member=current_profile,
         )
-
-    context = {
-        'form': form,
-        'current_activity': current_activity
-        }
-
-    return render(request, 'activities/add_booking_slot.html', context)
+    new_booking.save()
+    messages.success(request, 'New Booking Slot Created Successfully')
+    
+    return redirect('activity_page', current_activity.id)

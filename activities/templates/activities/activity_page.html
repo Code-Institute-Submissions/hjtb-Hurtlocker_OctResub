@@ -64,7 +64,7 @@
                             <th scope="row">{{ session.get_day_display }}</th>
                             <td>{{ session.start_hour }} - {{ session.end_hour }}</td>
                             <td>
-                                <a class="custom-slot-btn m-0" href="#" role="button"
+                                <a class="custom-slot-btn m-0" href="{% url 'create_booking' session.id %}" role="button"
                                 data-ripple-color="primary">
                                 <p class="d-none d-sm-inline">Book </p><i class="fa-solid fa-calendar-check"></i>
                                 </a>

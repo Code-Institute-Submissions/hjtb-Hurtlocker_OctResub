@@ -1,9 +1,9 @@
 from django.shortcuts import render, get_object_or_404, get_list_or_404, redirect
 from django.contrib import messages
-from django.contrib.auth.models import User
 from django.conf import settings
 from django.contrib.auth.decorators import login_required, user_passes_test
 from .models import Profile
+from activities.models import Booking
 from .forms import ProfileForm
 from memberships.views import user_profile_check
 # from activities.models import Activity
@@ -38,14 +38,14 @@ def profile_page(request, key):
     else:
         current_profile = get_object_or_404(Profile, user=request.user)
 
-    # try:
-    #     bookings = current_profile.bookings
-    # except:
-    #     bookings =[]
+    try:
+        members_bookings = Booking.objects.filter(member=current_profile)
+    except Booking.DoesNotExist:
+        members_bookings = []
 
     context = {
         'current_profile': current_profile,
-        # 'bookings': bookings,
+        'members_bookings': members_bookings,
         }
     return render(request, 'profiles/profile_page.html', context)
 

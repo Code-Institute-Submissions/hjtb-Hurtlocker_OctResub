@@ -31,9 +31,8 @@
                 <div>
                     {% for activity in activity_list %}
                     <div class="body-text">
-                        <strong>{{ activity.name }}</strong>
+                        <strong>{{ activity.activity_name }}</strong>
                     </div>
-                    ACTIVITY
                     {% endfor %}
                 </div>
             </div>
@@ -49,7 +48,6 @@
                     <div class="body-text">
                         <strong>{{ profile.first_name }} {{ profile.last_name }}</strong>
                     </div>
-                    ACTIVITY
                     {% endfor %}
                 </div>
             </div>
@@ -80,7 +78,7 @@
                     <tbody>
                         {% for activity in activity_list %}
                         <tr>
-                            <th scope="row">{{ activity.name }}</th>
+                            <th scope="row">{{ activity.activity_name }}</th>
                             <td><strong>Tue:</strong> 0700-0800</td>
                             <td><strong>Thur:</strong> 1900-2000</td>
                             <td><strong>Sat:</strong> 2000-2100</td>
