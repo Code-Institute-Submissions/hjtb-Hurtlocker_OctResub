@@ -10,7 +10,7 @@
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'club_page' %}">Club Page</a>
             </li>
-            {% if user.is_authenticated %}
+            {% if user.is_authenticated and current_profile.is_subscribed %}
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'activities' %}">Activities</a>
             </li>
