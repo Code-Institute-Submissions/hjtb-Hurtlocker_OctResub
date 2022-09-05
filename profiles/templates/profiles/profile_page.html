@@ -70,23 +70,23 @@
                                 </thead>
                                 <tbody class="my-2">
                                     {% for booking in members_bookings %}
-                                    <tr>
-                                        <th scope="row">
-                                        {% for booking_slot in booking_slots %}
-                                            {% if booking_slot == booking.booking_slot_used %}
-                                                {{ booking_slot.activity.activity_name }}
-                                            {% endif %}
-                                        {% endfor %}
-                                        </th>
-                                        <td>{{ booking.booking_end_time|date:'d/m' }}</td>
-                                        <td>{{ booking.booking_start_time }} - {{ booking.booking_end_time.time }}</td>
-                                        <td>
-                                            <a class="custom-slot-btn m-0" href="{% url 'cancel_booking' booking.id %}" role="button"
-                                            data-ripple-color="primary">
-                                            <p class="d-none d-sm-inline">Cancel </p><i class="fa-solid fa-xmark"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
+                                        <tr>
+                                            <th scope="row">
+                                            {% for booking_slot in booking_slots %}
+                                                {% if booking_slot == booking.booking_slot_used %}
+                                                    {{ booking_slot.activity.activity_name }}
+                                                {% endif %}
+                                            {% endfor %}
+                                            </th>
+                                            <td>{{ booking.booking_end_time|date:'d/m' }}</td>
+                                            <td>{{ booking.booking_start_time }} - {{ booking.booking_end_time.time }}</td>
+                                            <td>
+                                                <a class="custom-slot-btn m-0" href="{% url 'cancel_booking' booking.id %}" role="button"
+                                                data-ripple-color="primary">
+                                                <p class="d-none d-sm-inline">Cancel </p><i class="fa-solid fa-xmark"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
                                     {% endfor %}
                                 </tbody>
                             </table>

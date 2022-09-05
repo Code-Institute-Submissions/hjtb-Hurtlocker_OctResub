@@ -45,9 +45,9 @@ class Booking_Slot(models.Model):
     activity = models.ForeignKey(
         Activity, to_field='activity_name', on_delete=models.CASCADE
         )
-    day = models.PositiveSmallIntegerField(
+    day = models.IntegerField(
         choices=DAY_CHOICES,
-        validators=[MaxValueValidator(7), MinValueValidator(1)]
+        validators=[MaxValueValidator(6), MinValueValidator(0)]
         )
     duration = models.DurationField(
         null=False, blank=False, default=dt.timedelta(hours=1),

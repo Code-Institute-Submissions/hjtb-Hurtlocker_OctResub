@@ -6,10 +6,9 @@ from .models import Profile
 from activities.models import Booking, Booking_Slot
 from .forms import ProfileForm
 from memberships.views import user_profile_check
-# from activities.models import Activity
 import stripe
-
-# Create your views here.
+# import datetime as dt
+from django.utils import timezone
 
 
 @user_passes_test(user_profile_check, login_url='../memberships/membership_signup')
@@ -33,6 +32,8 @@ def all_profiles(request):
 def profile_page(request, key):
     """A view to return the individual profile page"""
 
+    current_time = timezone.now()
+
     if key and request.user.is_staff:
         current_profile = get_object_or_404(Profile, pk=key)
     else:
@@ -45,13 +46,17 @@ def profile_page(request, key):
 
     try:
         members_bookings = Booking.objects.filter(
-            member=current_profile
+            member=current_profile, booking_end_time__gte=current_time
             ).order_by('booking_end_time')
     except Booking.DoesNotExist:
         members_bookings = []
 
+    for booking in members_bookings:
+        print(booking.booking_end_time)
+
     context = {
         'current_profile': current_profile,
+        'current_time': current_time,
         'members_bookings': members_bookings,
         'booking_slots': booking_slots,
         }
