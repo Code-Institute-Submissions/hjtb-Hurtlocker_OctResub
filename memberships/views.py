@@ -2,41 +2,12 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
-from django.core.exceptions import ObjectDoesNotExist
 from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
 import stripe
-from datetime import datetime
 
 from profiles.models import Profile
 from .forms import SignupForm
-
-
-def user_profile_check(user):
-    """
-    Checks if a profile is associated with the user
-    and if their subscription is in date
-    """
-
-    now = datetime.now()
-    current_time = datetime.timestamp(now)
-    user_has_profile = False
-    if user.is_authenticated:
-        try:
-            current_profile = get_object_or_404(Profile, user=user)
-            if current_profile.subscription_end:
-                if current_profile.subscription_end <= current_time:
-                    current_profile.is_subscribed = False
-            else:
-                pass
-        except ObjectDoesNotExist:
-            current_profile = None
-
-        if current_profile.first_name and current_profile.last_name:
-            user_has_profile = True
-    else:
-        user_has_profile = True
-    return user_has_profile
 
 
 @login_required
@@ -58,6 +29,7 @@ def membership_signup(request):
                 request, 'Please ensure the data entered is valid.')
     else:
         form = SignupForm(
+            instance=current_profile,
             initial={
                 'email': request.user.email,
             },
@@ -74,12 +46,12 @@ def checkout(request):
     """
     A view to allow users to checkout
     """
-    try:
-        current_profile = get_object_or_404(Profile, user=request.user)
-    except Exception as e:
-        return JsonResponse({'error': (e.args[0])}, status=403)
 
-    if current_profile.is_subscribed:
+    current_profile = get_object_or_404(Profile, user=request.user)
+
+    if current_profile.is_subscribed or not (
+        current_profile.first_name and current_profile.last_name
+            ):
         return redirect('/club')
     else:
         stripe_public_key = settings.STRIPE_PUBLIC_KEY
@@ -117,8 +89,11 @@ def create_checkout_session(request):
         domain_url = 'http://8000-hjtb-hurtlockerv1-zs2xiyzn5y4.ws-eu63.gitpod.io/'
         stripe.api_key = settings.STRIPE_SECRET_KEY
         existing_customers = stripe.Customer.list()
-        if current_profile.email in existing_customers:
-            print(current_profile.email)
+        # for customer in existing_customers:
+        #     print(customer)
+        #     if current_profile.email == customer.email:
+        #         current_profile.stripe_customer_id = customer.id
+        #     print(current_profile.email)
         if current_profile.stripe_customer_id:
             customer_id = current_profile.stripe_customer_id
             checkout_session = stripe.checkout.Session.create(

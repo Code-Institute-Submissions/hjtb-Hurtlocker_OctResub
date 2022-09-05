@@ -14,7 +14,7 @@
 {% get_providers as socialaccount_providers %}
 
 {% if socialaccount_providers %}
-<div class="body-text">{% blocktrans with site.name as site_name %}Please sign in with one
+<div >{% blocktrans with site.name as site_name %}Please sign in with one
     of your existing third party accounts. Or, <a href="{{ signup_url }}">sign up </a>
     for a {{ site_name }} account and sign in below:{% endblocktrans %}
 </div>
@@ -40,7 +40,7 @@
 
 <div class="row">
     <div class="col-lg-4 offset-lg-4 col-sm-6 offset-sm-3 col-8 offset-2">
-        <form class="login body-text" method="POST" action="{% url 'account_login' %}">
+        <form class="login form-text" method="POST" action="{% url 'account_login' %}">
             {% csrf_token %}
             {{ form|crispy }}
             {% if redirect_field_value %}

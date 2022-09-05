@@ -22,12 +22,21 @@
             Edit Profile <i class="fas fa-user-edit"></i>
         </a>
     </div>
+    {% if current_profile.is_subscribed %}
     <div class="p-2">
         <a class="custom-btn m-0" href="{% url 'manage_subscription' %}" role="button"
             data-ripple-color="primary">
             Manage Subscription <i class="fa-solid fa-pen-to-square"></i>
         </a>
     </div>
+    {% else %}
+    <div class="p-2">
+        <a class="custom-btn m-0" href="{% url 'checkout' %}" role="button"
+            data-ripple-color="primary">
+            Subscribe <i class="fa-solid fa-paper-plane"></i>
+        </a>
+    </div>
+    {% endif %}
     <div class="card card-bg my-5">
         <div class="row no-gutters">
             <div class="col-lg-4 offset-lg-0 col-sm-8 offset-sm-2 col-10 offset-1 p-2">
@@ -53,19 +62,19 @@
                             <div class="med-title-text mb-3">
                                 <u>Email</u>: 
                             </div>
-                            <div class="body-text mb-3">
+                            <p class="answer-title-text mb-3">
                                 {{ current_profile.email }}
-                            </div>
+                            </p>
                         </div>
                         <div class="col-lg-6 offset-lg-0 col-10 offset-1">
                             <div class="med-title-text mb-3"><u>Bookings</u></div>
-                            <table class="table table-borderless table-sm body-text">
+                            <table class="table table-sm body-text">
                                 <thead>
                                     <tr>
                                         <th scope="col">Activity</th>
                                         <th scope="col">Day</th>
                                         <th scope="col">Start/Finish</th>
-                                        <th scope="col"></th>
+                                        <th scope="col">Cancel</th>
                                     </tr>
                                 </thead>
                                 <tbody class="my-2">
@@ -82,8 +91,7 @@
                                             <td>{{ booking.booking_start_time }} - {{ booking.booking_end_time.time }}</td>
                                             <td>
                                                 <a class="custom-slot-btn m-0" href="{% url 'cancel_booking' booking.id %}" role="button"
-                                                data-ripple-color="primary">
-                                                <p class="d-none d-sm-inline">Cancel </p><i class="fa-solid fa-xmark"></i>
+                                                data-ripple-color="primary"><i class="fa-solid fa-xmark"></i>
                                                 </a>
                                             </td>
                                         </tr>

@@ -1,24 +1,40 @@
-from django.shortcuts import render, redirect, get_list_or_404, get_object_or_404
-from django.contrib.auth.decorators import user_passes_test
-from activities.models import Activity
+from django.shortcuts import render, get_object_or_404
+from activities.models import Activity, Booking_Slot
 from profiles.models import Profile
-from memberships.views import user_profile_check
-# Create your views here.
+from django.utils import timezone
 
 
-@user_passes_test(user_profile_check, login_url='../memberships/membership_signup')
 def club_page(request):
     """
     A view to return the club page
     """
+    current_time = timezone.now()
+    if request.user.is_authenticated:
+        current_profile = get_object_or_404(Profile, user=request.user)
+    else:
+        current_profile = None
+    try:
+        profile_list = Profile.objects.all()
+    except Profile.DoesNotExist:
+        profile_list = []
 
-    current_profile = get_object_or_404(Profile, user=request.user)
-    profile_list = get_list_or_404(Profile)
-    activity_list = get_list_or_404(Activity)
+    try:
+        activity_list = Activity.objects.all()
+    except Activity.DoesNotExist:
+        activity_list = []
 
-    context = {'activity_list': activity_list,
-               'profile_list': profile_list,
-               'current_profile': current_profile,
-               }
+    try:
+        booking_slots = Booking_Slot.objects.filter(
+            end_datetime__gte=current_time
+            ).order_by('end_datetime')
+    except Booking_Slot.DoesNotExist:
+        booking_slots = []
+
+    context = {
+        'activity_list': activity_list,
+        'profile_list': profile_list,
+        'current_profile': current_profile,
+        'booking_slots': booking_slots,
+        }
 
     return render(request, 'club/club_page.html', context)

@@ -5,13 +5,36 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from .models import Profile
 from activities.models import Booking, Booking_Slot
 from .forms import ProfileForm
-from memberships.views import user_profile_check
 import stripe
-# import datetime as dt
+from datetime import datetime as dt
 from django.utils import timezone
 
 
-@user_passes_test(user_profile_check, login_url='../memberships/membership_signup')
+def user_subscription_check(user):
+    """
+    Checks if a member has a subscription
+    and if their subscription is in date
+    """
+
+    user_is_subscribed = False
+    now = dt.now()
+    current_time = dt.timestamp(now)
+
+    if not user.is_anonymous:
+        current_profile = get_object_or_404(Profile, user=user)
+        if current_profile.subscription_end:
+            if current_profile.subscription_end <= current_time:
+                current_profile.is_subscribed = False
+                current_profile.save()
+        else:
+            pass
+
+        if current_profile.is_subscribed:
+            user_is_subscribed = True
+
+    return user_is_subscribed
+
+
 @login_required
 def all_profiles(request):
     """A view to show all profiles"""
@@ -27,7 +50,7 @@ def all_profiles(request):
     return render(request, 'profiles/all_profiles.html', context)
 
 
-@user_passes_test(user_profile_check, login_url='../memberships/membership_signup')
+@user_passes_test(user_subscription_check, login_url='/memberships/membership_signup')
 @login_required
 def profile_page(request, key):
     """A view to return the individual profile page"""
@@ -63,7 +86,7 @@ def profile_page(request, key):
     return render(request, 'profiles/profile_page.html', context)
 
 
-@user_passes_test(user_profile_check, login_url='../memberships/membership_signup')
+@user_passes_test(user_subscription_check, login_url='../memberships/membership_signup')
 @login_required
 def edit_profile(request, key):
     """A view to edit member profile details"""
@@ -92,7 +115,7 @@ def edit_profile(request, key):
     return render(request, 'profiles/edit_profile.html', context)
 
 
-@user_passes_test(user_profile_check, login_url='../memberships/membership_signup')
+@user_passes_test(user_subscription_check, login_url='../memberships/membership_signup')
 @login_required
 def manage_subscription(request):
     """
@@ -100,8 +123,13 @@ def manage_subscription(request):
     """
 
     current_profile = get_object_or_404(Profile, user=request.user)
-    customer_id = current_profile.stripe_customer_id
+    if current_profile.stripe_customer_id:
+        customer_id = current_profile.stripe_customer_id
+    else:
+        return redirect('profile_page', current_profile.id)
+    
     stripe.api_key = settings.STRIPE_SECRET_KEY
+# This needs to be programatically set
     return_url = 'https://8000-hjtb-hurtlockerv1-zs2xiyzn5y4.ws-eu63.gitpod.io/club'
 
     session = stripe.billing_portal.Session.create(
@@ -112,6 +140,8 @@ def manage_subscription(request):
     return redirect(session.url, code=303)
 
 
+@user_passes_test(user_subscription_check, login_url='../memberships/membership_signup')
+@login_required
 def cancel_booking(request, key):
     """
     A view to allow members cancel bookings

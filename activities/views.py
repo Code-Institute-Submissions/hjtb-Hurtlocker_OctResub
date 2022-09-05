@@ -4,6 +4,7 @@ from .models import Activity, Booking_Slot, Booking
 from profiles.models import Profile
 from .forms import ActivityForm, EditActivityForm, BookingSlotForm
 import datetime as dt
+from django.utils import timezone
 
 
 def all_activities(request):
@@ -25,6 +26,16 @@ def activity_page(request, key):
     A view to return the activity page
     """
     current_activity = get_object_or_404(Activity, pk=key)
+    current_profile = get_object_or_404(Profile, user=request.user)
+    current_datetime = timezone.now()
+    slots_already_used = []
+
+    try:
+        members_bookings = Booking.objects.filter(
+            member=current_profile, booking_end_time__gte=current_datetime
+            ).order_by('booking_end_time')
+    except Booking.DoesNotExist:
+        members_bookings = []
 
     try:
         booking_slots = Booking_Slot.objects.filter(
@@ -34,12 +45,17 @@ def activity_page(request, key):
     except Booking_Slot.DoesNotExist:
         booking_slots = []
 
-    current_datetime = dt.datetime.now()
+    for members_booking in members_bookings:
+        for booking_slot in booking_slots:
+            if booking_slot.id == members_booking.booking_slot_used.id:
+                slots_already_used.append(booking_slot.id)
 
     context = {
         'current_activity': current_activity,
         'booking_slots': booking_slots,
+        'members_bookings': members_bookings,
         'current_datetime': current_datetime,
+        'slots_already_used': slots_already_used,
         }
     return render(request, 'activities/activity_page.html', context)
 
@@ -186,6 +202,22 @@ def create_booking(request, key):
     """
     current_booking_slot = get_object_or_404(Booking_Slot, pk=key)
     current_profile = get_object_or_404(Profile, user=request.user)
+    current_time = timezone.now()
+
+    try:
+        members_bookings = Booking.objects.filter(
+            member=current_profile, booking_end_time__gte=current_time
+            ).order_by('booking_end_time')
+    except Booking.DoesNotExist:
+        members_bookings = []
+
+    for members_booking in members_bookings:
+        if current_booking_slot.id == members_booking.booking_slot_used.id:
+            messages.error(
+            request, "You've already booked this slot."
+            )
+            return redirect('activity_page', current_booking_slot.activity.id)
+
     current_activity = current_booking_slot.activity
     start_time = current_booking_slot.start_hour
     end_time = current_booking_slot.end_datetime

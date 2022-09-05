@@ -20,7 +20,7 @@
 
 <div class="row">
     <div class="col-lg-4 offset-lg-4 col-sm-6 offset-sm-3 col-8 offset-2">
-        <form class="signup body-text my-5" id="signup_form" method="post" action="{% url 'account_signup' %}">
+        <form class="signup form-text my-5" id="signup_form" method="post" action="{% url 'account_signup' %}">
             {% csrf_token %}
             {{ form|crispy }}
             {% if redirect_field_value %}
