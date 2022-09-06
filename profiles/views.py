@@ -29,10 +29,22 @@ def user_subscription_check(user):
         else:
             pass
 
-        if current_profile.is_subscribed:
+        if current_profile.is_subscribed or user.is_staff:
             user_is_subscribed = True
 
     return user_is_subscribed
+
+
+def user_is_staff_check(user):
+    """
+    Checks if a user is staff
+    """
+
+    user_is_staff = False
+    if user.is_staff:
+        user_is_staff = True
+        
+    return user_is_staff
 
 
 @login_required

@@ -5,6 +5,7 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
 import stripe
+from datetime import datetime as dt
 
 from profiles.models import Profile
 from .forms import SignupForm
@@ -154,3 +155,30 @@ def checkout_success(request):
         'subscription': subscription_id,
     }
     return render(request, 'memberships/checkout_success.html', context)
+
+
+@login_required
+def subscription_cancelled(request):
+    """
+    A view to show member they've cancelled their membership
+    """
+
+    try:
+        current_profile = get_object_or_404(Profile, user=request.user)
+        stripe.api_key = settings.STRIPE_SECRET_KEY
+        session = stripe.checkout.Session.retrieve(request.GET.get('session_id'))
+        customer_id = stripe.Customer.retrieve(session.customer).id
+        subscription_id = stripe.Subscription.retrieve(session.subscription).id
+        subscription_end = dt.fromtimestamp(current_profile.subscription_end)
+    except Exception as e:
+        print(e)
+        return JsonResponse({'error': (e.args[0])}, status=403)
+
+    context = {
+        'session': session,
+        'customer': customer_id,
+        'current_profile': current_profile,
+        'subscription': subscription_id,
+        'subscription_end': subscription_end,
+    }
+    return render(request, 'memberships/subscription_cancelled.html', context)

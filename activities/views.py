@@ -1,12 +1,16 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required, user_passes_test
 from .models import Activity, Booking_Slot, Booking
 from profiles.models import Profile
+from profiles.views import user_subscription_check, user_is_staff_check
 from .forms import ActivityForm, EditActivityForm, BookingSlotForm
 import datetime as dt
 from django.utils import timezone
 
 
+@user_passes_test(user_subscription_check, login_url='/memberships/membership_signup')
+@login_required
 def all_activities(request):
     """A view to show all activities"""
 
@@ -21,6 +25,8 @@ def all_activities(request):
     return render(request, 'activities/all_activities.html', context)
 
 
+@user_passes_test(user_subscription_check, login_url='/memberships/membership_signup')
+@login_required
 def activity_page(request, key):
     """
     A view to return the activity page
@@ -60,6 +66,8 @@ def activity_page(request, key):
     return render(request, 'activities/activity_page.html', context)
 
 
+@user_passes_test(user_is_staff_check, login_url='/memberships/membership_signup')
+@login_required
 def add_activity(request):
     """
     A view to allow admins add actvities
@@ -82,6 +90,8 @@ def add_activity(request):
     return render(request, 'activities/add_activity.html', context)
 
 
+@user_passes_test(user_is_staff_check, login_url='/memberships/membership_signup')
+@login_required
 def edit_activity(request, key):
     """
     A view to allow admins edit actvities
@@ -119,6 +129,8 @@ def edit_activity(request, key):
     return render(request, 'activities/edit_activity.html', context)
 
 
+@user_passes_test(user_is_staff_check, login_url='/memberships/membership_signup')
+@login_required
 def add_booking_slot(request, key):
     """
     A view to allow admins create booking slots for activities
@@ -168,6 +180,8 @@ def add_booking_slot(request, key):
     return render(request, 'activities/add_booking_slot.html', context)
 
 
+@user_passes_test(user_is_staff_check, login_url='/memberships/membership_signup')
+@login_required
 def edit_booking_slot(request, key):
     """
     A view to allow admins edit booking slots for activities
@@ -196,6 +210,8 @@ def edit_booking_slot(request, key):
     return render(request, 'activities/edit_booking_slot.html', context)
 
 
+@user_passes_test(user_subscription_check, login_url='/memberships/membership_signup')
+@login_required
 def create_booking(request, key):
     """
     A view to allow members make bookings
