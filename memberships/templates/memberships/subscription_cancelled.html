@@ -1,0 +1,57 @@
+{% extends "base.html"%}
+{% load static %}
+
+
+{% block extra_title %}
+| New Profile
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'memberships/css/memberships.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="big-title-text mt-5 text-center">
+    You're In!!
+</div>
+<div class="container text-center">
+    <hr>
+    <div class="row">
+        <div class="col-xl-6 offset-xl-3 col-lg-8 offset-lg-2">
+            <div class="my-t med-title-text">
+                {{ current_profile.first_name }}, We're sorry to see you go!
+                <br>
+            </div>
+            <p class="my-b">
+                If you ever want to resubscribe, 
+                <br>
+                Head over to your profile through the manage subscription link
+                <br>
+            </p>
+            <div class="mt-5 med-title-text">
+                <u>Subscription Details</u>: 
+                <br>
+            </div>
+            <p class="mb-5">
+                Subscription End: {{ current_profile.subscription_end| }}
+                <br>
+                Subscription id: {{ subscription }}
+                <br>
+                Customer id: {{ customer }}
+                <br>
+            </p>
+            <a class="custom-btn" href="{% url 'club_page' %}" role="button">
+                Club Page <i class="fa-solid fa-hand-fist"></i>
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block postloadjs %}
+{{ block.super }}
+{{ stripe_public_key|json_script:"stripe_public_key" }}
+{{ client_secret|json_script:"client_secret" }}
+<script src="{% static '/memberships/js/stripe_elements.js' %}"></script>
+{% endblock %}
