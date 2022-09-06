@@ -4,11 +4,6 @@ html {
     overflow-x: hidden;
 }
 
-body {
-    background: url("/media/hero_hurtlocker.jpg") center center fixed;
-    background-size: cover !important;
-}
-
 .navbar-brand {
     font-family: 'Righteous', cursive;
     color: rgb(224, 142, 0) !important;
