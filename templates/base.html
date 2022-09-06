@@ -60,13 +60,13 @@
         {% for message in messages %}
             {% with message.level as level %}
                 {% if level == 40 %}
-                    {% include 'components/toasts/toast_error.html' %}
+                    {% include 'includes/toasts/toast_error.html' %}
                 {% elif level == 30 %}
-                    {% include 'components/toasts/toast_warning.html' %}
+                    {% include 'includes/toasts/toast_warning.html' %}
                 {% elif level == 25 %}
-                    {% include 'components/toasts/toast_success.html' %}
+                    {% include 'includes/toasts/toast_success.html' %}
                 {% else %}
-                    {% include 'components/toasts/toast_info.html' %}
+                    {% include 'includes/toasts/toast_info.html' %}
                 {% endif %}
             {% endwith %}
         {% endfor %}
