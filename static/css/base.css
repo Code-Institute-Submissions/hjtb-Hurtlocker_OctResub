@@ -155,6 +155,36 @@ hr {
     color: rgb(255, 255, 255);
 }
 
+.message-container {
+    position: fixed;
+    top: 4rem;
+    right: 0.5rem;
+    z-index: 99999999999;
+    background-color: #72351a;
+}
+
+.toast-container {
+    background-color: #72351a;
+    color: #FFFFEB;
+    font-size: 1.6rem;
+}
+
+.toast-header {
+    background-color: #72351a;
+    color: #FFFFEB;
+    font-size: 2rem;
+}
+
+.close {
+    color: #FFFFEB;
+    opacity: 1;
+    font-size: 2.5rem;
+}
+
+.close:hover {
+    color: #FCBC49;
+}
+
 /* All Auth Forms styling */
 
 label.form-check-label {

@@ -56,7 +56,21 @@
     </header>
 
     {% if messages %}
-    <div class="message-container"></div>
+    <div class="message-container toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="5000">
+        {% for message in messages %}
+            {% with message.level as level %}
+                {% if level == 40 %}
+                    {% include 'components/toasts/toast_error.html' %}
+                {% elif level == 30 %}
+                    {% include 'components/toasts/toast_warning.html' %}
+                {% elif level == 25 %}
+                    {% include 'components/toasts/toast_success.html' %}
+                {% else %}
+                    {% include 'components/toasts/toast_info.html' %}
+                {% endif %}
+            {% endwith %}
+        {% endfor %}
+    </div>
     {% endif %}
 
     {% block page_header %}
@@ -66,6 +80,11 @@
     {% endblock %}
 
     {% block postloadjs %}
+        
+    <!-- Toast Initialization -->
+    <script type="text/javascript">
+        $('.toast').toast('show');
+    </script>
     {% endblock %}
 
     <footer class="mt-auto">
