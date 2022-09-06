@@ -67,5 +67,5 @@
 {{ block.super }}
 {{ stripe_public_key|json_script:"stripe_public_key" }}
 {{ client_secret|json_script:"client_secret" }}
-<script src="{% static '/memberships/js/stripe_elements.js' %}"></script>
+<script src="{% static 'memberships/js/stripe_elements.js' %}"></script>
 {% endblock %}
