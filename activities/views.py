@@ -213,36 +213,6 @@ def add_booking_slot(request, key):
     return render(request, 'activities/add_booking_slot.html', context)
 
 
-@user_passes_test(user_is_staff_check, login_url='/memberships/membership_signup')
-@login_required
-def edit_booking_slot(request, key):
-    """
-    A view to allow admins edit booking slots for activities
-    """
-
-    current_slot = get_object_or_404(Booking_Slot, pk=key)
-    current_activity = current_slot.activity
-
-    if request.method == 'POST':
-        form = BookingSlotForm(request.POST, instance=current_slot)
-        if form.is_valid():
-            form.save()
-            messages.success(request, 'Booking Slot Updated Successfully')
-            return redirect('activity_page', current_activity.id)
-        else:
-            messages.error(
-                request, 'Please ensure the data entered is valid.')
-    else:
-        form = BookingSlotForm(instance=current_slot)
-
-    context = {
-        'current_activity': current_activity,
-        'current_slot': current_slot,
-        'form': form,
-        }
-    return render(request, 'activities/edit_booking_slot.html', context)
-
-
 @user_passes_test(user_is_staff_check, login_url='../memberships/membership_signup')
 @login_required
 def delete_booking_slot(request, key):
