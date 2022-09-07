@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.http import JsonResponse
+from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
 import stripe
@@ -89,7 +89,7 @@ def create_checkout_session(request):
         domain_url = 'http://8000-hjtb-hurtlocker-n667ue81604.ws-eu63.gitpod.io/'
     else:
         domain_url = 'https://hurtlocker-jtb.herokuapp.com/'
-        
+
     try:
         current_profile = get_object_or_404(Profile, user=request.user)
         stripe.api_key = settings.STRIPE_SECRET_KEY
@@ -132,8 +132,11 @@ def create_checkout_session(request):
             )
         return redirect(checkout_session.url, code=303)
     except Exception as e:
-        print(e)
-        return JsonResponse({'error': (e.args[0])}, status=403)
+        messages.error(
+            request, """Sorry, something went wrong when we tried
+             to create the session with Stripe. Please try again later."""
+            )
+        return HttpResponse(content=e, status=400)
 
 
 @login_required
@@ -149,8 +152,10 @@ def checkout_success(request):
         customer_id = stripe.Customer.retrieve(session.customer).id
         subscription_id = stripe.Subscription.retrieve(session.subscription).id
     except Exception as e:
-        print(e)
-        return JsonResponse({'error': (e.args[0])}, status=403)
+        messages.error(
+            request, 'Sorry, something went wrong. Please try again later.'
+            )
+        return HttpResponse(content=e, status=400)
 
     context = {
         'session': session,
@@ -175,8 +180,8 @@ def subscription_cancelled(request):
         subscription_id = stripe.Subscription.retrieve(session.subscription).id
         subscription_end = dt.fromtimestamp(current_profile.subscription_end)
     except Exception as e:
-        print(e)
-        return JsonResponse({'error': (e.args[0])}, status=403)
+        messages.error(request, 'Sorry, your request to cancel failed.')
+        return HttpResponse(content=e, status=400)
 
     context = {
         'session': session,
