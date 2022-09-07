@@ -6,6 +6,7 @@ from profiles.models import Profile
 from profiles.views import user_subscription_check, user_is_staff_check
 from .forms import ActivityForm, EditActivityForm, BookingSlotForm
 import datetime as dt
+import pytz
 from django.utils import timezone
 
 
@@ -156,20 +157,44 @@ def add_booking_slot(request, key):
     if request.method == 'POST':
         form = BookingSlotForm(request.POST)
         if form.is_valid():
-            booking = form.instance
-            booking_date = datetimes_of_next_week[booking.day].date()
-            booking_start_time = booking.start_hour
-            booking_start_datetime = dt.datetime.combine(
-                booking_date, booking_start_time
+            new_booking_slot = form.instance
+            new_booking_date = datetimes_of_next_week[new_booking_slot.day].date()
+            new_booking_start_time = new_booking_slot.start_hour
+            new_booking_start_datetime = dt.datetime.combine(
+                new_booking_date, new_booking_start_time
                 )
-            booking_start_seconds = booking_start_datetime.timestamp()
-            booking_duration_seconds = booking.duration.seconds
-            booking_end = booking_start_seconds + booking_duration_seconds
-            booking_end_datetime = dt.datetime.fromtimestamp(booking_end)
-            booking.end_datetime = booking_end_datetime
-            form.save()
-            messages.success(request, 'New Booking Slot Created Successfully')
-            return redirect('activity_page', current_activity.id)
+            new_booking_start_seconds = new_booking_start_datetime.timestamp()
+            new_booking_duration_seconds = new_booking_slot.duration.seconds
+            new_booking_end = new_booking_start_seconds + new_booking_duration_seconds
+            new_booking_end_datetime = dt.datetime.fromtimestamp(new_booking_end)
+            new_booking_slot.end_datetime = new_booking_end_datetime
+
+            overlap = False
+
+            for existing_booking_slot in existing_slots:
+                existing_start = (
+                    existing_booking_slot.end_datetime - existing_booking_slot.duration
+                    )
+                existing_end = existing_booking_slot.end_datetime
+                utc = pytz.UTC
+                new_start = utc.localize(new_booking_start_datetime)
+                new_end = utc.localize(new_booking_end_datetime)
+                if (
+                    existing_start <= new_start < existing_end or
+                    existing_start < new_end <= existing_end
+                ):
+                    overlap = True
+
+            if overlap is True:
+                messages.error(
+                    request, 'A booking slot already exists at this time!'
+                )
+            else:
+                form.save()
+                messages.success(
+                    request, 'New Booking Slot Created Successfully'
+                    )
+                return redirect('edit_activity', current_activity.id)
         else:
             messages.error(
                 request, 'Please ensure the data entered is valid.')
@@ -216,6 +241,22 @@ def edit_booking_slot(request, key):
         'form': form,
         }
     return render(request, 'activities/edit_booking_slot.html', context)
+
+
+@user_passes_test(user_is_staff_check, login_url='../memberships/membership_signup')
+@login_required
+def delete_booking_slot(request, key):
+    """
+    A view to allow staff delete booking slots for activities
+    """
+
+    booking_slot_to_be_deleted = get_object_or_404(Booking_Slot, pk=key)
+    current_activity = booking_slot_to_be_deleted.activity
+
+    booking_slot_to_be_deleted.delete()
+    messages.success(request, 'Booking Slot Deleted Successfully')
+
+    return redirect('edit_activity', current_activity.id)
 
 
 @user_passes_test(user_subscription_check, login_url='/memberships/membership_signup')

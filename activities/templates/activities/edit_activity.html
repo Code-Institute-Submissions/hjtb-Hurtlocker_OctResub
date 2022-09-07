@@ -38,9 +38,9 @@
                             <td>{{ slot.start_hour }}</td>
                             <td>{{ slot.get_duration_display }}</td>
                             <td>
-                                <a class="custom-slot-btn m-0" href="{% url 'edit_booking_slot' slot.id %}" role="button"
+                                <a class="custom-slot-btn m-0" href="{% url 'delete_booking_slot' slot.id %}" role="button"
                                 data-ripple-color="primary">
-                                Edit<i class="fa-solid fa-pen"></i>
+                                Delete <i class="fas fa-trash"></i>
                                 </a>
                             </td>
                         </tr>
