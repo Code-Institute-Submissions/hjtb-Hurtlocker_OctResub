@@ -115,7 +115,7 @@ def edit_activity(request, key):
         if form.is_valid():
             form.save()
             messages.success(request, 'Activity Updated Successfully')
-            return redirect('/activities')
+            return redirect('activity_page', current_activity.id)
         else:
             messages.error(
                 request, 'Please ensure the data entered is valid.')
@@ -158,16 +158,16 @@ def add_booking_slot(request, key):
         form = BookingSlotForm(request.POST)
         if form.is_valid():
             new_booking_slot = form.instance
-            new_booking_date = datetimes_of_next_week[new_booking_slot.day].date()
-            new_booking_start_time = new_booking_slot.start_hour
-            new_booking_start_datetime = dt.datetime.combine(
-                new_booking_date, new_booking_start_time
+            new_booking_slot_date = datetimes_of_next_week[new_booking_slot.day].date()
+            new_booking_slot_start_time = new_booking_slot.start_hour
+            new_booking_slot_start_datetime = dt.datetime.combine(
+                new_booking_slot_date, new_booking_slot_start_time
                 )
-            new_booking_start_seconds = new_booking_start_datetime.timestamp()
-            new_booking_duration_seconds = new_booking_slot.duration.seconds
-            new_booking_end = new_booking_start_seconds + new_booking_duration_seconds
-            new_booking_end_datetime = dt.datetime.fromtimestamp(new_booking_end)
-            new_booking_slot.end_datetime = new_booking_end_datetime
+            new_booking_slot_start_seconds = new_booking_slot_start_datetime.timestamp()
+            new_booking_slot_duration_seconds = new_booking_slot.duration.seconds
+            new_booking_slot_end = new_booking_slot_start_seconds + new_booking_slot_duration_seconds
+            new_booking_slot_end_datetime = dt.datetime.fromtimestamp(new_booking_slot_end)
+            new_booking_slot.end_datetime = new_booking_slot_end_datetime
 
             overlap = False
 
@@ -177,8 +177,8 @@ def add_booking_slot(request, key):
                     )
                 existing_end = existing_booking_slot.end_datetime
                 utc = pytz.UTC
-                new_start = utc.localize(new_booking_start_datetime)
-                new_end = utc.localize(new_booking_end_datetime)
+                new_start = utc.localize(new_booking_slot_start_datetime)
+                new_end = utc.localize(new_booking_slot_end_datetime)
                 if (
                     existing_start <= new_start < existing_end or
                     existing_start < new_end <= existing_end
@@ -246,25 +246,53 @@ def create_booking(request, key):
     except Booking.DoesNotExist:
         members_bookings = []
 
-    for members_booking in members_bookings:
-        if current_booking_slot.id == members_booking.booking_slot_used.id:
-            messages.error(
-            request, "You've already booked this slot."
-            )
-            return redirect('activity_page', current_booking_slot.activity.id)
-
     current_activity = current_booking_slot.activity
-    start_time = current_booking_slot.start_hour
-    end_time = current_booking_slot.end_datetime
+    new_booking_start_hour = current_booking_slot.start_hour
+    new_booking_end_datetime = current_booking_slot.end_datetime
 
     new_booking = Booking(
         booking_slot_used=current_booking_slot,
         member=current_profile,
-        booking_start_time=start_time,
-        booking_end_time=end_time,
+        booking_start_time=new_booking_start_hour,
+        booking_end_time=new_booking_end_datetime,
         )
 
-    new_booking.save()
-    messages.success(request, 'New Booking Slot Created Successfully')
+    overlap = False
+    for member_booking in members_bookings:
+        if current_booking_slot.id == member_booking.booking_slot_used.id:
+            messages.error(
+                request, "You've already booked this slot."
+            )
+        existing_booking_slot = member_booking.booking_slot_used
+        existing_start = (
+            existing_booking_slot.end_datetime - current_booking_slot.duration
+            )
+        existing_end = existing_booking_slot.end_datetime
 
-    return redirect('activity_page', current_activity.id)
+        new_booking_date = new_booking_end_datetime.date()
+        new_booking_start_datetime = dt.datetime.combine(
+            new_booking_date, new_booking_start_hour
+            )
+        utc = pytz.UTC
+        new_start = utc.localize(new_booking_start_datetime)
+        new_end = new_booking_end_datetime
+        if (
+            existing_start <= new_start < existing_end or
+            existing_start < new_end <= existing_end
+        ):
+            overlap = True
+
+    if overlap is True:
+        messages.error(
+            request, 'You already have a booking at this time!'
+        )
+        return redirect('activity_page', current_activity.id)
+    else:
+        new_booking.save()
+        messages.success(
+            request, f"""
+            You've booked {current_booking_slot.activity.activity_name}
+            for {current_booking_slot.get_day_display()}.
+            """
+            )
+        return redirect('activity_page', current_activity.id)
