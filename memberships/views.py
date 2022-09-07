@@ -5,6 +5,7 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
 import stripe
+import os
 from datetime import datetime as dt
 
 from profiles.models import Profile
@@ -84,10 +85,13 @@ def create_checkout_session(request):
     """
     A view to create a stripe checkout session
     """
-
+    if os.environ.get('GITPOD_WORKSPACE_ID'):
+        domain_url = 'http://8000-hjtb-hurtlocker-n667ue81604.ws-eu63.gitpod.io/'
+    else:
+        domain_url = 'https://hurtlocker-jtb.herokuapp.com/'
+        
     try:
         current_profile = get_object_or_404(Profile, user=request.user)
-        domain_url = 'http://8000-hjtb-hurtlockerv1-zs2xiyzn5y4.ws-eu63.gitpod.io/'
         stripe.api_key = settings.STRIPE_SECRET_KEY
         existing_customers = stripe.Customer.list()
         # for customer in existing_customers:
