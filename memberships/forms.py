@@ -1,6 +1,6 @@
 from django import forms
 from profiles.models import Profile
-
+from profiles.widgets import CustomClearableFileInput
 
 class SignupForm(forms.ModelForm):
     class Meta:
@@ -11,6 +11,10 @@ class SignupForm(forms.ModelForm):
             'subscription_end',
             'stripe_customer_id',
             'stripe_subscription_id',
+        )
+
+    image = forms.ImageField(
+        label='Image', required=False, widget=CustomClearableFileInput
         )
 
     def __init__(self, *args, **kwargs):

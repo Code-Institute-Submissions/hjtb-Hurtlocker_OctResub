@@ -24,7 +24,7 @@ def membership_signup(request):
         form = SignupForm(request.POST, request.FILES, instance=current_profile)
         if form.is_valid():
             form.save()
-            messages.success(request, 'User has signed up')
+            messages.success(request, 'User profile updated successfully')
             return redirect('/memberships/checkout')
         else:
             messages.error(
@@ -85,6 +85,7 @@ def create_checkout_session(request):
     """
     A view to create a stripe checkout session
     """
+    stripe.api_key = settings.STRIPE_SECRET_KEY
     if os.environ.get('GITPOD_WORKSPACE_ID'):
         domain_url = 'http://8000-hjtb-hurtlocker-n667ue81604.ws-eu63.gitpod.io/'
     else:
@@ -92,51 +93,46 @@ def create_checkout_session(request):
 
     try:
         current_profile = get_object_or_404(Profile, user=request.user)
-        stripe.api_key = settings.STRIPE_SECRET_KEY
-        existing_customers = stripe.Customer.list()
-        # for customer in existing_customers:
-        #     print(customer)
-        #     if current_profile.email == customer.email:
-        #         current_profile.stripe_customer_id = customer.id
-        #     print(current_profile.email)
-        if current_profile.stripe_customer_id:
-            customer_id = current_profile.stripe_customer_id
-            checkout_session = stripe.checkout.Session.create(
-                client_reference_id=request.current_profile.id,
-                customer=customer_id,
-                success_url=domain_url + 'memberships/checkout_success?session_id={CHECKOUT_SESSION_ID}',
-                cancel_url=domain_url + 'club/',
-                payment_method_types=['card'],
-                mode='subscription',
-                line_items=[
-                    {
-                        'price': settings.STRIPE_PRICE_ID,
-                        'quantity': 1,
-                    }
-                ]
-            )
-        else:
-            checkout_session = stripe.checkout.Session.create(
-                client_reference_id=request.user.id,
-                customer_email=current_profile.email,
-                success_url=domain_url + 'memberships/checkout_success?session_id={CHECKOUT_SESSION_ID}',
-                cancel_url=domain_url + 'club/',
-                payment_method_types=['card'],
-                mode='subscription',
-                line_items=[
-                    {
-                        'price': settings.STRIPE_PRICE_ID,
-                        'quantity': 1,
-                    }
-                ]
-            )
-        return redirect(checkout_session.url, code=303)
     except Exception as e:
         messages.error(
             request, """Sorry, something went wrong when we tried
-             to create the session with Stripe. Please try again later."""
+                to create the session with Stripe. Please try again later."""
             )
         return HttpResponse(content=e, status=400)
+
+    if current_profile.stripe_customer_id:
+        customer_id = current_profile.stripe_customer_id
+        checkout_session = stripe.checkout.Session.create(
+            client_reference_id=request.current_profile.id,
+            customer=customer_id,
+            success_url=domain_url + 'memberships/checkout_success?session_id={CHECKOUT_SESSION_ID}',
+            cancel_url=domain_url + 'club/',
+            payment_method_types=['card'],
+            mode='subscription',
+            line_items=[
+                {
+                    'price': settings.STRIPE_PRICE_ID,
+                    'quantity': 1,
+                }
+            ]
+        )
+    else:
+        checkout_session = stripe.checkout.Session.create(
+            client_reference_id=request.user.id,
+            customer_email=current_profile.email,
+            success_url=domain_url + 'memberships/checkout_success?session_id={CHECKOUT_SESSION_ID}',
+            cancel_url=domain_url + 'club/',
+            payment_method_types=['card'],
+            mode='subscription',
+            line_items=[
+                {
+                    'price': settings.STRIPE_PRICE_ID,
+                    'quantity': 1,
+                }
+            ]
+        )
+        return redirect(checkout_session.url, code=303)
+
 
 
 @login_required

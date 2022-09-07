@@ -21,18 +21,18 @@
         {% csrf_token %}
         <div class="row my-5">
             <div class="col-12 med-title-text text-center">
-                <u>Price</u>:
-            </div>
-            <div class="col-12 answer-title-text text-center">
-                {{ price }}
-            </div>
-        </div>
-        <div class="row my-5">
-            <div class="col-12 med-title-text text-center">
                 <u>Subscription Details</u>:
             </div>
             <div class="col-xl-6 offset-xl-3 col-m-8 offset-m-2 answer-title-text text-center">
                 {{ subscription_details }}
+            </div>
+        </div>
+        <div class="row my-5">
+            <div class="col-12 med-title-text text-center">
+                <u>Price</u>:
+            </div>
+            <div class="col-12 answer-title-text text-center">
+                {{ price }}/Month
             </div>
         </div>
         <div class="row my-5">

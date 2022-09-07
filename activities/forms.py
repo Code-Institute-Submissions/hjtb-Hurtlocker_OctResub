@@ -1,5 +1,6 @@
 from django import forms
 from .models import Activity, Booking_Slot
+from profiles.widgets import CustomClearableFileInput
 
 
 class ActivityForm(forms.ModelForm):
@@ -7,6 +8,10 @@ class ActivityForm(forms.ModelForm):
         model = Activity
         exclude = (
             'id',
+        )
+
+    image = forms.ImageField(
+        label='Image', required=False, widget=CustomClearableFileInput
         )
 
     def __init__(self, *args, **kwargs):
@@ -37,6 +42,10 @@ class EditActivityForm(forms.ModelForm):
         exclude = (
             'id',
             'activity_name'
+        )
+
+    image = forms.ImageField(
+        label='Image', required=False, widget=CustomClearableFileInput
         )
 
     def __init__(self, *args, **kwargs):
