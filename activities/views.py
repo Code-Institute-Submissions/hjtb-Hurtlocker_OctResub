@@ -137,6 +137,14 @@ def add_booking_slot(request, key):
     """
     current_activity = get_object_or_404(Activity, pk=key)
 
+    try:
+        existing_slots = Booking_Slot.objects.filter(
+            activity=current_activity.activity_name
+            )
+
+    except Booking_Slot.DoesNotExist:
+        existing_slots = []
+
     current_datetime = dt.datetime.now()
     datetimes_of_next_week = {}
 

@@ -14,7 +14,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 if 'SECRET_KEY' in os.environ:
-
     SECRET_KEY = os.environ.get('SECRET_KEY', '')
 
 else:
@@ -33,7 +32,6 @@ ALLOWED_HOSTS = ['hurtlocker-jtb.herokuapp.com', 'localhost']
 
 
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -230,14 +228,15 @@ else:
     STRIPE_ENDPOINT_SECRET = config('STRIPE_ENDPOINT_SECRET')
 
 
-if 'EMAIL_HOST_USER' in os.environ:
+# Email
+if 'DEVELOPMENT' in os.environ:
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+    DEFAULT_FROM_EMAIL = 'info@hurtlocker.com'
+else:
     EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
     EMAIL_USE_TLS = True
     EMAIL_PORT = 587
     EMAIL_HOST = 'smtp.gmail.com'
     EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
     EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASS')
-    DEFAULT_FROM_EMAIL = 'info@hurtlocker.com'
-else:
-    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
     DEFAULT_FROM_EMAIL = 'info@hurtlocker.com'
