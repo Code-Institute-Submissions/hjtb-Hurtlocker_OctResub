@@ -93,8 +93,10 @@ def create_checkout_session(request):
     A view to create a stripe checkout session
     """
     stripe.api_key = settings.STRIPE_SECRET_KEY
+
     if os.environ.get('DEVELOPMENT'):
-        domain_url = 'https://8000-hjtb-hurtlocker-n667ue81604.ws-eu64.gitpod.io/'
+        hostname = os.environ.get('HOSTNAME')
+        domain_url = 'https://8000-' + hostname + '.ws-eu64.gitpod.io/'
     else:
         domain_url = 'https://hurtlocker-jtb.herokuapp.com/'
 
