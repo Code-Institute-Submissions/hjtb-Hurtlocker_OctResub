@@ -16,20 +16,23 @@
         {{ current_profile.first_name }} {{ current_profile.last_name }}
     </div>
     <hr>
+    {% if current_profile.email == current_user.email %}
     <div class="p-2">
         <a class="custom-btn m-0" href="{% url 'edit_profile' current_profile.id %}" role="button"
             data-ripple-color="primary">
             Edit Profile <i class="fas fa-user-edit"></i>
         </a>
     </div>
-    {% if current_profile.is_subscribed %}
+    {% endif %}
+    {% if current_profile.is_subscribed and current_profile.email == current_user.email %}
     <div class="p-2">
         <a class="custom-btn m-0" href="{% url 'manage_subscription' %}" role="button"
-            data-ripple-color="primary">
-            Manage Subscription <i class="fa-solid fa-pen-to-square"></i>
+        data-ripple-color="primary">
+        Manage Subscription <i class="fa-solid fa-pen-to-square"></i>
         </a>
     </div>
-    {% else %}
+    {% endif %}
+    {% if not current_profile.is_subscribed and current_profile.email == current_user.email %}
     <div class="p-2">
         <a class="custom-btn m-0" href="{% url 'checkout' %}" role="button"
             data-ripple-color="primary">
@@ -65,6 +68,14 @@
                             <p class="answer-title-text mb-3">
                                 {{ current_profile.email }}
                             </p>
+                            {% if current_profile.is_subscribed %}
+                                <div class="med-title-text mb-3">
+                                    <u>Subscription End</u>: 
+                                </div>
+                                <p class="answer-title-text mb-3">
+                                    {{ subscription_end|date:'Y-m-d' }}
+                                </p>
+                            {% endif %}
                         </div>
                         <div class="col-lg-6 offset-lg-0 col-10 offset-1">
                             <div class="med-title-text mb-3"><u>Bookings</u></div>

@@ -9,6 +9,12 @@ body {
     background-size: cover !important;
 }
 
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+}
+
 .navbar-brand {
     font-family: 'Righteous', cursive;
     color: rgb(224, 142, 0) !important;

@@ -78,6 +78,7 @@ def profile_page(request, key):
 
     if key and request.user.is_staff:
         current_profile = get_object_or_404(Profile, pk=key)
+        current_user = request.user
     else:
         current_profile = get_object_or_404(Profile, user=request.user)
 
@@ -93,11 +94,15 @@ def profile_page(request, key):
     except Booking.DoesNotExist:
         members_bookings = []
 
+    subscription_end = dt.fromtimestamp(current_profile.subscription_end)
+
     context = {
         'current_profile': current_profile,
         'current_time': current_time,
         'members_bookings': members_bookings,
         'booking_slots': booking_slots,
+        'subscription_end': subscription_end,
+        'current_user': current_user,
         }
     return render(request, 'profiles/profile_page.html', context)
 
@@ -150,7 +155,8 @@ def manage_subscription(request):
     stripe.api_key = settings.STRIPE_SECRET_KEY
 
     if os.environ.get('DEVELOPMENT'):
-        domain_url = 'https://8000-hjtb-hurtlocker-n667ue81604.ws-eu64.gitpod.io/'
+        hostname = os.environ.get('HOSTNAME')
+        domain_url = 'https://8000-' + hostname + '.ws-eu64.gitpod.io/'
     else:
         domain_url = 'https://hurtlocker-jtb.herokuapp.com/'
     return_url = domain_url + 'club/'
