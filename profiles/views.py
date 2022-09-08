@@ -70,7 +70,6 @@ def all_profiles(request):
     return render(request, 'profiles/all_profiles.html', context)
 
 
-@user_passes_test(user_subscription_check, login_url='/memberships/membership_signup')
 @login_required
 def profile_page(request, key):
     """A view to return the individual profile page"""
