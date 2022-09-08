@@ -20,6 +20,11 @@
                 <a class="nav-link" href="{% url 'profiles' %}">Profiles</a>
             </li>
             {% endif %}
+            {% if current_profile %}
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'profile_page' current_profile.id %}">Profile</a>
+            </li>
+            {% endif %}
         </ul>
         <ul class="navbar-nav navbar-right mr-4">
             {% if user.is_anonymous %}

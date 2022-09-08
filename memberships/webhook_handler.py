@@ -198,10 +198,10 @@ class Stripe_Webhook_Handler:
                 )
 
         except Exception as e:
-            print(e)
             return HttpResponse(
-                content=f'Webhook received: {event["type"]}.\
-                    Profile or subscription does not exist', status=404)
+                content=f"""
+                Webhook received: {event["type"]} error: {e}
+                """, status=400)
 
 
 
@@ -233,7 +233,6 @@ class Stripe_Webhook_Handler:
                     {subscription} renewed""", status=200
                 )
             except Exception as e:
-                print(e)
                 return HttpResponse(
                     content=f"""
                     Webhook received: {event["type"]} error: {e}
@@ -264,7 +263,6 @@ class Stripe_Webhook_Handler:
                 )
 
             except Exception as e:
-                print(e)
                 return HttpResponse(
                     content=f"""
                     Webhook received: {event["type"]} error: {e}
@@ -313,9 +311,7 @@ class Stripe_Webhook_Handler:
                     User access suspended', status=200)
 
         except Exception as e:
-            print(e)
             return HttpResponse(
                 content=f"""
                 Webhook received: {event["type"]} error: {e}
                 """, status=400)
-
