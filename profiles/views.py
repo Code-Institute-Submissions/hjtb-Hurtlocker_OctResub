@@ -6,6 +6,7 @@ from .models import Profile
 from activities.models import Booking, Booking_Slot
 from .forms import ProfileForm
 import stripe
+import os
 from datetime import datetime as dt
 from django.utils import timezone
 
@@ -141,8 +142,12 @@ def manage_subscription(request):
         return redirect('profile_page', current_profile.id)
     
     stripe.api_key = settings.STRIPE_SECRET_KEY
-# This needs to be programatically set
-    return_url = 'https://8000-hjtb-hurtlockerv1-zs2xiyzn5y4.ws-eu63.gitpod.io/club'
+
+    if os.environ.get('GITPOD_WORKSPACE_ID'):
+        domain_url = 'http://8000-hjtb-hurtlocker-n667ue81604.ws-eu63.gitpod.io/'
+    else:
+        domain_url = 'https://hurtlocker-jtb.herokuapp.com/'
+    return_url = domain_url + 'club/'
 
     session = stripe.billing_portal.Session.create(
         customer=customer_id,
