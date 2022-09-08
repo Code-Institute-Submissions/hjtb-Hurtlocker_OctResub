@@ -103,7 +103,7 @@ def create_checkout_session(request):
     if current_profile.stripe_customer_id:
         customer_id = current_profile.stripe_customer_id
         checkout_session = stripe.checkout.Session.create(
-            client_reference_id=request.current_profile.id,
+            client_reference_id=current_profile.user_id,
             customer=customer_id,
             success_url=domain_url + 'memberships/checkout_success?session_id={CHECKOUT_SESSION_ID}',
             cancel_url=domain_url + 'club/',
@@ -116,6 +116,7 @@ def create_checkout_session(request):
                 }
             ]
         )
+        return redirect(checkout_session.url, code=303)
     else:
         checkout_session = stripe.checkout.Session.create(
             client_reference_id=request.user.id,
