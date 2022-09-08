@@ -150,8 +150,8 @@ def manage_subscription(request):
 
     stripe.api_key = settings.STRIPE_SECRET_KEY
 
-    if os.environ.get('GITPOD_WORKSPACE_ID'):
-        domain_url = 'http://8000-hjtb-hurtlocker-n667ue81604.ws-eu63.gitpod.io/'
+    if os.environ.get('DEVELOPMENT'):
+        domain_url = 'https://8000-hjtb-hurtlocker-n667ue81604.ws-eu64.gitpod.io/'
     else:
         domain_url = 'https://hurtlocker-jtb.herokuapp.com/'
     return_url = domain_url + 'club/'

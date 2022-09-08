@@ -37,9 +37,8 @@ def webhooks(request):
     handler = Stripe_Webhook_Handler(request)
 
     event_map = {
-        'checkout.session.completed': handler.handle_checkout_complete,
         'customer.subscription.updated': handler.handle_subscription_updated,
-        'invoice.payment_succeeded': handler.handle_payment_succeeded,
+        'invoice.invoice.paid': handler.handle_payment_succeeded,
         'invoice.payment_failed': handler.handle_payment_failed,
     }
 

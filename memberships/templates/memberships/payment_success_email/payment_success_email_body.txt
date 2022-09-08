@@ -2,6 +2,13 @@ Hi {{ email_data.first_name }},
 
 We would like to thank you for your subscription payment at {{ email_data.last_payment }}
 
-Your next payment isn't due until one year from that payment date.
+You are now able to avail of the many different classes on offer in the club.
 
-We hope you enjoy the perks of being a member of the Hurtlocker.
+Just head over to the bookings page to book your space on one of our classes.
+
+We hope you enjoy your time in the Hurtlocker!
+
+Subscription Details:
+
+Subscription id: {{ email_data.subscription }}
+Customer id: {{ email_data.customer }}
