@@ -175,38 +175,3 @@ def checkout_success(request):
         'subscription': subscription_id,
     }
     return render(request, 'memberships/checkout_success.html', context)
-
-
-@login_required
-def subscription_cancelled(request):
-    """
-    A view to show member they've cancelled their membership
-    """
-
-    try:
-        current_profile = get_object_or_404(Profile, user=request.user)
-        stripe.api_key = settings.STRIPE_SECRET_KEY
-        session = stripe.checkout.Session.retrieve(request.GET.get('session_id'))
-        customer_id = stripe.Customer.retrieve(session.customer).id
-        subscription_id = stripe.Subscription.retrieve(session.subscription).id
-        subscription_end = dt.fromtimestamp(current_profile.subscription_end)
-        messages.success(
-            request, "You've successfully unsubscribed!"
-            )
-    except Exception as e:
-        messages.error(
-            request, """
-            Sorry, something went wrong after your checkout session. 
-            Please check your subscription status from your profile page.
-            """
-            )
-        return HttpResponse(content=e, status=400)
-
-    context = {
-        'session': session,
-        'customer': customer_id,
-        'current_profile': current_profile,
-        'subscription': subscription_id,
-        'subscription_end': subscription_end,
-    }
-    return render(request, 'memberships/subscription_cancelled.html', context)
