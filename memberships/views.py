@@ -28,7 +28,8 @@ def membership_signup(request):
             return redirect('/memberships/checkout')
         else:
             messages.error(
-                request, 'Please ensure the data entered is valid.')
+                request, 'Please ensure the data entered is valid.'
+                )
     else:
         form = SignupForm(
             instance=current_profile,
@@ -54,6 +55,12 @@ def checkout(request):
     if current_profile.is_subscribed or not (
         current_profile.first_name and current_profile.last_name
             ):
+        messages.error(
+            request, """
+                Sorry, you've either already subscribed or
+                need to finish creating your profile before you can checkout.
+                """
+            )
         return redirect('/club')
     else:
         stripe_public_key = settings.STRIPE_PUBLIC_KEY
@@ -91,49 +98,48 @@ def create_checkout_session(request):
     else:
         domain_url = 'https://hurtlocker-jtb.herokuapp.com/'
 
+    current_profile = get_object_or_404(Profile, user=request.user)
+
     try:
-        current_profile = get_object_or_404(Profile, user=request.user)
+        if current_profile.stripe_customer_id:
+            customer_id = current_profile.stripe_customer_id
+            checkout_session = stripe.checkout.Session.create(
+                client_reference_id=current_profile.user_id,
+                customer=customer_id,
+                success_url=domain_url + 'memberships/checkout_success?session_id={CHECKOUT_SESSION_ID}',
+                cancel_url=domain_url + 'club/',
+                payment_method_types=['card'],
+                mode='subscription',
+                line_items=[
+                    {
+                        'price': settings.STRIPE_PRICE_ID,
+                        'quantity': 1,
+                    }
+                ]
+            )
+        else:
+            checkout_session = stripe.checkout.Session.create(
+                client_reference_id=request.user.id,
+                customer_email=current_profile.email,
+                success_url=domain_url + 'memberships/checkout_success?session_id={CHECKOUT_SESSION_ID}',
+                cancel_url=domain_url + 'club/',
+                payment_method_types=['card'],
+                mode='subscription',
+                line_items=[
+                    {
+                        'price': settings.STRIPE_PRICE_ID,
+                        'quantity': 1,
+                    }
+                ]
+            )
+        return redirect(checkout_session.url, code=303)
+
     except Exception as e:
         messages.error(
             request, """Sorry, something went wrong when we tried
                 to create the session with Stripe. Please try again later."""
             )
         return HttpResponse(content=e, status=400)
-
-    if current_profile.stripe_customer_id:
-        customer_id = current_profile.stripe_customer_id
-        checkout_session = stripe.checkout.Session.create(
-            client_reference_id=current_profile.user_id,
-            customer=customer_id,
-            success_url=domain_url + 'memberships/checkout_success?session_id={CHECKOUT_SESSION_ID}',
-            cancel_url=domain_url + 'club/',
-            payment_method_types=['card'],
-            mode='subscription',
-            line_items=[
-                {
-                    'price': settings.STRIPE_PRICE_ID,
-                    'quantity': 1,
-                }
-            ]
-        )
-        return redirect(checkout_session.url, code=303)
-    else:
-        checkout_session = stripe.checkout.Session.create(
-            client_reference_id=request.user.id,
-            customer_email=current_profile.email,
-            success_url=domain_url + 'memberships/checkout_success?session_id={CHECKOUT_SESSION_ID}',
-            cancel_url=domain_url + 'club/',
-            payment_method_types=['card'],
-            mode='subscription',
-            line_items=[
-                {
-                    'price': settings.STRIPE_PRICE_ID,
-                    'quantity': 1,
-                }
-            ]
-        )
-        return redirect(checkout_session.url, code=303)
-
 
 
 @login_required
@@ -148,9 +154,15 @@ def checkout_success(request):
         session = stripe.checkout.Session.retrieve(request.GET.get('session_id'))
         customer_id = stripe.Customer.retrieve(session.customer).id
         subscription_id = stripe.Subscription.retrieve(session.subscription).id
+        messages.success(
+            request, "You've subscribed successfully!"
+            )
     except Exception as e:
         messages.error(
-            request, 'Sorry, something went wrong. Please try again later.'
+            request, """
+            Sorry, something went wrong after your checkout session. 
+            Please check your subscription status from your profile page.
+            """
             )
         return HttpResponse(content=e, status=400)
 
@@ -176,8 +188,16 @@ def subscription_cancelled(request):
         customer_id = stripe.Customer.retrieve(session.customer).id
         subscription_id = stripe.Subscription.retrieve(session.subscription).id
         subscription_end = dt.fromtimestamp(current_profile.subscription_end)
+        messages.success(
+            request, "You've successfully unsubscribed!"
+            )
     except Exception as e:
-        messages.error(request, 'Sorry, your request to cancel failed.')
+        messages.error(
+            request, """
+            Sorry, something went wrong after your checkout session. 
+            Please check your subscription status from your profile page.
+            """
+            )
         return HttpResponse(content=e, status=400)
 
     context = {

@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
+from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required, user_passes_test
 from .models import Activity, Booking_Slot, Booking
 from profiles.models import Profile
@@ -14,6 +15,8 @@ from django.utils import timezone
 @login_required
 def all_activities(request):
     """A view to show all activities"""
+    current_user = request.user
+    current_profile = get_object_or_404(Profile, user=current_user)
 
     try:
         activity_list = Activity.objects.all()
@@ -21,7 +24,11 @@ def all_activities(request):
     except Activity.DoesNotExist:
         activity_list = []
 
-    context = {'activity_list': activity_list}
+    context = {
+        'current_profile': current_profile,
+        'current_user': current_user,
+        'activity_list': activity_list
+        }
 
     return render(request, 'activities/all_activities.html', context)
 
@@ -32,11 +39,11 @@ def activity_page(request, key):
     """
     A view to return the activity page
     """
+    current_user = request.user
     current_activity = get_object_or_404(Activity, pk=key)
-    current_profile = get_object_or_404(Profile, user=request.user)
+    current_profile = get_object_or_404(Profile, user=current_user)
     current_datetime = timezone.now()
     slots_already_used = []
-
     try:
         members_bookings = Booking.objects.filter(
             member=current_profile, booking_end_time__gte=current_datetime
@@ -58,6 +65,8 @@ def activity_page(request, key):
                 slots_already_used.append(booking_slot.id)
 
     context = {
+        'current_profile': current_profile,
+        'current_user': current_user,
         'current_activity': current_activity,
         'booking_slots': booking_slots,
         'members_bookings': members_bookings,
@@ -73,12 +82,21 @@ def add_activity(request):
     """
     A view to allow admins add actvities
     """
-
+    current_profile = get_object_or_404(Profile, user=request.user)
     if request.method == 'POST':
         form = ActivityForm(request.POST, request.FILES,)
         if form.is_valid():
-            form.save()
-            messages.success(request, 'New Activity Created Successfully')
+            try:
+                form.save()
+                messages.success(request, 'New Activity Created Successfully')
+            except Exception as e:
+                messages.error(
+                    request, """
+                    Sorry, something went wrong while
+                    trying to create the activity.
+                    """
+                )
+                return HttpResponse(content=e, status=400)
             return redirect('/activities')
         else:
             messages.error(
@@ -86,7 +104,10 @@ def add_activity(request):
     else:
         form = ActivityForm()
 
-    context = {'form': form}
+    context = {
+        'form': form,
+        'current_profile': current_profile,
+        }
 
     return render(request, 'activities/add_activity.html', context)
 
@@ -97,7 +118,7 @@ def edit_activity(request, key):
     """
     A view to allow admins edit actvities
     """
-
+    current_profile = get_object_or_404(Profile, user=request.user)
     current_activity = get_object_or_404(Activity, pk=key)
 
     try:
@@ -113,8 +134,17 @@ def edit_activity(request, key):
             request.POST, request.FILES, instance=current_activity
             )
         if form.is_valid():
-            form.save()
-            messages.success(request, 'Activity Updated Successfully')
+            try:
+                form.save()
+                messages.success(request, 'Activity Updated Successfully')
+            except Exception as e:
+                messages.error(
+                    request, """
+                    Sorry, something went wrong while
+                    trying to update the activity.
+                    """
+                )
+                return HttpResponse(content=e, status=400)
             return redirect('activity_page', current_activity.id)
         else:
             messages.error(
@@ -123,11 +153,36 @@ def edit_activity(request, key):
         form = EditActivityForm(instance=current_activity)
 
     context = {
+        'current_profile': current_profile,
         'current_activity': current_activity,
         'form': form,
         'slots': slots,
         }
     return render(request, 'activities/edit_activity.html', context)
+
+
+@user_passes_test(user_is_staff_check, login_url='../memberships/membership_signup')
+@login_required
+def delete_activity(request, key):
+    """
+    A view to allow staff delete booking slots for activities
+    """
+
+    activity_to_be_deleted = get_object_or_404(Activity, pk=key)
+    current_activity_id = activity_to_be_deleted.id
+
+    try:
+        activity_to_be_deleted.delete()
+        messages.success(request, 'Activity Deleted Successfully')
+    except Exception as e:
+        messages.error(
+            request, """
+            Sorry, something went wrong while
+            trying to delete this activity.
+            """
+        )
+        return HttpResponse(content=e, status=400)
+    return redirect('activity_page', current_activity_id)
 
 
 @user_passes_test(user_is_staff_check, login_url='/memberships/membership_signup')
@@ -137,12 +192,12 @@ def add_booking_slot(request, key):
     A view to allow admins create booking slots for activities
     """
     current_activity = get_object_or_404(Activity, pk=key)
+    current_profile = get_object_or_404(Profile, user=request.user)
 
     try:
         existing_slots = Booking_Slot.objects.filter(
             activity=current_activity.activity_name
             )
-
     except Booking_Slot.DoesNotExist:
         existing_slots = []
 
@@ -190,10 +245,20 @@ def add_booking_slot(request, key):
                     request, 'A booking slot already exists at this time!'
                 )
             else:
-                form.save()
-                messages.success(
-                    request, 'New Booking Slot Created Successfully'
+                try:
+                    form.save()
+                    messages.success(
+                        request, 'New Booking Slot Created Successfully'
+                        )
+                except Exception as e:
+                    messages.error(
+                        request, """
+                        Sorry, something went wrong while
+                        trying to create this booking slot.
+                        """
                     )
+                    return HttpResponse(content=e, status=400)
+
                 return redirect('edit_activity', current_activity.id)
         else:
             messages.error(
@@ -207,7 +272,8 @@ def add_booking_slot(request, key):
 
     context = {
         'form': form,
-        'current_activity': current_activity
+        'current_activity': current_activity,
+        'current_profile': current_profile
         }
 
     return render(request, 'activities/add_booking_slot.html', context)
@@ -222,10 +288,17 @@ def delete_booking_slot(request, key):
 
     booking_slot_to_be_deleted = get_object_or_404(Booking_Slot, pk=key)
     current_activity = booking_slot_to_be_deleted.activity
-
-    booking_slot_to_be_deleted.delete()
-    messages.success(request, 'Booking Slot Deleted Successfully')
-
+    try:
+        booking_slot_to_be_deleted.delete()
+        messages.success(request, 'Booking Slot Deleted Successfully')
+    except Exception as e:
+        messages.error(
+            request, """
+            Sorry, something went wrong while
+            trying to delete this booking slot.
+            """
+        )
+        return HttpResponse(content=e, status=400)
     return redirect('edit_activity', current_activity.id)
 
 
@@ -286,13 +359,21 @@ def create_booking(request, key):
         messages.error(
             request, 'You already have a booking at this time!'
         )
-        return redirect('activity_page', current_activity.id)
     else:
-        new_booking.save()
-        messages.success(
-            request, f"""
-            You've booked {current_booking_slot.activity.activity_name}
-            for {current_booking_slot.get_day_display()}.
-            """
-            )
-        return redirect('activity_page', current_activity.id)
+        try:
+            new_booking.save()
+            messages.success(
+                request, f"""
+                You've booked {current_booking_slot.activity.activity_name}
+                on {new_booking_end_datetime.strftime("%d/%m")}.
+                """
+                )
+        except Exception as e:
+            messages.error(
+                request, """
+                Sorry, something went wrong while trying to make this booking.
+                """
+                )
+            return HttpResponse(content=e, status=400)
+                
+    return redirect('activity_page', current_activity.id)

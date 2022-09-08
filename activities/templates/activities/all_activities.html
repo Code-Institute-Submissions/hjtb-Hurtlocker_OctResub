@@ -5,12 +5,14 @@
 <div class="big-title-text text-center">Activities</div>
 <div class="container fluid">
     <hr>
+    {% if current_user.is_staff %}
     <div class="p-2 text-center">
         <a class="custom-btn m-0" href="{% url 'add_activity' %}" role="button"
             data-ripple-color="primary">
             Add Activity <i class="fa-solid fa-pen-to-square"></i>
         </a>
     </div>
+    {% endif %}
     <div class="row">
         {% for activity in activity_list %}
         <div class="col-xl-4 col-md-6 col-xs-12 my-5">
@@ -19,9 +21,9 @@
                     <a href="{% url 'activity_page' activity.id %}">{{ activity.activity_name }}</a>
                 </div>
                 {% if activity.image %}
-                <img class="card-img-top" src="{{ activity.image.url }}" alt="Activity Image">
+                <img class="custom-images" src="{{ activity.image.url }}" alt="Activity Image">
                 {% else %}
-                <img class="card-img-top" src="https://via.placeholder.com/640x960.png?text={{ activity.name }}" alt="Activity Image">
+                <img class="custom-images" src="https://via.placeholder.com/640x960.png?text={{ activity.name }}" alt="Activity Image">
                 {% endif %}
                 <div class="card-body">
                     <div class="med-title-text">

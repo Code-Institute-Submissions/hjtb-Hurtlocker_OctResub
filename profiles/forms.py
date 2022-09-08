@@ -8,7 +8,6 @@ class ProfileForm(forms.ModelForm):
         model = Profile
         exclude = (
             'user',
-            'signup_date',
             'subscription_end',
             'is_subscribed',
             'stripe_customer_id',

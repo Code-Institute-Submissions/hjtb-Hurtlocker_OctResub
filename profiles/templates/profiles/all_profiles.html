@@ -21,9 +21,9 @@
                     {% endif %}
                 </div>
                 {% if profile.image %}
-                <img class="card-img-top" src="{{ profile.image.url }}" alt="Profile Image">
+                <img class="custom-images" src="{{ profile.image.url }}" alt="Profile Image">
                 {% else %}
-                <img class="card-img-top" src="{{ MEDIA_URL }}dummy.jpg" alt="Profile Image">
+                <img class="custom-images" src="{{ MEDIA_URL }}dummy.jpg" alt="Profile Image">
                 {% endif %}
                 <div class="card-body">
                     <div class="med-title-text">

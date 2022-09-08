@@ -41,9 +41,9 @@
         <div class="row no-gutters">
             <div class="col-lg-4 offset-lg-0 col-sm-8 offset-sm-2 col-10 offset-1 p-2">
                 {% if current_profile.image %}
-                <img class="img-fluid custom-images" src="{{ current_profile.image.url }}" alt="Membership Image">
+                <img class="custom-images" src="{{ current_profile.image.url }}" alt="Membership Image">
                 {% else %}
-                <img class="card-img-top" src="{{ MEDIA_URL }}dummy.jpg" alt="Profile Image">
+                <img class="custom-images" src="{{ MEDIA_URL }}dummy.jpg" alt="Profile Image">
                 {% endif %}
             </div>
             <div class="col-lg-8 col-12">

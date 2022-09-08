@@ -10,11 +10,9 @@ class Profile(models.Model):
 
     id = models.BigAutoField(primary_key=True)
     is_subscribed = models.BooleanField(default=False)
-    # possibly change email to be reference field on the user - https://docs.djangoproject.com/en/4.1/ref/models/fields/#django.db.models.ForeignKey.to_field
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
-    signup_date = models.DateTimeField(auto_now_add=True)
     subscription_end = models.IntegerField(blank=True, null=True)
     image = models.ImageField(blank=True, null=True)
     phone_number = models.CharField(max_length=20, null=True, blank=True)

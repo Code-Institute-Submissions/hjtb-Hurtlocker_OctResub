@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, get_list_or_404, redirect
 from django.contrib import messages
 from django.conf import settings
+from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required, user_passes_test
 from .models import Profile
 from activities.models import Booking, Booking_Slot
@@ -51,14 +52,20 @@ def user_is_staff_check(user):
 @login_required
 def all_profiles(request):
     """A view to show all profiles"""
+    current_profile = get_object_or_404(Profile, user=request.user)
 
     if not request.user.is_staff:
-# MESSAGE
+        messages.error(
+            request, 'Only staff can access this page.'
+            )
         return redirect('club_page')
 
     profile_list = get_list_or_404(Profile)
 
-    context = {'profile_list': profile_list}
+    context = {
+        'profile_list': profile_list,
+        'current_profile': current_profile
+    }
 
     return render(request, 'profiles/all_profiles.html', context)
 
@@ -87,9 +94,6 @@ def profile_page(request, key):
     except Booking.DoesNotExist:
         members_bookings = []
 
-    for booking in members_bookings:
-        print(booking.booking_end_time)
-
     context = {
         'current_profile': current_profile,
         'current_time': current_time,
@@ -113,13 +117,16 @@ def edit_profile(request, key):
             form.save()
             messages.success(request, 'Profile has been updated successfully')
             return redirect('profile_page', key)
-
+        else:
+            messages.error(
+                request, 'Please ensure the data entered is valid.'
+                )
     else:
         form = ProfileForm(instance=current_profile,
-            initial={
-                'email': profile_user.email
-            },
-        )
+                           initial={
+                               'email': profile_user.email
+                           },
+                           )
 
     context = {
         'form': form,
@@ -140,7 +147,7 @@ def manage_subscription(request):
         customer_id = current_profile.stripe_customer_id
     else:
         return redirect('profile_page', current_profile.id)
-    
+
     stripe.api_key = settings.STRIPE_SECRET_KEY
 
     if os.environ.get('GITPOD_WORKSPACE_ID'):
@@ -149,10 +156,19 @@ def manage_subscription(request):
         domain_url = 'https://hurtlocker-jtb.herokuapp.com/'
     return_url = domain_url + 'club/'
 
-    session = stripe.billing_portal.Session.create(
-        customer=customer_id,
-        return_url=return_url,
-    )
+    try:
+        session = stripe.billing_portal.Session.create(
+            customer=customer_id,
+            return_url=return_url,
+        )
+    except Exception as e:
+        messages.error(
+            request, """
+            Sorry, something went wrong when we tried
+                to create a session with Stripe, please try again later.
+                """
+            )
+        return HttpResponse(content=e, status=400)
 
     return redirect(session.url, code=303)
 
@@ -165,8 +181,16 @@ def cancel_booking(request, key):
     """
     current_profile = get_object_or_404(Profile, user=request.user)
     booking_to_be_deleted = get_object_or_404(Booking, pk=key)
-
-    booking_to_be_deleted.delete()
-    messages.success(request, 'Booking Cancelled Successfully')
+    try:
+        booking_to_be_deleted.delete()
+        messages.success(request, 'Booking Cancelled Successfully')
+    except Exception as e:
+        messages.error(
+            request, """
+            Sorry, something went wrong when we tried
+                to delete that booking. Please try again later.
+                """
+            )
+        return HttpResponse(content=e, status=400)
 
     return redirect('profile_page', current_profile.id)
