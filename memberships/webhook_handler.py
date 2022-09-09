@@ -5,7 +5,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
-from datetime import datetime
+from datetime import datetime as dt
 import stripe
 from profiles.models import Profile
 
@@ -57,7 +57,7 @@ class Stripe_Webhook_Handler:
         customer = session.customer
         customer_email = session.customer_email
         subscription = session.subscription
-        last_payment = datetime.fromtimestamp(
+        last_payment = dt.fromtimestamp(
             session.created).strftime("%H:%M:%S, %d %B %Y")
         try:
             current_profile = get_object_or_404(
@@ -122,7 +122,7 @@ class Stripe_Webhook_Handler:
 
         session = event['data']['object']
         customer_email = session.customer_email
-        last_payment = datetime.fromtimestamp(
+        last_payment = dt.fromtimestamp(
             session.created).strftime("%H:%M:%S, %d %B %Y")
         try:
             current_profile = get_object_or_404(Profile, email=customer_email)
@@ -188,7 +188,8 @@ class Stripe_Webhook_Handler:
         """
         A view to handle subscription updates
         """
-
+        now = dt.now()
+        timestamp_now = dt.timestamp(now)
         stripe.api_key = settings.STRIPE_SECRET_KEY
         session = event['data']['object']
         try:
@@ -209,10 +210,10 @@ class Stripe_Webhook_Handler:
 
         if session.canceled_at:
             cancelled_seconds = session.canceled_at
-            cancelled_date = datetime.fromtimestamp(
+            cancelled_date = dt.fromtimestamp(
                 cancelled_seconds).strftime("%d %B %Y")
             subscription_end_seconds = session.current_period_end
-            subscription_end_date = datetime.fromtimestamp(
+            subscription_end_date = dt.fromtimestamp(
                 subscription_end_seconds).strftime("%d %B %Y")
 
             current_profile.subscription_end = subscription_end_seconds
@@ -239,9 +240,9 @@ class Stripe_Webhook_Handler:
                     Cancellation Webhook received: {event["type"]} error: {e}
                     """, status=400)
 
-        elif session.object != 'invoice' and session.status == 'active':
+        elif (timestamp_now - session.start_date) > 60 and session.status == 'active':
             subscription_end_seconds = session.current_period_end
-            subscription_end_date = datetime.fromtimestamp(
+            subscription_end_date = dt.fromtimestamp(
                 subscription_end_seconds).strftime("%d %B %Y")
             current_profile.is_subscribed = True
             current_profile.subscription_end = subscription_end_seconds
