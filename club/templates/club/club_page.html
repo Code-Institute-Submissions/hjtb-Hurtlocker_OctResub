@@ -30,7 +30,7 @@
                 <div class="col-xl-3 col-md-4 col-sm-6 offset-sm-0 col-8 offset-2 my-5">
                     <div class="card h-100 text-center card-bg p-3">
                         <h2 class="card-title">
-                            <a href="{% url 'activity_page' activity.id %}">{{ activity.activity_name }}</a>
+                            {{ activity.activity_name }}
                         </h2>
                         {% if activity.image %}
                         <img class="club-activity-image" src="{{ activity.image.url }}" alt="Activity Image">
