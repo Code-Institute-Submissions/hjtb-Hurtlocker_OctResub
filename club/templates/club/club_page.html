@@ -28,7 +28,7 @@
             {% if activity_list|length > 0 %}
             <div class="row">
                 {% for activity in activity_list %}
-                <div class="col-xl-3 col-md-4 col-sm-6 offset-sm-0 col-8 offset-2 my-5">
+                <div class="col-xl-3 col-md-4 col-sm-6 offset-sm-0 col-8 offset-2 mt-5">
                     <div class="card h-100 custom-card text-center custom-card p-3">
                         <h3 class="card-title">
                             {{ activity.activity_name }}
@@ -48,7 +48,7 @@
     </div>
     <div class="row">
         <div class="col p-3 text-center">
-                <h2>Sessions</h2>
+                <h2>Schedule</h2>
                 {% for activity in activity_list %}
                     {% if not forloop.first %}
                     <hr>
@@ -66,11 +66,9 @@
                                 <div class="col mb-4">
                                     <div class="card custom-card h-100">
                                         <div class="card-body">
-                                            <h4>
-                                            <strong>
+                                            <h3>
                                                 {{ booking_slot.get_day_display }} 
-                                            </strong>
-                                            </h4>
+                                            </h3>
                                             <p>
                                             <strong>
                                                 {{ booking_slot.end_datetime|date:'d/m' }}
