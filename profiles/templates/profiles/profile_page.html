@@ -56,23 +56,23 @@
                             <h2 class="mb-2">
                                 <u>Username</u>: 
                                 <br>
-                                <span class="answer-title-text">{{ current_profile.user }}</span>
+                                <h3>{{ current_profile.user }}</h3>
                             </h2>
                             <h2 class="mb-3"><u>Subscribed</u>: 
                                 <br>
-                                <span class="answer-title-text">{{ current_profile.is_subscribed }}</span>
+                                <h3>{{ current_profile.is_subscribed }}</h3>
                             </h2>
                             <h2 class="mb-3">
                                 <u>Email</u>: 
                             </h2>
-                            <p class="answer-title-text mb-3">
+                            <h3 class="mb-3">
                                 {{ current_profile.email }}
-                            </p>
+                            </h3>
                             {% if current_profile.subscription_end %}
                                 <h2 class="mb-3">
                                     <u>Subscription End</u>: 
                                 </h2>
-                                <p class="answer-title-text mb-3">
+                                <p class="mb-3">
                                     {{ subscription_end|date:'Y-m-d' }}
                                 </p>
                             {% endif %}

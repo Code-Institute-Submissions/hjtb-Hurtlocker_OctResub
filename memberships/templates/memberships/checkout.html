@@ -23,29 +23,41 @@
     <form class="form-text" role="form" action="{% url 'create_checkout_session' %}" method="POST">
         {% csrf_token %}
         <div class="row my-5">
-            <div class="col-12 med-title-text text-center">
-                <u>Why Join??</u>
+            <div class="col-12 text-center">
+                <h2>
+                    <u>Why Join??</u>
+                </h2>
             </div>
-            <div class="col-xl-6 offset-xl-3 col-m-8 offset-m-2 answer-title-text text-center">
-                {{ subscription_details }}
-            </div>
-        </div>
-        <div class="row my-5">
-            <div class="col-12 med-title-text text-center">
-                <u>Price</u>:
-            </div>
-            <div class="col-12 answer-title-text text-center">
-                {{ price }}/Year Recurring
+            <div class="col-xl-6 offset-xl-3 col-m-8 offset-m-2 text-center">
+                <h3>
+                    {{ subscription_details }}
+                </h3>
             </div>
         </div>
         <div class="row my-5">
-            <div class="col-12 med-title-text text-center">
-                <u>Your Billing Details</u>:
+            <div class="col-12 text-center">
+                <h2>
+                    <u>Price</u>:
+                </h2>
             </div>
-            <div class="col-xl-6 offset-xl-3 col-m-8 offset-m-2 answer-title-text text-center">
-                {{ billing_name }}
-                <br>
-                {{ billing_email }}
+            <div class="col-12 text-center">
+                <h3>
+                    {{ price }}/Year Recurring
+                </h3>
+            </div>
+        </div>
+        <div class="row my-5">
+            <div class="col-12 text-center">
+                <h2>
+                    <u>Your Billing Details</u>:
+                </h2>
+            </div>
+            <div class="col-xl-6 offset-xl-3 col-m-8 offset-m-2 text-center">
+                <h3>
+                    {{ billing_name }}
+                    <br>
+                    {{ billing_email }}
+                </h3>
             </div>
         </div>
         <hr>

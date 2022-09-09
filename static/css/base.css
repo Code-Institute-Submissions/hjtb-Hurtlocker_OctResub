@@ -26,19 +26,18 @@ body {
 .navbar-brand {
     font-family: 'Righteous', cursive;
     color: rgb(224, 142, 0) !important;
-    text-shadow: 2px 2px 1px rgba(0, 0, 0, 0.69);
+    text-shadow: 2px 1px 2px rgb(0, 0, 0), 2px 1px 2px rgb(0, 0, 0), 2px 1px 2px rgb(0, 0, 0), 2px 1px 2px rgb(0, 0, 0);
 }
 
 .nav-link {
     font-family: 'Righteous', cursive;
     font-size: 1.2rem;
     color: rgb(224, 142, 0) !important;
-    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.69);
+    text-shadow: 2px 1px 2px rgb(0, 0, 0), 2px 1px 2px rgb(0, 0, 0), 2px 1px 2px rgb(0, 0, 0), 2px 1px 2px rgb(0, 0, 0);
 }
 
 .nav-link:hover {
-    color: rgb(187, 0, 0) !important;
-    text-shadow: 0 0 20px rgb(0, 0, 0), 0 0 30px rgb(0, 0, 0), 0 0 40px rgb(0, 0, 0), 0 0 50px rgb(0, 0, 0), 0 0 70px rgb(0, 0, 0), 0 0 80px rgb(0, 0, 0);
+    text-shadow:none;
 }
 
 a {
@@ -55,13 +54,6 @@ a:hover {
     color: rgb(224, 142, 0);
     text-decoration: none;
     cursor: pointer;
-}
-
-.big-title-text {
-    font-family: 'Righteous', cursive;
-    font-size: 5rem;
-    color: rgb(224, 142, 0);
-    text-shadow: 6px 6px 5px rgba(0, 0, 0, 0.69);
 }
 
 .med-title-text {
@@ -85,16 +77,9 @@ h2 {
     text-shadow: 6px 6px 5px rgba(0, 0, 0, 0.69);
 }
 
-.answer-title-text {
-    font-family: 'Righteous', cursive;
-    font-size: 1.5rem;
-    color: rgb(224, 142, 0);
-    text-shadow: 6px 6px 5px rgba(0, 0, 0, 0.69);
-}
-
 h3 {
     font-family: 'Righteous', cursive;
-    font-size: 2rem;
+    font-size: 1.5rem;
     color: rgb(224, 142, 0);
     text-shadow: 6px 6px 5px rgba(0, 0, 0, 0.69);
 }
@@ -310,10 +295,16 @@ label.requiredField {
  }
 
 @media only screen and (max-width: 900px) {
-    .answer-title-text {
-        font-size:calc(12px + 1.5vw);
-    }
     h3 {
         font-size:calc(12px + 1.5vw);
+    }
+    h2 {
+        font-size:calc(18px + 1.5vw);
+    }
+    h1 {
+        font-size:calc(48px + 1.5vw);
+    }
+    p {
+        font-size:calc(10px + 1.5vw);
     }
  }

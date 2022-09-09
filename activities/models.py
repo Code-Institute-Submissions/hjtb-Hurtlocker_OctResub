@@ -13,8 +13,8 @@ class Activity(models.Model):
         verbose_name_plural = 'Activities'
 
     id = models.BigAutoField(primary_key=True)
-    activity_name = models.CharField(max_length=255, unique=True)
-    description = models.TextField(max_length=255, blank=True, null=True)
+    activity_name = models.CharField(max_length=30, unique=True)
+    description = models.TextField(max_length=500, blank=True, null=True)
     image = models.ImageField(blank=True, null=True)
 
     def __str__(self):
