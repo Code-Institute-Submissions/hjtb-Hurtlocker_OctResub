@@ -9,13 +9,14 @@
         <div class="col-lg-8 offset-lg-2">
             <div >
                 <h2>About</h2>
-                <p>
-                    The Hurtlocker Training System is a unique approach to martial arts.
-                    To make sure all Hurtlocker affiliates are moving in the same direction together,
-                    we suggest a balanced combination of programs, with a mix of both soft and hard activities.
-                    Members are free to choose whichever activities they wish and can train to compete or just for fun. 
-                    Our instructors are the best in the business, they will build you up by putting you in the Hurtlocker.
-                </p>
+                <div class="card h-100 club_info-card text-center custom-card p-3">
+                    <p>
+                        The Hurtlocker Training System is a unique approach to martial arts.
+                        Our instructors are the best in the business, they will build you up by putting you in the Hurtlocker.
+                        Whether you wish to train as a striker, grappler or as an all-rounder, we've got you covered.
+                        Members are free to choose whichever activities they wish and can train to compete or just for fun. 
+                    </p>
+                </div>
             </div>
         </div>
     </div>
@@ -28,7 +29,7 @@
             <div class="row">
                 {% for activity in activity_list %}
                 <div class="col-xl-3 col-md-4 col-sm-6 offset-sm-0 col-8 offset-2 my-5">
-                    <div class="card h-100 text-center card-bg p-3">
+                    <div class="card h-100 custom-card text-center custom-card p-3">
                         <h3 class="card-title">
                             {{ activity.activity_name }}
                         </h3>
@@ -63,7 +64,7 @@
                         {% for booking_slot in booking_slots %}
                             {% if activity == booking_slot.activity %}
                                 <div class="col mb-4">
-                                    <div class="card timetable-card h-100">
+                                    <div class="card custom-card h-100">
                                         <div class="card-body">
                                             <h4>
                                             <strong>
