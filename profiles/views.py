@@ -94,7 +94,8 @@ def profile_page(request, key):
     except Booking.DoesNotExist:
         members_bookings = []
 
-    subscription_end = dt.fromtimestamp(current_profile.subscription_end)
+    if current_profile.subscription_end:
+        subscription_end = dt.fromtimestamp(current_profile.subscription_end)
 
     context = {
         'current_profile': current_profile,
