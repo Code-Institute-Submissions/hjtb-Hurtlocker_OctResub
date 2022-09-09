@@ -75,10 +75,10 @@ def profile_page(request, key):
     """A view to return the individual profile page"""
 
     current_time = timezone.now()
+    current_user = request.user
 
-    if key and request.user.is_staff:
+    if key and current_user.is_staff:
         current_profile = get_object_or_404(Profile, pk=key)
-        current_user = request.user
     else:
         current_profile = get_object_or_404(Profile, user=request.user)
 
