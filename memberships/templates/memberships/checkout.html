@@ -17,11 +17,14 @@
 </h1>
 <div class="container">
     <hr>
+    <h2 class="my-5 text-center">
+        Would you like to subscribe now?
+    </h2>
     <form class="form-text" role="form" action="{% url 'create_checkout_session' %}" method="POST">
         {% csrf_token %}
         <div class="row my-5">
             <div class="col-12 med-title-text text-center">
-                <u>Subscription Details</u>:
+                <u>Why Join??</u>
             </div>
             <div class="col-xl-6 offset-xl-3 col-m-8 offset-m-2 answer-title-text text-center">
                 {{ subscription_details }}
@@ -32,12 +35,12 @@
                 <u>Price</u>:
             </div>
             <div class="col-12 answer-title-text text-center">
-                {{ price }}/Month
+                {{ price }}/Year Recurring
             </div>
         </div>
         <div class="row my-5">
             <div class="col-12 med-title-text text-center">
-                <u>Billing Details</u>:
+                <u>Your Billing Details</u>:
             </div>
             <div class="col-xl-6 offset-xl-3 col-m-8 offset-m-2 answer-title-text text-center">
                 {{ billing_name }}

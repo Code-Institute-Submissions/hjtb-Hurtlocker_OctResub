@@ -64,8 +64,12 @@ class Stripe_Webhook_Handler:
                 Profile, email=customer_email)
             stripe.api_key = settings.STRIPE_SECRET_KEY
         except Exception as e:
-            print(e)
-            return HttpResponse(content=e, status=400) 
+
+            return HttpResponse(
+                content=f"""
+                Invoice Paid Webhook received, error retrieving data:
+                {event["type"]} error: {e}
+                """, status=400)
 
         current_profile.is_subscribed = True
         current_profile.stripe_customer_id = customer
@@ -76,19 +80,21 @@ class Stripe_Webhook_Handler:
 
             email_data = {
                 'first_name': current_profile.first_name,
-                'customer': customer.id,
-                'subscription': subscription.id,
+                'customer': customer,
+                'subscription': subscription,
                 'email': current_profile.email,
                 'last_payment': last_payment,
             }
             self._payment_success_email(email_data)
 
         except Exception as e:
-            print(e)
-            return HttpResponse(content=e, status=400)
+            return HttpResponse(
+                content=f"""
+                Invoice Paid Webhook received: {event["type"]} error: {e}
+                """, status=400)
 
         return HttpResponse(content=f"""
-        Webhook received: {event['type']}
+        Invoice Paid Webhook received: {event['type']}
         """, status=200)
 
 
@@ -130,13 +136,16 @@ class Stripe_Webhook_Handler:
 
             self._payment_failed_email(email_data)
             return HttpResponse(
-                content=f'Webhook received: {event["type"]}.\
-                    User access suspended', status=200)
+                content=f"""
+                    Payment Failed Webhook received, error retrieving data:
+                    {event['type']}. User access suspended
+                    """, status=200
+                    )
 
         except Exception as e:
             return HttpResponse(
                 content=f"""
-                Webhook received: {event["type"]} error: {e}
+                Payment Failed Webhook received: {event["type"]} error: {e}
                 """, status=400)
 
 
@@ -193,11 +202,10 @@ class Stripe_Webhook_Handler:
         except Exception as e:
             return HttpResponse(
                 content=f"""
-                Webhook received: {event["type"]} error: {e}
-                """, status=400)
-
-
-
+                Subscription Update Webhook received, error retrieving data:
+                {event["type"]} error: {e}
+                """, status=400
+                )
 
         if session.canceled_at:
             cancelled_seconds = session.canceled_at
@@ -228,10 +236,10 @@ class Stripe_Webhook_Handler:
             except Exception as e:
                 return HttpResponse(
                     content=f"""
-                    Webhook received: {event["type"]} error: {e}
+                    Cancellation Webhook received: {event["type"]} error: {e}
                     """, status=400)
 
-        else:
+        elif session.object != 'invoice' and session.status == 'active':
             subscription_end_seconds = session.current_period_end
             subscription_end_date = datetime.fromtimestamp(
                 subscription_end_seconds).strftime("%d %B %Y")
@@ -260,3 +268,7 @@ class Stripe_Webhook_Handler:
                     content=f"""
                     Webhook received: {event["type"]} error: {e}
                     """, status=400)
+        else:
+            return HttpResponse(content=f"""
+            Subscription Update Webhook received: {event['type']}
+            """, status=200)

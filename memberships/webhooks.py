@@ -38,7 +38,7 @@ def webhooks(request):
 
     event_map = {
         'customer.subscription.updated': handler.handle_subscription_updated,
-        'invoice.invoice.paid': handler.handle_payment_succeeded,
+        'invoice.paid': handler.handle_payment_succeeded,
         'invoice.payment_failed': handler.handle_payment_failed,
     }
 

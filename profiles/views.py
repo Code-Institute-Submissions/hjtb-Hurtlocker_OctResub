@@ -45,7 +45,7 @@ def user_is_staff_check(user):
     user_is_staff = False
     if user.is_staff:
         user_is_staff = True
-        
+
     return user_is_staff
 
 
@@ -110,7 +110,6 @@ def profile_page(request, key):
     return render(request, 'profiles/profile_page.html', context)
 
 
-@user_passes_test(user_subscription_check, login_url='../memberships/membership_signup')
 @login_required
 def edit_profile(request, key):
     """A view to edit member profile details"""
@@ -134,7 +133,12 @@ def edit_profile(request, key):
                                'email': profile_user.email
                            },
                            )
-    subscription_end = dt.fromtimestamp(current_profile.subscription_end)
+    
+    if current_profile.subscription_end:
+        subscription_end = dt.fromtimestamp(current_profile.subscription_end)
+    else:
+        subscription_end = None
+
     context = {
         'form': form,
         'current_profile': current_profile,
@@ -189,8 +193,8 @@ def cancel_booking(request, key):
     A view to allow members cancel bookings
     """
     current_profile = get_object_or_404(Profile, user=request.user)
-    booking_to_be_deleted = get_object_or_404(Booking, pk=key)
     try:
+        booking_to_be_deleted = get_object_or_404(Booking, pk=key)
         booking_to_be_deleted.delete()
         messages.success(request, 'Booking Cancelled Successfully')
     except Exception as e:
