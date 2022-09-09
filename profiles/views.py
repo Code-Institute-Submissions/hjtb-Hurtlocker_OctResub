@@ -96,6 +96,8 @@ def profile_page(request, key):
 
     if current_profile.subscription_end:
         subscription_end = dt.fromtimestamp(current_profile.subscription_end)
+    else:
+        subscription_end = None
 
     context = {
         'current_profile': current_profile,
