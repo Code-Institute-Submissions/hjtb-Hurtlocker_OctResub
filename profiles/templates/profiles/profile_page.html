@@ -89,14 +89,15 @@
                                     </tr>
                                 </thead>
                                 <tbody class="my-2">
-                                    {% for booking in members_bookings %}
+                                    {% if current_profile.is_subscribed or current_user.is_staff %}
+                                        {% for booking in members_bookings %}
                                         <tr>
                                             <th scope="row">
-                                            {% for booking_slot in booking_slots %}
+                                                {% for booking_slot in booking_slots %}
                                                 {% if booking_slot == booking.booking_slot_used %}
-                                                    {{ booking_slot.activity.activity_name }}
+                                                {{ booking_slot.activity.activity_name }}
                                                 {% endif %}
-                                            {% endfor %}
+                                                {% endfor %}
                                             </th>
                                             <td>{{ booking.booking_end_time|date:'d/m' }}</td>
                                             <td>{{ booking.booking_start_time }} - {{ booking.booking_end_time.time }}</td>
@@ -106,7 +107,8 @@
                                                 </a>
                                             </td>
                                         </tr>
-                                    {% endfor %}
+                                        {% endfor %}
+                                    {% endif %}
                                 </tbody>
                             </table>
                         </div>
