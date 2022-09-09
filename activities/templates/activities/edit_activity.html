@@ -11,14 +11,14 @@
 
 {% block content %}
 
-<div class="big-title-text mt-5 text-center">
+<h1 class="text-center">
     Edit {{ current_activity }}
-</div>
+</h1>
 <div class="container">
     <hr>
     <div class="row mt-5">
         <div class="col-lg-8 offset-lg-2">
-            <div class="med-title-text px-4 my-2"><u>Booking Slots</u></div>
+            <h2 class="px-4 my-2"><u>Booking Slots</u></h2>
             <div class="card card-bg text-center">
                 <table class="table table-borderless table-sm body-text">
                     <thead>
@@ -60,13 +60,13 @@
                 {% csrf_token %}
                 <fieldset class="rounded px-3 mb-5">
                     <legend class="fieldset-label med-title-text px-2 w-auto"><u>Activity Details</u></legend>
-                    {{ form.description | as_crispy_field }}
-                    <hr class="my-5">
-                    <div class="row text-center">
-                        <div class="col-8 offset-2 col-md-6 offset-md-0">
-                            {{ form.image | as_crispy_field  }}
-                        </div>
-                    </div>
+                    {% for field in form %}
+                        {% if field.name != 'image' %}
+                            {{ field | as_crispy_field }}
+                        {% else %}
+                            {{ field }}
+                        {% endif %}
+                    {% endfor %}
                 </fieldset>
                 <hr class="my-3">
                 <div id="button-container" class="form-row justify-content-center">

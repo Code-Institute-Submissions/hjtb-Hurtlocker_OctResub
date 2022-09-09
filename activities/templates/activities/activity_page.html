@@ -12,7 +12,7 @@
 {% block content %}
 
 <div class="container">
-    <div class="big-title-text mt-5  text-center">
+    <h1 class="text-center">
         {{ current_activity.activity_name }}
     </div>
     <hr>
@@ -43,9 +43,9 @@
                 <div class="card-body m-2">
                     <div class="row">
                         <div class="col-lg-10 offset-lg-0 col-10 offset-1">
-                            <div class="med-title-text text-center mb-3">
+                            <h2 class="text-center mb-3">
                                 <u>Description</u>: 
-                            </div>
+                            </h2>
                             <p class="m-3">
                                 {{ current_activity.description }}
                             </p>
@@ -55,7 +55,7 @@
             </div>
             <div class="col-lg-8 offset-lg-2 col-md-10 offset-md-1 p-3 text-center">
                 <hr>
-                <div class="med-title-text my-5"><u>Sessions</u>:</div>
+                <h2 class="my-5"><u>Sessions</u>:</h2>
                 <table class="table table-sm">
                     <thead class=" body-text">
                         <tr>

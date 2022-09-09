@@ -131,10 +131,11 @@ def edit_profile(request, key):
                                'email': profile_user.email
                            },
                            )
-
+    subscription_end = dt.fromtimestamp(current_profile.subscription_end)
     context = {
         'form': form,
         'current_profile': current_profile,
+        'subscription_end': subscription_end,
         }
     return render(request, 'profiles/edit_profile.html', context)
 

@@ -2,7 +2,7 @@
 {% load static %}
 {% block content %}
 
-<div class="big-title-text text-center">Activities</div>
+<h1 class="text-center">Activities</h1>
 <div class="container fluid">
     <hr>
     {% if current_user.is_staff %}
@@ -17,22 +17,14 @@
         {% for activity in activity_list %}
         <div class="col-xl-4 col-md-6 col-xs-12 my-5">
             <div class="card h-100 text-center card-bg p-3">
-                <div class="card-title med-title-text">
+                <h2 class="card-title">
                     <a href="{% url 'activity_page' activity.id %}">{{ activity.activity_name }}</a>
-                </div>
+                </h2>
                 {% if activity.image %}
                 <img class="custom-images" src="{{ activity.image.url }}" alt="Activity Image">
                 {% else %}
                 <img class="custom-images" src="https://via.placeholder.com/640x960.png?text={{ activity.name }}" alt="Activity Image">
                 {% endif %}
-                <div class="card-body">
-                    <div class="med-title-text">
-                        <!-- <u>Subscribed</u>: -->
-                    </div>
-                    <div class="answer-title-text">
-                        <!-- {{ profile.is_subscribed }} -->
-                    </div>
-                </div>
                 <div>
                     <a class="custom-btn m-0" href="{% url 'activity_page' activity.id %}" role="button"
                         data-ripple-color="primary">View Activity</a>

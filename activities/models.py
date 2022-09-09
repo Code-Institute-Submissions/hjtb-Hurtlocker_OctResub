@@ -14,8 +14,8 @@ class Activity(models.Model):
 
     id = models.BigAutoField(primary_key=True)
     activity_name = models.CharField(max_length=255, unique=True)
-    image = models.ImageField(blank=True, null=True)
     description = models.TextField(max_length=255, blank=True, null=True)
+    image = models.ImageField(blank=True, null=True)
 
     def __str__(self):
         return str(self.activity_name)

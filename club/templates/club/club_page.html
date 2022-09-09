@@ -2,88 +2,92 @@
 {% block content %}
 
 <div class="container text-center text-white">
-    <div class="my-5 big-title-text">
+    <h1 class="my-5">
         Hurtlocker
-    </div>
+    </h1>
     <div class="row mt-5 text-center">
         <div class="col-lg-8 offset-lg-2">
             <div >
-                <p class="med-title-text">About</p>
+                <h2>About</h2>
                 <p >
-                    The Hurtlocker Training System is a unique approach to martial arts and triathlon.
+                    The Hurtlocker Training System is a unique approach to martial arts.
                     To make sure all Hurtlocker affiliates are moving in the same direction together,
                     we suggest a balanced combination of programs, with a mix of both soft and hard activities.
-                    There are 8 activities, we suggest a mix cardio and combat activities to work on both fitness and
-                    technique.
-                    Members are free to choose whichever activities they wish and can train for purely combat or
-                    fitness. Our instructors are the best in the business, they will build you up by putting you in the Hurtlocker.
+                    Members are free to choose whichever activities they wish and can train to compete or just for fun. 
+                    Our instructors are the best in the business, they will build you up by putting you in the Hurtlocker.
                 </p>
             </div>
         </div>
     </div>
     <div class="row my-5">
         <div class="col my-5">
-            <div class="med-title-text">
+            <h2>
                 Activities
-            </div>
+            </h2>
             {% if activity_list|length > 0 %}
-            <div class="card card-bg">
-                <div>
-                    {% for activity in activity_list %}
-                    <div >
-                        <strong>{{ activity.activity_name }}</strong>
-                    </div>
-                    {% endfor %}
-                </div>
-            </div>
-            {% endif %}
-            <hr class="my-5">
-        </div>
-    </div>
-    <div class="row my-5">
-        <div class="col-12 my-5">
-            <hr class="my-5">
-            <div class="med-title-text mt-5">Sessions</div>
-            <div class="col p-3 text-center">
+            <div class="row">
                 {% for activity in activity_list %}
-                {% if not forloop.first %}
-                <hr>
-                {% endif %}
-                <div class="answer-title-text text-left mx-5 mt-5 mb-2">
-                <strong>
-                    <u>
-                        {{ activity.activity_name }}
-                    </u>
-                </strong>
-                </div>
-                <div class="row row-cols-2 row-cols-md-4">
-                    {% for booking_slot in booking_slots %}
-                        {% if activity == booking_slot.activity %}
-                            <div class="col mb-4">
-                                <div class="card timetable-card h-100">
-                                    <div class="card-body">
-                                        <h4>
-                                            {{ booking_slot.get_day_display }} 
-                                        </h4>
-                                        <p>
-                                        <strong>
-                                            {{ booking_slot.end_datetime|date:'d/m' }}
-                                        </strong>
-                                        </p>
-                                        <p>
-                                        <strong>
-                                            {{ booking_slot.start_hour }} - {{ booking_slot.end_datetime.time }}
-                                        </strong>
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
+                <div class="col-xl-3 col-md-4 col-sm-6 offset-sm-0 col-8 offset-2 my-5">
+                    <div class="card h-100 text-center card-bg p-3">
+                        <h2 class="card-title">
+                            <a href="{% url 'activity_page' activity.id %}">{{ activity.activity_name }}</a>
+                        </h2>
+                        {% if activity.image %}
+                        <img class="club-activity-image" src="{{ activity.image.url }}" alt="Activity Image">
+                        {% else %}
+                        <img class="club-activity-image" src="https://via.placeholder.com/640x960.png?text={{ activity.name }}" alt="Activity Image">
                         {% endif %}
-                    {% endfor %}
+                    </div>
                 </div>
                 {% endfor %}
             </div>
+            {% endif %}
+            <hr>
         </div>
+    </div>
+    <div class="row">
+        <div class="col p-3 text-center">
+                <h2>Sessions</h2>
+                {% for activity in activity_list %}
+                    {% if not forloop.first %}
+                    <hr>
+                    {% endif %}
+                    <h3 class=" text-left mx-5 mt-5 mb-2">
+                    <strong>
+                        <u>
+                            {{ activity.activity_name }}
+                        </u>
+                    </strong>
+                    </h3>
+                    <div class="row row-cols-2 row-cols-md-4">
+                        {% for booking_slot in booking_slots %}
+                            {% if activity == booking_slot.activity %}
+                                <div class="col mb-4">
+                                    <div class="card timetable-card h-100">
+                                        <div class="card-body">
+                                            <h4>
+                                            <strong>
+                                                {{ booking_slot.get_day_display }} 
+                                            </strong>
+                                            </h4>
+                                            <p>
+                                            <strong>
+                                                {{ booking_slot.end_datetime|date:'d/m' }}
+                                            </strong>
+                                            </p>
+                                            <p>
+                                            <strong>
+                                                {{ booking_slot.start_hour }} - {{ booking_slot.end_datetime.time }}
+                                            </strong>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                {% endfor %}
+            </div>
     </div>
     {% if current_profile.is_subscribed %}
     <div class="p-2 mb-5">

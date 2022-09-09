@@ -11,17 +11,17 @@
 
 {% block content %}
 
-<div class="big-title-text mt-5 text-center">
+<h1 class=" text-center">
     {{ current_profile.first_name }} {{ current_profile.last_name }}
     <hr>
-</div>
+</h1>
 <div class="container">
-    <div class="med-title-text  text-center mb-2">
+    <h2 class="  text-center mb-2">
         <u>Username</u>:<span class="answer-title-text"> {{ current_profile.user }}</span>
-    </div>
-    <div class="text-center med-title-text my-3">
+    </h2>
+    <h2 class="text-center my-3">
         <u>Subscribed</u>: <span class="answer-title-text">{{ current_profile.is_subscribed }}</span>
-    </div>
+    </h2>
     <hr>
     <div class="row mt-5">
         <div class="col-lg-8 offset-lg-2">

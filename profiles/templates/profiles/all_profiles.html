@@ -6,32 +6,32 @@
 <link rel="stylesheet" href="{% static 'profiles/css/profile.css' %}">
 {% endblock %}
 
-<div class="big-title-text text-center">Profiles</div>
+<h1 class=" text-center">Profiles</h1>
 <div class="container fluid">
     <hr>
     <div class="row">
         {% for profile in profile_list %}
         <div class="col-xl-4 col-md-6 col-xs-12 my-5">
             <div class="card h-100 text-center card-bg">
-                <div class="card-title med-title-text">
+                <h2class="card-title">
                     {% if profile.first_name and profile.last_name %}
                     <a href="{% url 'profile_page' profile.id %}">{{ profile.first_name }} {{ profile.last_name }}</a>
                     {% else %}
                     <a href="{% url 'profile_page' profile.id %}">{{ profile.user }}</a>
                     {% endif %}
-                </div>
+                </h2class=>
                 {% if profile.image %}
                 <img class="custom-images" src="{{ profile.image.url }}" alt="Profile Image">
                 {% else %}
                 <img class="custom-images" src="{{ MEDIA_URL }}dummy.jpg" alt="Profile Image">
                 {% endif %}
                 <div class="card-body">
-                    <div class="med-title-text">
+                    <h2>
                         <u>Subscribed</u>:
-                    </div>
-                    <div class="answer-title-text">
+                    </h2>
+                    <h3>
                         {{ profile.is_subscribed }}
-                    </div>
+                    </h3>
                 </div>
                 <hr>
                 <div>

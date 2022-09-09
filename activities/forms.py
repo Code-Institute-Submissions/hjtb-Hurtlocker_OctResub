@@ -21,14 +21,14 @@ class ActivityForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         labels = {
             'activity_name': 'Activity Name',
-            'image': 'Upload a picture',
             'description': 'Description',
+            'image': 'Upload a picture',
         }
 
         placeholders = {
             'activity_name': 'Activity Name',
-            'image': 'Upload a picture',
             'description': 'Description',
+            'image': 'Upload a picture',
         }
 
         for field in self.fields:
@@ -54,13 +54,13 @@ class EditActivityForm(forms.ModelForm):
         """
         super().__init__(*args, **kwargs)
         labels = {
-            'image': 'Upload a picture',
             'description': 'Description',
+            'image': 'Upload a picture',
         }
 
         placeholders = {
-            'image': 'Upload a picture',
             'description': 'Description',
+            'image': 'Upload a picture',
         }
 
         for field in self.fields:

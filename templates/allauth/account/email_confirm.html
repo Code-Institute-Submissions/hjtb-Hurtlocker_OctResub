@@ -7,12 +7,12 @@
 
 
 {% block inner_content %}
-<div class="big-title-text my-5">{% trans "Confirm E-mail Address" %}</div>
+<h1 class="my-5">{% trans "Confirm E-mail Address" %}</h1>
 {% if confirmation %}
 
 {% user_display confirmation.email_address.user as user_display %}
 
-<div class="med-title-text">{% blocktrans with confirmation.email_address.email as email %}Please confirm that <u><a href="mailto:{{ email }}">{{ email }}</a></u> is an e-mail address for user <u>{{ user_display }}</u>.{% endblocktrans %}</div>
+<h2>{% blocktrans with confirmation.email_address.email as email %}Please confirm that <u><a href="mailto:{{ email }}">{{ email }}</a></u> is an e-mail address for user <u>{{ user_display }}</u>.{% endblocktrans %}</h2>
 
 <form method="post" action="{% url 'account_confirm_email' confirmation.key %}">
 {% csrf_token %}

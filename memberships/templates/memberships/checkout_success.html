@@ -12,33 +12,30 @@
 
 {% block content %}
 
-<div class="big-title-text mt-5 text-center">
+<h1 class="mt-5 text-center">
     You're In!!
-</div>
+</h1>
 <div class="container text-center">
     <hr>
     <div class="row">
         <div class="col-xl-6 offset-xl-3 col-lg-8 offset-lg-2">
-            <div class="my-t med-title-text">
+            <h2 class="my-5">
                 Congratulations {{ current_profile.first_name }}!
                 <br>
-            </div>
-            <p class="my-b">
+            </h2>
+            <h3 class="my-b">
                 You're officially in the Hurtlocker!
                 <br>
-                Head over to the club page to view our timetable and start booking classes
+                We've sent you an email wth your subscription details.
                 <br>
+            </h3>
+            <hr>
+            <p class="mt-5">
+                <strong>
+                    Head over to the club page to view our timetable and start booking classes
+                </strong>
             </p>
-            <div class="mt-5 med-title-text">
-                <u>Subscription Details</u>: 
-                <br>
-            </div>
-            <p class="mb-5">
-                Subscription id: {{ subscription }}
-                <br>
-                Customer id: {{ customer }}
-                <br>
-            </p>
+            <br>
             <a class="custom-btn" href="{% url 'club_page' %}" role="button">
                 Club Page <i class="fa-solid fa-hand-fist"></i>
             </a>
