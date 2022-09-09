@@ -227,7 +227,7 @@ else:
 
 
 # Email
-if 'EMAIL_HOST' in os.environ:
+if 'EMAIL_HOST_USER' in os.environ:
     EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
     EMAIL_USE_TLS = True
     EMAIL_PORT = 587

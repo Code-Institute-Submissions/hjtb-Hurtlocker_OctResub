@@ -68,7 +68,7 @@ class Stripe_Webhook_Handler:
             return HttpResponse(
                 content=f"""
                 Invoice Paid Webhook received, error retrieving data:
-                {event["type"]} error: {e}
+                {event['type']} error: {e}
                 """, status=400)
 
         current_profile.is_subscribed = True
@@ -90,7 +90,7 @@ class Stripe_Webhook_Handler:
         except Exception as e:
             return HttpResponse(
                 content=f"""
-                Invoice Paid Webhook received: {event["type"]} error: {e}
+                Invoice Paid Webhook received: {event['type']} error: {e}
                 """, status=400)
 
         return HttpResponse(content=f"""
@@ -145,7 +145,7 @@ class Stripe_Webhook_Handler:
         except Exception as e:
             return HttpResponse(
                 content=f"""
-                Payment Failed Webhook received: {event["type"]} error: {e}
+                Payment Failed Webhook received: {event['type']} error: {e}
                 """, status=400)
 
 
@@ -204,7 +204,7 @@ class Stripe_Webhook_Handler:
             return HttpResponse(
                 content=f"""
                 Subscription Update Webhook received, error retrieving data:
-                {event["type"]} error: {e}
+                {event['type']} error: {e}
                 """, status=400
                 )
 
@@ -237,7 +237,7 @@ class Stripe_Webhook_Handler:
             except Exception as e:
                 return HttpResponse(
                     content=f"""
-                    Cancellation Webhook received: {event["type"]} error: {e}
+                    Cancellation Webhook received: {event['type']} error: {e}
                     """, status=400)
 
         elif (timestamp_now - session.start_date) > 60 and session.status == 'active':
@@ -267,7 +267,7 @@ class Stripe_Webhook_Handler:
             except Exception as e:
                 return HttpResponse(
                     content=f"""
-                    Webhook received: {event["type"]} error: {e}
+                    Webhook received: {event['type']} error: {e}
                     """, status=400)
         else:
             return HttpResponse(content=f"""
