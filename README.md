@@ -404,4 +404,4 @@ This time I am happy to take most of the credit myself.
 Although as always I've had the big hitters  
 [[Peter](https://github.com/pbs-websuntangled) and [Sush](https://github.com/susantag) from [dt-squad](https://www.dt-squad.com/), [Alex](https://github.com/apssouza22) and [Adam](https://github.com/klexas) from the Creative Underground Project] in the background to help if I ever needed them.
 
-Oh and a special shoutout, even though she'll never see this I'd like to say thanks to my missus Miriam for feeding me and putting up with my drama for the past year.
+Oh and a special shoutout, even though she'll never see this, I'd like to say thanks to my missus Miriam for feeding me and putting up with my drama for the past year.
