@@ -10,7 +10,7 @@
 
 Welcome to Hurtlocker Sports Club.
 
-The goal of this project is to create a web application for a sports club so that they can recruit new members and securely, and easily accept subscriptions from members. The app will provide members with information regarding the club and its activities. Users will be able to browse the different activity types and make bookings when they have purchased a membership subscription. When they purchase a subscription they will receive a list of the upcoming events associated with their membership and in turn will be able to make bookings and attend the sessions.
+The goal of this project is to create a web application for a sports club so that they can recruit new members and securely, and easily accept subscriptions from members. The app will provide members with information regarding the club and its activities. Users will be able to browse the different activity types and make bookings when they have purchased a membership subscription. When they purchase a subscription they will be able to access list of the upcoming events associated with each activity and in turn will be able to make bookings and attend the sessions.
 
 The app was deployed using Heroku and can be found here: [Hurtlocker](https://hurtlocker-jtb.herokuapp.com/)
 
@@ -178,7 +178,7 @@ Overall it didn't take much time to implement this and Django models really made
 
 ## **Testing**
 
-**Extensive testing was carried out on all aspects of the app to ensure that it functions smoothly. **
+**Extensive testing was carried out on all aspects of the app to ensure that it functions smoothly.**
 
 #### **Validators ** 
 
@@ -210,16 +210,15 @@ All Python code was checked with [PythonChecker](https://www.pythonchecker.com/)
 | I want to see subscribers to the club and when they are subscribed until |Navigating to the profiles view to view all profiles of members | Subscription end dates will be visible if they have cancelled their subscriptions |Pass|
 | I want to update the activity information and add,edit and delete new activities and booking slots. | Navigating to the activity that I wish to edit I click on the edit button | I can edit the activity description and image and add or remove booking slots and in doing so receive notification messages |Pass|
 | I want to see which members have booked which activities. | Navigating to the members profile page | I can see all of the bookings they have made and for which activities |Pass|
-| I want to update the activity information and add,edit and delete new activities and booking slots. | Navigating to the activity that I wish to edit I click on the edit button | I can edit the activity description and image and add or remove booking slots and in doing so receive notification messages |Pass|
 
 
 ### **Defensive design testing**
 
 | Test | Action | Expected Outcome | Pass/Fail |
 |---|---|---|---|
-| A user should not be able to book a session for the same time as an existing booking | Navigating to the activity screen and trying to book a session wthat clashes with an existing booking | The booking won't go through and a notification will let the user know they have a session already bookked for this time | Pass |
+| A user should not be able to book a session for the same time as an existing booking | Navigating to the activity screen and trying to book a session wthat clashes with an existing booking | The booking won't go through and a notification will let the user know they have a session already booked for this time | Pass |
 | A user should not be able to access anything more than the club page without logging in | Testing any URL without being logged in | The user should be directed to the login page | Pass |
-| A user should not be able to access the activity pages until they have subscribed | Before paying, they cannot see anything other than the membership registration form, profile page and the club page | After paying, they have access to the activity pages and can make bookings | Pass*** |
+| A user should not be able to access the activity pages until they have subscribed | Before paying, they cannot see anything other than the membership registration form, profile page and the club page | After paying, they have access to the activity pages and can make bookings | Pass |
 | A user should not be able to access any admin functionality such as editing activities or viewing all profiles | Navigating to the is_staff protected views and entering their urls | The users are directed back to the club page and cannot access and admin functionality | Pass |
 
 ### **Browser compatibility tests**
