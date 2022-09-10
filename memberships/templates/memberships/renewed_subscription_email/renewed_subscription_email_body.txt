@@ -1,4 +1,4 @@
-Hi {{ email_data.first_name }},
+Hi {{ email_data.first_name|title }},
 
 We are delighted you've renewed your subscription.
 

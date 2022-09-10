@@ -1,4 +1,4 @@
-Hi {{ email_data.first_name }}, 
+Hi {{ email_data.first_name|title }}, 
 
 We are just letting you know that we have put your membership on hold for the minute. 
 

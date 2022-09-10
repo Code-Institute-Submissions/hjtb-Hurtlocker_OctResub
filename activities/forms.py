@@ -14,6 +14,7 @@ class ActivityForm(forms.ModelForm):
         label='Image', required=False, widget=CustomClearableFileInput
         )
 
+
     def __init__(self, *args, **kwargs):
         """
         Remove auto-generated labels
@@ -48,6 +49,7 @@ class EditActivityForm(forms.ModelForm):
         label='Image', required=False, widget=CustomClearableFileInput
         )
 
+
     def __init__(self, *args, **kwargs):
         """
         Remove auto-generated labels
@@ -75,6 +77,7 @@ class BookingSlotForm(forms.ModelForm):
             'id',
             'end_datetime',
         )
+
 
     def __init__(self, *args, **kwargs):
         """

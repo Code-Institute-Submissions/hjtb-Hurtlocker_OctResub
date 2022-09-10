@@ -12,7 +12,7 @@
 {% block content %}
 
 <h1 class=" text-center">
-    {{ current_profile.first_name }} {{ current_profile.last_name }}
+    {{ current_profile.first_name|title }} {{ current_profile.last_name|title }}
     <hr>
 </h1>
 <div class="container">

@@ -13,7 +13,7 @@
 
 <div class="container">
     <h1 class="text-center">
-        {{ current_activity.activity_name }}
+        {{ current_activity.activity_name|title }}
     </h1>
     <hr>
     {% if current_user.is_staff %}

@@ -14,7 +14,8 @@
                         The Hurtlocker Training System is a unique approach to martial arts.
                         Our instructors are the best in the business, they will build you up by putting you in the Hurtlocker.
                         Whether you wish to train as a striker, grappler or as an all-rounder, we've got you covered.
-                        Members are free to choose whichever activities they wish and can train to compete or just for fun. 
+                        Members are free to choose whichever activities they wish and can train to compete or just for fun.
+                        Subscription is annual and grants access to book unlimited sessions in the Hurtlocker. 
                     </p>
                 </div>
             </div>
@@ -31,7 +32,7 @@
                 <div class="col-xl-3 col-md-4 col-sm-6 offset-sm-0 col-8 offset-2 mt-5">
                     <div class="card h-100 custom-card text-center custom-card p-3">
                         <h3 class="card-title">
-                            {{ activity.activity_name }}
+                            {{ activity.activity_name|title }}
                         </h3>
                         {% if activity.image %}
                         <img class="club-activity-image" src="{{ activity.image.url }}" alt="Activity Image">
@@ -56,7 +57,7 @@
                     <h3 class=" text-left mx-5 mt-5 mb-2">
                     <strong>
                         <u>
-                            {{ activity.activity_name }}
+                            {{ activity.activity_name|title }}
                         </u>
                     </strong>
                     </h3>

@@ -15,7 +15,7 @@
             <div class="card h-100 text-center custom-card">
                 <div class="card-title">
                     {% if profile.first_name and profile.last_name %}
-                    <a class="custom-btn" href="{% url 'profile_page' profile.id %}">{{ profile.first_name }} {{ profile.last_name }}</a>
+                    <a class="custom-btn" href="{% url 'profile_page' profile.id %}">{{ profile.first_name|title }} {{ profile.last_name|title }}</a>
                     {% else %}
                     <a class="custom-btn" href="{% url 'profile_page' profile.id %}">{{ profile.user }}</a>
                     {% endif %}
@@ -32,6 +32,14 @@
                     <h3>
                         {{ profile.is_subscribed }}
                     </h3>
+                    {% if profile.subscription_end %}
+                        <h2 class="mb-3">
+                            <u>Subscription End</u>: 
+                        </h2>
+                        <p class="mb-3">
+                            {{ subscription_end|date:'Y-m-d' }}
+                        </p>
+                    {% endif %}
                 </div>
                 <hr>
                 <div>

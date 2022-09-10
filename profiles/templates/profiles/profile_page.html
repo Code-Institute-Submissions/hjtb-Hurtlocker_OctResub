@@ -13,7 +13,7 @@
 
 <div class="container text-center">
     <h1>
-        {{ current_profile.first_name }} {{ current_profile.last_name }}
+        {{ current_profile.first_name|title }} {{ current_profile.last_name|title }}
     </h1>
     <hr>
     {% if current_profile.email == current_user.email or not current_profile.email %}
@@ -95,7 +95,7 @@
                                             <th scope="row">
                                                 {% for booking_slot in booking_slots %}
                                                 {% if booking_slot == booking.booking_slot_used %}
-                                                {{ booking_slot.activity.activity_name }}
+                                                {{ booking_slot.activity.activity_name|title }}
                                                 {% endif %}
                                                 {% endfor %}
                                             </th>
