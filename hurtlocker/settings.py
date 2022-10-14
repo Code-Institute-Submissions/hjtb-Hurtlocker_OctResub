@@ -20,12 +20,7 @@ else:
     SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-
-if 'DEBUG' in os.environ:
-    DEBUG = os.environ.get('DEBUG', False)
-
-else:
-    DEBUG = config('DEBUG')
+DEBUG = False
 
 
 ALLOWED_HOSTS = ['hurtlocker-jtb.herokuapp.com', 'localhost']
